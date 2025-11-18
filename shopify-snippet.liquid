@@ -1,0 +1,57 @@
+{% comment %}
+  Skincare AI Chatbot Widget
+  
+  Instructions:
+  1. Replace YOUR_FRONTEND_URL with your deployed frontend URL
+  2. Replace YOUR_BACKEND_URL with your deployed backend API URL
+  3. Add this snippet to your theme.liquid file before </body>
+  
+  For Minimog theme:
+  - Go to Online Store > Themes > Actions > Edit Code
+  - Open Layout/theme.liquid
+  - Paste this code just before </body>
+  - Save
+{% endcomment %}
+
+<!-- Skincare AI Chatbot Widget - Start -->
+<div id="skincare-chatbot-root"></div>
+
+<script>
+  // Configuration
+  window.CHATBOT_CONFIG = {
+    apiUrl: 'YOUR_BACKEND_URL/api',
+    shopifyDomain: '{{ shop.permanent_domain }}',
+    cartUrl: '{{ routes.cart_url }}',
+    theme: {
+      primary: '#0C2E4D',
+      secondary: '#ffefc8',
+      white: '#ffffff'
+    }
+  };
+</script>
+
+<!-- Load chatbot widget -->
+<link rel="stylesheet" href="YOUR_FRONTEND_URL/assets/index.css">
+<script type="module" src="YOUR_FRONTEND_URL/assets/index.js" defer></script>
+
+<!-- Fallback for older browsers -->
+<noscript>
+  <p>Please enable JavaScript to use the skincare chatbot.</p>
+</noscript>
+
+<style>
+  /* Ensure widget stays on top */
+  #skincare-chatbot-root {
+    position: relative;
+    z-index: 9999;
+  }
+  
+  /* Hide on very small screens if needed */
+  @media (max-width: 360px) {
+    #skincare-chatbot-root {
+      display: none;
+    }
+  }
+</style>
+
+<!-- Skincare AI Chatbot Widget - End -->
