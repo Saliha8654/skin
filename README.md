@@ -289,3 +289,4 @@ For Shopify-specific issues, see `SHOPIFY_INTEGRATION.md`.
 ## 📄 License
 
 MIT
+# skincarebot
