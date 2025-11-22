@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 // Use Hugging Face for FREE chat (no OpenAI needed)
-// Using a model that's known to work with the router endpoint
-const HF_CHAT_MODEL = 'facebook/blenderbot-400M-distill';
-const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
+// Using a model that's known to be reliable with inference API
+const HF_CHAT_MODEL = 'gpt2';
+const HF_API_URL = `https://api-inference.huggingface.co/models/${HF_CHAT_MODEL}`;
 
 // System prompt for K-beauty skincare expert
 const SYSTEM_PROMPT = `You are a friendly K-beauty skincare expert assistant. Your role is to:
