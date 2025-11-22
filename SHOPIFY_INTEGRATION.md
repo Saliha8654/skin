@@ -2,6 +2,13 @@
 
 ## Step 1: Add the Widget to Your Minimog Theme
 
+There are multiple ways to integrate the widget with your Shopify store:
+
+1. **Option A & B** (below) - Use external hosting (Vercel, Netlify, etc.)
+2. **Option C** (below) - Host files directly in Shopify (recommended for simplicity)
+
+For a detailed guide on hosting directly in Shopify without external services, see [SHOPIFY_DIRECT_INTEGRATION.md](SHOPIFY_DIRECT_INTEGRATION.md).
+
 ### Option A: Using Shopify Theme Customizer (Recommended)
 
 1. **Go to your Shopify Admin** → Online Store → Themes
@@ -31,8 +38,52 @@
 ```
 
 **Replace**:
-- `YOUR_BACKEND_URL` with your deployed backend URL (e.g., `https://your-api.railway.app/api`)
-- `YOUR_FRONTEND_URL` with your deployed frontend URL (e.g., `https://your-chatbot.vercel.app`)
+- `YOUR_BACKEND_URL` with your deployed backend URL (e.g., `https://your-api.onrender.com/api`)
+- `YOUR_FRONTEND_URL` with your Shopify store URL or CDN URL where you host the widget files
+
+### Option C: Host Widget Files Directly in Shopify (No External Hosting)
+
+If you prefer not to use external hosting services like Vercel, you can host the widget files directly in Shopify:
+
+1. **Build the frontend**:
+   ```bash
+   cd frontend
+   npm run build
+   ```
+   
+2. **Upload files to Shopify**:
+   - Go to Shopify Admin → Online Store → Themes → Actions → Edit Code
+   - In the Assets folder, upload these files from `frontend/dist/`:
+     - `chatbot-widget.js`
+     - `chatbot-widget.css`
+     - Any other asset files (images, fonts, etc.)
+   
+3. **Modify the widget code**:
+   ```liquid
+   <!-- Skincare AI Chatbot Widget -->
+   <div id="skincare-chatbot-root"></div>
+   <script>
+     window.CHATBOT_CONFIG = {
+       apiUrl: 'YOUR_BACKEND_URL',
+       shopifyDomain: '{{ shop.permanent_domain }}'
+     };
+     
+     // Initialize widget when DOM is loaded
+     document.addEventListener('DOMContentLoaded', function() {
+       // Widget will automatically initialize since chatbot-widget.js is loaded
+     });
+   </script>
+   <script src="{{ 'chatbot-widget.js' | asset_url }}" defer></script>
+   <link rel="stylesheet" href="{{ 'chatbot-widget.css' | asset_url }}">
+   ```
+   
+4. **Replace `YOUR_BACKEND_URL`** with your deployed backend URL (e.g., `https://your-api.onrender.com/api`)
+   
+5. **Important Notes**:
+   - The `defer` attribute on the script tag ensures the DOM is fully loaded before the widget script runs
+   - The widget automatically initializes when the script loads and finds the `skincare-chatbot-root` element
+
+This approach keeps all files within Shopify, eliminating the need for external hosting.
 
 ## Step 2: Set Up Shopify Storefront API
 

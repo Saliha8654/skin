@@ -11,7 +11,7 @@ app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:5173',
     'https://your-vercel-app.vercel.app',
-    'https://your-shopify-store.myshopify.com'
+    `https://${process.env.SHOPIFY_STORE_DOMAIN}` || 'https://your-shopify-store.myshopify.com'
   ],
   credentials: true
 }));
