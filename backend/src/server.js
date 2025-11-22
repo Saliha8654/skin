@@ -35,6 +35,56 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Skincare AI Chatbot API is running' });
 });
 
+// Test Hugging Face API connectivity
+app.get('/api/test-hf', async (req, res) => {
+  try {
+    const axios = require('axios');
+    const HF_CHAT_MODEL = 'gpt2';
+    const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
+    
+    console.log('Testing Hugging Face API connectivity...');
+    console.log('API URL:', HF_API_URL);
+    console.log('API Key exists:', !!process.env.HUGGINGFACE_API_KEY);
+    
+    if (!process.env.HUGGINGFACE_API_KEY) {
+      return res.status(500).json({ error: 'Hugging Face API key not configured' });
+    }
+    
+    const response = await axios.post(
+      HF_API_URL,
+      {
+        inputs: "Test: Respond with 'Hello, Hugging Face API is working!'",
+        parameters: {
+          max_new_tokens: 50,
+          temperature: 0.7,
+          return_full_text: false
+        }
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 30000
+      }
+    );
+    
+    res.json({
+      status: 'success',
+      message: 'Hugging Face API is accessible',
+      response: response.data
+    });
+  } catch (error) {
+    console.error('Hugging Face API Test Error:', error.response?.data || error.message);
+    res.status(500).json({
+      status: 'error',
+      message: 'Failed to connect to Hugging Face API',
+      error: error.response?.data || error.message,
+      status: error.response?.status
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);

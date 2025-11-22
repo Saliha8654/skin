@@ -1,8 +1,9 @@
 const axios = require('axios');
 
 // Use Hugging Face for FREE chat (no OpenAI needed)
-const HF_CHAT_MODEL = 'mistralai/Mistral-7B-Instruct-v0.2';
-const HF_API_URL = `https://api-inference.huggingface.co/models/${HF_CHAT_MODEL}`;
+// Using a more reliable model for the inference API
+const HF_CHAT_MODEL = 'gpt2';
+const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
 
 // System prompt for K-beauty skincare expert
 const SYSTEM_PROMPT = `You are a friendly K-beauty skincare expert assistant. Your role is to:
@@ -37,6 +38,8 @@ async function getChatResponse(messages, userContext = {}) {
     conversationText += "Assistant:";
 
     console.log('Sending request to Hugging Face API with conversation:', conversationText);
+    console.log('Using API URL:', HF_API_URL);
+    console.log('Using API Key (first 5 chars):', process.env.HUGGINGFACE_API_KEY?.substring(0, 5) + '...');
 
     // Increase timeout for Hugging Face API which can be slow
     const response = await axios.post(
@@ -44,7 +47,7 @@ async function getChatResponse(messages, userContext = {}) {
       {
         inputs: conversationText,
         parameters: {
-          max_new_tokens: 150,
+          max_new_tokens: 100,
           temperature: 0.7,
           top_p: 0.95,
           return_full_text: false
@@ -65,6 +68,7 @@ async function getChatResponse(messages, userContext = {}) {
     
     if (response.data && response.data[0] && response.data[0].generated_text) {
       botMessage = response.data[0].generated_text.trim();
+      console.log('Extracted bot message:', botMessage);
     } else {
       console.log('No valid response from Hugging Face, using fallback');
       // Fallback response
@@ -79,10 +83,15 @@ async function getChatResponse(messages, userContext = {}) {
     };
   } catch (error) {
     console.error('Hugging Face Chat Error:', error.response?.data || error.message);
+    console.error('Error status:', error.response?.status);
+    console.error('Error headers:', error.response?.headers);
     
     // Always fallback to predefined responses when API fails
+    const fallbackMessage = getFallbackResponse(messages);
+    console.log('Using fallback message:', fallbackMessage);
+    
     return {
-      message: getFallbackResponse(messages),
+      message: fallbackMessage,
       needsProducts: shouldRecommendProducts(messages)
     };
   }
@@ -92,6 +101,8 @@ async function getChatResponse(messages, userContext = {}) {
 function getFallbackResponse(messages) {
   const userMessages = messages.filter(m => m.role === 'user');
   const lastMessage = userMessages[userMessages.length - 1]?.content.toLowerCase() || '';
+  
+  console.log('Generating fallback response for', userMessages.length, 'user messages');
   
   // Question 1: Initial greeting
   if (userMessages.length === 0) {
@@ -128,7 +139,9 @@ function getFallbackResponse(messages) {
 function shouldRecommendProducts(messages) {
   // Check if user has answered at least 3 questions
   const userMessages = messages.filter(m => m.role === 'user');
-  return userMessages.length >= 3;
+  const result = userMessages.length >= 3;
+  console.log('Should recommend products:', result, '(user messages:', userMessages.length, ')');
+  return result;
 }
 
 // Extract skincare needs from conversation
@@ -155,6 +168,7 @@ function extractSkincareNeeds(messages) {
   if (conversation.includes('aging') || conversation.includes('wrinkle')) needs.concerns.push('anti-aging');
   if (conversation.includes('dark spot') || conversation.includes('hyperpigmentation')) needs.concerns.push('dark-spots');
 
+  console.log('Extracted skincare needs:', needs);
   return needs;
 }
 

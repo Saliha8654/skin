@@ -1,13 +1,27 @@
 const { createClient } = require('@supabase/supabase-js');
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
-);
+// Create Supabase client only when needed
+function getSupabaseClient() {
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) {
+    console.warn('Supabase credentials not configured - email collection will not work');
+    return null;
+  }
+  
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY
+  );
+}
 
 // Save user email and preferences
 async function saveUserEmail(email, preferences = {}) {
   try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      console.log('Supabase not configured - skipping email save');
+      return { success: true, data: null };
+    }
+    
     const { data, error } = await supabase
       .from('user_emails')
       .insert([
@@ -32,6 +46,12 @@ async function saveUserEmail(email, preferences = {}) {
 // Save chat history (optional)
 async function saveChatHistory(sessionId, messages, analysis = {}) {
   try {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      console.log('Supabase not configured - skipping chat history save');
+      return { success: true };
+    }
+    
     const { data, error } = await supabase
       .from('chat_history')
       .insert([
