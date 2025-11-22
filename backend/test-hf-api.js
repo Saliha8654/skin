@@ -1,7 +1,8 @@
 const axios = require('axios');
 
 async function testHuggingFaceAPI() {
-  const HF_API_URL = 'https://api-inference.huggingface.co/models/gpt2';
+  // Using the new router endpoint with a model known to work
+  const HF_API_URL = 'https://router.huggingface.co/models/gpt2';
   // Replace with your actual API key
   const HUGGINGFACE_API_KEY = process.env.HUGGINGFACE_API_KEY || 'YOUR_API_KEY_HERE';
   
@@ -34,6 +35,42 @@ async function testHuggingFaceAPI() {
     console.error('Hugging Face API Test Error:', error.response?.data || error.message);
     console.error('Error status:', error.response?.status);
     console.error('Error headers:', error.response?.headers);
+    
+    // Try a different model if gpt2 doesn't work
+    if (error.response?.status === 404) {
+      console.log('\nTrying with facebook/blenderbot-400M-distill...');
+      await testAlternativeModel();
+    }
+  }
+}
+
+async function testAlternativeModel() {
+  const HF_API_URL = 'https://router.huggingface.co/models/facebook/blenderbot-400M-distill';
+  const HUGGINGFACE_API_KEY = process.env.HUGGINGFACE_API_KEY || 'YOUR_API_KEY_HERE';
+  
+  try {
+    const response = await axios.post(
+      HF_API_URL,
+      {
+        inputs: "Hello, how are you?",
+        parameters: {
+          max_new_tokens: 20,
+          temperature: 0.7,
+          return_full_text: false
+        }
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${HUGGINGFACE_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 30000
+      }
+    );
+    
+    console.log('Alternative model success! Response:', JSON.stringify(response.data, null, 2));
+  } catch (error) {
+    console.error('Alternative model error:', error.response?.data || error.message);
   }
 }
 

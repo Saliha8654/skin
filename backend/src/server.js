@@ -40,7 +40,7 @@ app.get('/api/test-hf', async (req, res) => {
   try {
     const axios = require('axios');
     const HF_CHAT_MODEL = 'gpt2';
-    const HF_API_URL = `https://api-inference.huggingface.co/models/${HF_CHAT_MODEL}`;
+    const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
     
     console.log('Testing Hugging Face API connectivity...');
     console.log('API URL:', HF_API_URL);
@@ -76,6 +76,48 @@ app.get('/api/test-hf', async (req, res) => {
     });
   } catch (error) {
     console.error('Hugging Face API Test Error:', error.response?.data || error.message);
+    
+    // Try alternative model if we get a 404
+    if (error.response?.status === 404) {
+      try {
+        const ALT_HF_CHAT_MODEL = 'facebook/blenderbot-400M-distill';
+        const ALT_HF_API_URL = `https://router.huggingface.co/models/${ALT_HF_CHAT_MODEL}`;
+        
+        const altResponse = await axios.post(
+          ALT_HF_API_URL,
+          {
+            inputs: "Hello, how are you today?",
+            parameters: {
+              max_new_tokens: 50,
+              temperature: 0.7,
+              return_full_text: false
+            }
+          },
+          {
+            headers: {
+              'Authorization': `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+              'Content-Type': 'application/json'
+            },
+            timeout: 30000
+          }
+        );
+        
+        return res.json({
+          status: 'success',
+          message: 'Hugging Face API is accessible with alternative model',
+          response: altResponse.data
+        });
+      } catch (altError) {
+        console.error('Alternative model test error:', altError.response?.data || altError.message);
+        return res.status(500).json({
+          status: 'error',
+          message: 'Failed to connect to Hugging Face API with both models',
+          error: altError.response?.data || altError.message,
+          status: altError.response?.status
+        });
+      }
+    }
+    
     res.status(500).json({
       status: 'error',
       message: 'Failed to connect to Hugging Face API',

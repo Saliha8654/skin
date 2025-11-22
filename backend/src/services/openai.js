@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 // Use Hugging Face for FREE chat (no OpenAI needed)
-// Using a model that's known to be reliable with inference API
+// Using the new router endpoint with a model that should work
 const HF_CHAT_MODEL = 'gpt2';
-const HF_API_URL = `https://api-inference.huggingface.co/models/${HF_CHAT_MODEL}`;
+const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
 
 // System prompt for K-beauty skincare expert
 const SYSTEM_PROMPT = `You are a friendly K-beauty skincare expert assistant. Your role is to:
@@ -86,10 +86,84 @@ async function getChatResponse(messages, userContext = {}) {
     console.error('Error status:', error.response?.status);
     console.error('Error headers:', error.response?.headers);
     
+    // Try alternative model if we get a 404
+    if (error.response?.status === 404) {
+      console.log('Trying alternative model...');
+      return await getChatResponseWithAlternativeModel(messages, userContext);
+    }
+    
     // Always fallback to predefined responses when API fails
     const fallbackMessage = getFallbackResponse(messages);
     console.log('Using fallback message:', fallbackMessage);
     
+    return {
+      message: fallbackMessage,
+      needsProducts: shouldRecommendProducts(messages)
+    };
+  }
+}
+
+// Alternative model for Hugging Face API
+async function getChatResponseWithAlternativeModel(messages, userContext = {}) {
+  try {
+    const ALT_HF_CHAT_MODEL = 'facebook/blenderbot-400M-distill';
+    const ALT_HF_API_URL = `https://router.huggingface.co/models/${ALT_HF_CHAT_MODEL}`;
+    
+    // Format conversation for Hugging Face
+    let conversationText = "You are a K-beauty skincare expert. ";
+    
+    messages.forEach(msg => {
+      if (msg.role === 'user') {
+        conversationText += `User: ${msg.content} `;
+      } else if (msg.role === 'assistant') {
+        conversationText += `Assistant: ${msg.content} `;
+      }
+    });
+    
+    conversationText += "Assistant:";
+
+    console.log('Sending request to alternative Hugging Face API with conversation:', conversationText);
+    console.log('Using API URL:', ALT_HF_API_URL);
+
+    const response = await axios.post(
+      ALT_HF_API_URL,
+      {
+        inputs: conversationText,
+        parameters: {
+          max_new_tokens: 100,
+          temperature: 0.7,
+          top_p: 0.95,
+          return_full_text: false
+        }
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 60000
+      }
+    );
+
+    console.log('Received response from alternative Hugging Face API:', JSON.stringify(response.data, null, 2));
+
+    let botMessage = '';
+    
+    if (response.data && response.data[0] && response.data[0].generated_text) {
+      botMessage = response.data[0].generated_text.trim();
+      console.log('Extracted bot message:', botMessage);
+    } else {
+      console.log('No valid response from alternative Hugging Face model, using fallback');
+      botMessage = getFallbackResponse(messages);
+    }
+
+    return {
+      message: botMessage,
+      needsProducts: shouldRecommendProducts(messages)
+    };
+  } catch (error) {
+    console.error('Alternative Hugging Face Chat Error:', error.response?.data || error.message);
+    const fallbackMessage = getFallbackResponse(messages);
     return {
       message: fallbackMessage,
       needsProducts: shouldRecommendProducts(messages)
