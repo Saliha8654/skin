@@ -39,7 +39,7 @@ app.get('/api/health', (req, res) => {
 app.get('/api/test-hf', async (req, res) => {
   try {
     const axios = require('axios');
-    const HF_CHAT_MODEL = 'microsoft/DialoGPT-medium';
+    const HF_CHAT_MODEL = 'facebook/blenderbot-400M-distill';
     const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
     
     console.log('Testing Hugging Face API connectivity...');
