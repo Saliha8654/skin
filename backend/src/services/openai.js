@@ -36,6 +36,9 @@ async function getChatResponse(messages, userContext = {}) {
     
     conversationText += "Assistant:";
 
+    console.log('Sending request to Hugging Face API with conversation:', conversationText);
+
+    // Increase timeout for Hugging Face API which can be slow
     const response = await axios.post(
       HF_API_URL,
       {
@@ -52,18 +55,23 @@ async function getChatResponse(messages, userContext = {}) {
           'Authorization': `Bearer ${process.env.HUGGINGFACE_API_KEY}`,
           'Content-Type': 'application/json'
         },
-        timeout: 30000
+        timeout: 60000 // Increased timeout to 60 seconds
       }
     );
+
+    console.log('Received response from Hugging Face API:', JSON.stringify(response.data, null, 2));
 
     let botMessage = '';
     
     if (response.data && response.data[0] && response.data[0].generated_text) {
       botMessage = response.data[0].generated_text.trim();
     } else {
+      console.log('No valid response from Hugging Face, using fallback');
       // Fallback response
       botMessage = getFallbackResponse(messages);
     }
+
+    console.log('Final bot message:', botMessage);
 
     return {
       message: botMessage,
@@ -72,7 +80,7 @@ async function getChatResponse(messages, userContext = {}) {
   } catch (error) {
     console.error('Hugging Face Chat Error:', error.response?.data || error.message);
     
-    // Fallback to predefined responses
+    // Always fallback to predefined responses when API fails
     return {
       message: getFallbackResponse(messages),
       needsProducts: shouldRecommendProducts(messages)
