@@ -39,8 +39,8 @@ app.get('/api/health', (req, res) => {
 app.get('/api/test-hf', async (req, res) => {
   try {
     const axios = require('axios');
-    const HF_CHAT_MODEL = 'gpt2';
-    const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
+    const HF_CHAT_MODEL = 'microsoft/DialoGPT-medium';
+    const HF_API_URL = `https://api-inference.huggingface.co/models/${HF_CHAT_MODEL}`;
     
     console.log('Testing Hugging Face API connectivity...');
     console.log('API URL:', HF_API_URL);
@@ -53,7 +53,7 @@ app.get('/api/test-hf', async (req, res) => {
     const response = await axios.post(
       HF_API_URL,
       {
-        inputs: "Test: Respond with 'Hello, Hugging Face API is working!'",
+        inputs: "Hello, how are you today?",
         parameters: {
           max_new_tokens: 50,
           temperature: 0.7,

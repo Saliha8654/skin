@@ -1,9 +1,9 @@
 const axios = require('axios');
 
 // Use Hugging Face for FREE chat (no OpenAI needed)
-// Using a more reliable model for the inference API
-const HF_CHAT_MODEL = 'gpt2';
-const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
+// Using a model that should work with inference API
+const HF_CHAT_MODEL = 'microsoft/DialoGPT-medium';
+const HF_API_URL = `https://api-inference.huggingface.co/models/${HF_CHAT_MODEL}`;
 
 // System prompt for K-beauty skincare expert
 const SYSTEM_PROMPT = `You are a friendly K-beauty skincare expert assistant. Your role is to:
@@ -25,13 +25,13 @@ After 3-4 questions, you should have enough info to make recommendations.`;
 async function getChatResponse(messages, userContext = {}) {
   try {
     // Format conversation for Hugging Face
-    let conversationText = SYSTEM_PROMPT + "\n\n";
+    let conversationText = "You are a K-beauty skincare expert. ";
     
     messages.forEach(msg => {
       if (msg.role === 'user') {
-        conversationText += `User: ${msg.content}\n`;
+        conversationText += `User: ${msg.content} `;
       } else if (msg.role === 'assistant') {
-        conversationText += `Assistant: ${msg.content}\n`;
+        conversationText += `Assistant: ${msg.content} `;
       }
     });
     
