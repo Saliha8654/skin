@@ -23,6 +23,20 @@ When asking questions, focus on:
 After 3-4 questions, you should have enough info to make recommendations.`;
 
 async function getChatResponse(messages, userContext = {}) {
+  // IMPORTANT: Never let Hugging Face failures break the chatbot.
+  // If there is no API key, or any HF request fails, we ALWAYS fall back
+  // to the scripted conversation defined in getFallbackResponse.
+
+  // 1) If no HF key is configured (common on Render / local), skip network calls
+  if (!process.env.HUGGINGFACE_API_KEY) {
+    console.warn('HUGGINGFACE_API_KEY is not set - using fallback chat responses only');
+    const fallbackMessage = getFallbackResponse(messages);
+    return {
+      message: fallbackMessage,
+      needsProducts: shouldRecommendProducts(messages)
+    };
+  }
+
   try {
     // Format conversation for Hugging Face
     let conversationText = "You are a K-beauty skincare expert. ";
@@ -86,15 +100,9 @@ async function getChatResponse(messages, userContext = {}) {
     console.error('Error status:', error.response?.status);
     console.error('Error headers:', error.response?.headers);
     
-    // Try alternative model if we get a 404
-    if (error.response?.status === 404) {
-      console.log('Trying alternative model...');
-      return await getChatResponseWithAlternativeModel(messages, userContext);
-    }
-    
-    // Always fallback to predefined responses when API fails
+    // Do NOT propagate the error. Always use fallback message.
     const fallbackMessage = getFallbackResponse(messages);
-    console.log('Using fallback message:', fallbackMessage);
+    console.log('Using fallback message due to HF error:', fallbackMessage);
     
     return {
       message: fallbackMessage,
