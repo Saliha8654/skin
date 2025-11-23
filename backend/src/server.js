@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
+const axios = require('axios'); 
 dotenv.config();
 
 const app = express();
@@ -38,7 +38,7 @@ app.get('/api/health', (req, res) => {
 // Test Hugging Face API connectivity
 app.get('/api/test-hf', async (req, res) => {
   try {
-    const axios = require('axios');
+  
     const HF_CHAT_MODEL = 'gpt2';
     const HF_API_URL = `https://router.huggingface.co/models/${HF_CHAT_MODEL}`;
     
