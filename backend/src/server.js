@@ -6,17 +6,27 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(cors({
+// Configure CORS to allow requests from multiple origins including theglowshop.co.uk
+const corsOptions = {
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:5173',
     'https://your-vercel-app.vercel.app',
-    `https://${process.env.SHOPIFY_STORE_DOMAIN}` || 'https://your-shopify-store.myshopify.com'
+    `https://${process.env.SHOPIFY_STORE_DOMAIN}` || 'https://your-shopify-store.myshopify.com',
+    'https://theglowshop.co.uk'
   ],
-  credentials: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range']
+};
+
+app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly
+app.options('*', cors(corsOptions));
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Import routes
 const chatRoutes = require('./routes/chat');
