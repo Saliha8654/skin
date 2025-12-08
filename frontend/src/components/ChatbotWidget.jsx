@@ -6,7 +6,10 @@ import './ChatbotWidget.css';
 
 // FairyIcon Component - replaces BeautifulFairyIcon
 const FairyIcon = ({ className }) => {
-  const FAIRY_IMAGE_URL = fairyImage;
+  // Use absolute URL for assets when embedded in external sites like Shopify
+  const FAIRY_IMAGE_URL = typeof fairyImage === 'string' && fairyImage.startsWith('http') 
+    ? fairyImage 
+    : `${window.location.origin}${fairyImage}`;
   
   return (
     <div className={`fairy-image-container ${className}`}>
