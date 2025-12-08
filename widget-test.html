@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-4">Widget Test Page</h1>
+    <p class="mb-4">This page tests if the chatbot widget loads correctly.</p>
+    <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+      <h2 class="text-xl font-semibold mb-2">Instructions:</h2>
+      <ol class="list-decimal list-inside space-y-2">
+        <li>Open <a href="http://localhost:5173" class="text-blue-600 hover:underline" target="_blank">http://localhost:5173</a> in your browser</li>
+        <li>Look for a floating button in the bottom right corner</li>
+        <li>If you see it, click on it to open the chat interface</li>
+        <li>If not, check the browser console for errors (press F12)</li>
+      </ol>
+    </div>
+    
+    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+      <h2 class="text-xl font-semibold mb-2">Current Status</h2>
+      <p><strong>Frontend:</strong> Running on <a href="http://localhost:5173" class="text-blue-600 hover:underline" target="_blank">http://localhost:5173</a></p>
+      <p><strong>Backend:</strong> Running on <a href="http://localhost:5000/api/health" class="text-blue-600 hover:underline" target="_blank">http://localhost:5000</a></p>
+    </div>
+  </div>
+</body>
+</html>

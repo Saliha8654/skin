@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Widget Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Skincare Chatbot Widget Test</h1>
+    <p>If everything is working correctly, you should see a floating button in the bottom-right corner of this page.</p>
+    <p>If you don't see it, there might be a JavaScript error. Please check the browser console for errors.</p>
+  </div>
+  
+  <!-- Create the root element for the widget -->
+  <div id="skincare-chatbot-root"></div>
+  
+  <!-- Load the built widget JavaScript -->
+  <script type="module">
+    // Dynamically import the built widget
+    import '/frontend/dist/chatbot-widget.js';
+  </script>
+</body>
+</html>
