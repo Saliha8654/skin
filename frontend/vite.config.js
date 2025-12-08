@@ -8,11 +8,15 @@ export default defineConfig({
     rollupOptions: {
       output: {
         entryFileNames: 'chatbot-widget.js',
-        assetFileNames: 'chatbot-widget.[ext]'
+        assetFileNames: 'chatbot-widget.[ext]',
+        manualChunks: undefined,
+        inlineDynamicImports: true
       }
-    }
+    },
+    chunkSizeWarningLimit: 1000
   },
   server: {
     port: 5173
-  }
+  },
+  base: './'
 });
