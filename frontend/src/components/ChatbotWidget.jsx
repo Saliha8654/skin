@@ -7,9 +7,24 @@ import './ChatbotWidget.css';
 // FairyIcon Component - replaces BeautifulFairyIcon
 const FairyIcon = ({ className }) => {
   // Use absolute URL for assets when embedded in external sites like Shopify
-  const FAIRY_IMAGE_URL = typeof fairyImage === 'string' && fairyImage.startsWith('http') 
-    ? fairyImage 
-    : `${window.location.origin}${fairyImage}`;
+  // Handle different environments correctly
+  let FAIRY_IMAGE_URL;
+  
+  if (typeof fairyImage === 'string') {
+    if (fairyImage.startsWith('http')) {
+      // Already an absolute URL
+      FAIRY_IMAGE_URL = fairyImage;
+    } else if (fairyImage.startsWith('/')) {
+      // Relative URL starting with slash - prepend origin
+      FAIRY_IMAGE_URL = `${window.location.origin}${fairyImage}`;
+    } else {
+      // Relative URL without slash - this shouldn't happen with Vite but just in case
+      FAIRY_IMAGE_URL = `${window.location.origin}/${fairyImage}`;
+    }
+  } else {
+    // Fallback if fairyImage is not a string
+    FAIRY_IMAGE_URL = `${window.location.origin}/chatbot-widget.png`;
+  }
   
   return (
     <div className={`fairy-image-container ${className}`}>
@@ -23,6 +38,11 @@ const FairyIcon = ({ className }) => {
         src={FAIRY_IMAGE_URL} 
         alt="Fairy Assistant" 
         className="fairy-image"
+        onError={(e) => {
+          // Fallback if the image fails to load
+          console.log('Fairy image failed to load, trying fallback');
+          e.target.src = `${window.location.origin}/chatbot-widget.png`;
+        }}
       />
     </div>
   );
