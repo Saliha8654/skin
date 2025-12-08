@@ -1,19 +1,13 @@
 {
   "framework": "vite",
   "outputDirectory": "dist",
-  "routes": [
+  "headers": [
     {
-      "src": "/assets/(.*)",
+      "source": "/assets/(.*)",
       "headers": {
         "cache-control": "public, immutable, max-age=31536000"
       }
     },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/$1"
-    }
-  ],
-  "headers": [
     {
       "source": "(.*)",
       "headers": [
@@ -30,6 +24,12 @@
           "value": "1; mode=block"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
