@@ -6,25 +6,8 @@ import './ChatbotWidget.css';
 
 // FairyIcon Component - replaces BeautifulFairyIcon
 const FairyIcon = ({ className }) => {
-  // Use absolute URL for assets when embedded in external sites like Shopify
-  // Handle different environments correctly
-  let FAIRY_IMAGE_URL;
-  
-  if (typeof fairyImage === 'string') {
-    if (fairyImage.startsWith('http')) {
-      // Already an absolute URL
-      FAIRY_IMAGE_URL = fairyImage;
-    } else if (fairyImage.startsWith('/')) {
-      // Relative URL starting with slash - prepend origin
-      FAIRY_IMAGE_URL = `${window.location.origin}${fairyImage}`;
-    } else {
-      // Relative URL without slash - this shouldn't happen with Vite but just in case
-      FAIRY_IMAGE_URL = `${window.location.origin}/${fairyImage}`;
-    }
-  } else {
-    // Fallback if fairyImage is not a string
-    FAIRY_IMAGE_URL = `${window.location.origin}/chatbot-widget.png`;
-  }
+  // Use the Shopify CDN link for the fairy image
+  const FAIRY_IMAGE_URL = "https://cdn.shopify.com/s/files/1/0908/9967/7517/files/fairy-icon1_f2fb5e71-b636-41ce-b6e8-83aea37a2072.png?v=1764341519";
   
   return (
     <div className={`fairy-image-container ${className}`}>
