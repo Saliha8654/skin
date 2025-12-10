@@ -1,3 +1,6 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Jomolhari&display=swap');
+
 /* Fairy Image Container */
 .fairy-image-container {
   position: relative;
@@ -18,6 +21,106 @@
   z-index: 2;
   position: relative;
   animation: fadeIn 0.5s ease-in;
+}
+
+/* Fairy image wrapper */
+.fairy-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Floating animation for fairy */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Fairy dust effect */
+.fairy-dust {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Generate fairy dust sparkles using CSS only */
+.fairy-dust::before,
+.fairy-dust::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #ffefc8;
+  border-radius: 50%;
+  animation: sparkleFloat 1.5s linear infinite;
+  opacity: 0;
+}
+
+.fairy-dust::before {
+  top: 20%;
+  left: 30%;
+  animation-delay: 0s;
+}
+
+.fairy-dust::after {
+  top: 60%;
+  left: 70%;
+  animation-delay: 0.5s;
+  animation-name: sparkleFloatAlt;
+}
+
+/* Additional sparkles */
+.fairy-dust div {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: #ffefc8;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.fairy-dust div:nth-child(1) {
+  top: 30%;
+  left: 20%;
+  animation: sparkleFloat 2s linear infinite;
+  animation-delay: 0.2s;
+  width: 2px;
+  height: 2px;
+}
+
+.fairy-dust div:nth-child(2) {
+  top: 70%;
+  left: 40%;
+  animation: sparkleFloatAlt 2.5s linear infinite;
+  animation-delay: 0.7s;
+  width: 3px;
+  height: 3px;
+}
+
+.fairy-dust div:nth-child(3) {
+  top: 40%;
+  left: 80%;
+  animation: sparkleFloatThird 1.8s linear infinite;
+  animation-delay: 1.2s;
+  width: 2px;
+  height: 2px;
+}
+
+.fairy-dust div:nth-child(4) {
+  top: 80%;
+  left: 60%;
+  animation: sparkleFloat 2.2s linear infinite;
+  animation-delay: 1.7s;
+  width: 3px;
+  height: 3px;
 }
 
 /* Magical sparkles around the fairy */
@@ -68,6 +171,33 @@
   top: 8px;
   left: 15px;
   animation-delay: 1.25s;
+}
+
+/* Enhanced fairy sparkle effects */
+.fairy-sparkle {
+  position: absolute;
+  background-color: #ffefc8;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 3;
+}
+
+.fairy-sparkle.sparkle-large {
+  width: 6px;
+  height: 6px;
+  animation: sparkleMagic 2.5s ease-in-out infinite;
+}
+
+.fairy-sparkle.sparkle-medium {
+  width: 4px;
+  height: 4px;
+  animation: sparkleFloatAlt 2s ease-in-out infinite;
+}
+
+.fairy-sparkle.sparkle-small {
+  width: 2px;
+  height: 2px;
+  animation: sparkleFloatThird 1.5s ease-in-out infinite;
 }
 
 /* Hover effects - fairy floats and glows */
@@ -292,4 +422,103 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sparkle float animation for fairy dust */
+@keyframes sparkleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) translateX(10px) scale(1.2);
+  }
+}
+
+@keyframes sparkleFloatAlt {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.3);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25px) translateX(-15px) scale(1);
+  }
+}
+
+@keyframes sparkleFloatThird {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.4);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-35px) translateX(20px) scale(1.3);
+  }
+}
+
+/* Additional sparkle animations for variety */
+@keyframes sparkleMagic {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.2);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px) translateX(25px) scale(1.5);
+  }
+}
+
+@keyframes sparkleWand {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.1);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(30px, -30px) scale(1.2);
+  }
+}
+@keyframes sparkleFloatAlt {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.3);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-25px) translateX(-15px) scale(1);
+  }
+}
+
+@keyframes sparkleFloatThird {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.4);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-35px) translateX(20px) scale(1.3);
+  }
 }

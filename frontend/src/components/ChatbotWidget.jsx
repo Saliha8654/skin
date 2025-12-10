@@ -137,36 +137,58 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-96 h-[600px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
+          className="fixed bottom-32 right-6 w-[384px] h-[700px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
           }}
         >
           {/* Header */}
-          <div className="bg-primary text-white p-5 flex items-center justify-between rounded-t-3xl">
-            <div className="flex items-center gap-3">
-              {mode && (
-                <button onClick={goBack} className="hover:bg-white/20 p-2 rounded-full transition-all">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-              )}
-              <div>
-                <h3 className="font-bold text-xl">K-Beauty Fairy</h3>
-                <p className="text-xs text-white/80">Your skincare guide ✨</p>
+          <div className="bg-primary text-white flex items-center justify-between relative overflow-hidden"
+               style={{
+                 height: '165px',
+                 background: 'linear-gradient(to bottom, #0C2E4D, #4979A6)',
+                 borderBottomLeftRadius: '50% 20px',
+                 borderBottomRightRadius: '50% 20px'
+               }}>
+            <div className="flex items-start flex-col pl-6 pt-6 w-full relative z-10">
+              <h1 className="text-[#ffefc8] text-[16px] font-bold font-inter mb-1">Meet your GlowFairy✨</h1>
+              <h2 className="text-[#ffefc8] text-[10px] font-bold font-inter mb-3">Your personal AI skincare expert</h2>
+              <div className="text-[#ffefc8] text-[9px] font-semibold font-inter leading-relaxed">
+                <p>Hi, I'm GlowFairy!</p>
+                <p>I'm here to sprinkle a little magic on your skincare journey</p>
+                <p>and help you find the right products for your skin's unique needs.</p>
               </div>
             </div>
-            <button onClick={toggleWidget} className="hover:bg-white/20 p-2 rounded-full transition-all">
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            <div className="absolute right-4 top-4 z-20">
+              <div className="fairy-image-wrapper relative animate-float">
+                <img 
+                  src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Group_12_734dc1e6-5e79-451a-a61e-0fa5cd0bbbbe.png?v=1765367355" 
+                  alt="GlowFairy" 
+                  className="w-40 h-auto transition-all duration-300 hover:scale-105"
+                />
+                {/* Fairy dust effect on hover */}
+                <div className="fairy-dust absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 hover:opacity-100">
+                  {/* Enhanced CSS-based sparkle effects */}
+                  <div className="fairy-sparkle sparkle-large" style={{top: '20%', left: '30%', animationDelay: '0s'}}></div>
+                  <div className="fairy-sparkle sparkle-medium" style={{top: '60%', left: '70%', animationDelay: '0.5s'}}></div>
+                  <div className="fairy-sparkle sparkle-small" style={{top: '30%', left: '20%', animationDelay: '1s'}}></div>
+                  <div className="fairy-sparkle sparkle-large" style={{top: '70%', left: '40%', animationDelay: '1.5s'}}></div>
+                  <div className="fairy-sparkle sparkle-medium" style={{top: '40%', left: '80%', animationDelay: '2s'}}></div>
+                  <div className="fairy-sparkle sparkle-small" style={{top: '80%', left: '60%', animationDelay: '2.5s'}}></div>
+                  <div className="fairy-sparkle sparkle-large" style={{top: '10%', left: '50%', animationDelay: '0.2s'}}></div>
+                  <div className="fairy-sparkle sparkle-medium" style={{top: '50%', left: '10%', animationDelay: '0.7s'}}></div>
+                  <div className="fairy-sparkle sparkle-small" style={{top: '90%', left: '30%', animationDelay: '1.2s'}}></div>
+                  <div className="fairy-sparkle sparkle-large" style={{top: '25%', left: '90%', animationDelay: '1.7s'}}></div>
+                  <div className="fairy-sparkle sparkle-medium" style={{top: '75%', left: '20%', animationDelay: '2.2s'}}></div>
+                  <div className="fairy-sparkle sparkle-small" style={{top: '15%', left: '70%', animationDelay: '2.7s'}}></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10">
+          <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6">
             {!mode && (
               <ModeSelection onSelectMode={selectMode} />
             )}
@@ -187,57 +209,65 @@ function ChatbotWidget() {
 
 function ModeSelection({ onSelectMode }) {
   return (
-    <div className="h-full flex flex-col items-center justify-center p-8 bg-gradient-to-b from-secondary/30 to-white">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-primary mb-3">Welcome! ✨</h2>
-        <p className="text-gray-600">How would you like to get started?</p>
-      </div>
+    <div className="h-full flex flex-col items-center bg-white w-full">
+      <h2 className="text-primary mb-2 text-[24px] font-normal font-jomolhari">Welcome!✨</h2>
+      <p className="text-gray-600 mb-12 text-[14px] font-normal font-inter">Ready to Discover Your Skin's True Needs?</p>
 
-      <div className="space-y-5 w-full">
+      <div className="space-y-6 w-full max-w-md">
+        {/* Chat with GlowFairy Button */}
         <button
           onClick={() => onSelectMode('chat')}
-          className="w-full bg-white border-4 border-primary text-primary p-7 rounded-2xl hover:bg-primary hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl group transform hover:-translate-y-1"
+          className="w-full bg-white border-3 border-primary border-solid rounded-[9px] p-5 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1"
+          style={{
+            boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
+            background: 'white'
+          }}
+          onMouseEnter={(e) => e.target.style.background = 'linear-gradient(to bottom, #0C2E4D, #4979A6)'}
+          onMouseLeave={(e) => e.target.style.background = 'white'}
         >
-          <div className="flex items-center justify-between">
-            <div className="text-left">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                </div>
-                <span className="font-bold text-xl">Chat</span>
-              </div>
-              <p className="text-base opacity-80">Answer questions about your skin</p>
-            </div>
-            <svg className="w-8 h-8 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <div className="flex items-center justify-center ml-4 mr-3">
+            <svg className="w-5 h-5 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9 8s9 3.582 9 8z" />
             </svg>
+          </div>
+          <div className="flex flex-col">
+            <h3 className="text-primary group-hover:text-white text-[14px] font-bold font-inter mb-1 text-left">Chat with GlowFairy</h3>
+            <p className="text-primary group-hover:text-white text-[11px] font-light font-inter text-left">Get personalized advice for your skin.</p>
           </div>
         </button>
 
+        {/* AI Skin Scan Button */}
         <button
           onClick={() => onSelectMode('scan')}
-          className="w-full bg-white border-4 border-primary text-primary p-7 rounded-2xl hover:bg-primary hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl group transform hover:-translate-y-1"
+          className="w-full bg-white border-3 border-primary border-solid rounded-[9px] p-5 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1"
+          style={{
+            boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
+            background: 'white'
+          }}
+          onMouseEnter={(e) => e.target.style.background = 'linear-gradient(to bottom, #0C2E4D, #4979A6)'}
+          onMouseLeave={(e) => e.target.style.background = 'white'}
         >
-          <div className="flex items-center justify-between">
-            <div className="text-left">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="bg-primary/10 p-2 rounded-full">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <span className="font-bold text-xl">Skin Scan</span>
-              </div>
-              <p className="text-base opacity-80">Upload a photo for AI analysis</p>
-            </div>
-            <svg className="w-8 h-8 group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          <div className="flex items-center justify-center ml-4 mr-3">
+            <svg className="w-5 h-5 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
+          <div className="flex flex-col">
+            <h3 className="text-primary group-hover:text-white text-[14px] font-bold font-inter mb-1 text-left">AI Skin Scan</h3>
+            <p className="text-primary group-hover:text-white text-[11px] font-light font-inter text-left">Upload a photo to identify your skin type and concerns.</p>
+          </div>
         </button>
+      </div>
+
+      {/* Footer Note */}
+      <div className="mt-12 text-center px-4">
+        <p className="text-gray-600 text-[12px] font-semibold font-inter mb-1">
+          <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours.
+        </p>
+        <p className="text-gray-600 text-[12px] italic font-inter">
+          Product recommendations are personalised based on your skin type and concerns.
+        </p>
       </div>
     </div>
   );
