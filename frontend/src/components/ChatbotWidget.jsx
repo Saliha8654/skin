@@ -261,7 +261,7 @@ function ModeSelection({ onSelectMode }) {
       </div>
 
       {/* Footer Note */}
-      <div className="mt-19 text-center px-4">
+      <div className="mt-25 text-center px-4">
         <p className="text-gray-600 text-[12px] font-semibold font-inter mb-1">
           <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours.
         </p>
