@@ -226,13 +226,13 @@ function ModeSelection({ onSelectMode }) {
           onMouseLeave={(e) => e.target.style.background = 'white'}
         >
           <div className="flex items-center justify-center ml-4 mr-3">
-            <svg className="w-5 h-5 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-primary group-hover:text-white text-[14px] font-bold font-inter mb-1 text-left">Chat with GlowFairy</h3>
-            <p className="text-primary group-hover:text-white text-[11px] font-light font-inter text-left">Get personalized advice for your skin.</p>
+            <h3 className="text-primary group-hover:text-white transition-colors duration-300 text-[14px] font-bold font-inter mb-1 text-left">Chat with GlowFairy</h3>
+            <p className="text-primary group-hover:text-white transition-colors duration-300 text-[11px] font-light font-inter text-left">Get personalized advice for your skin.</p>
           </div>
         </button>
 
@@ -248,20 +248,20 @@ function ModeSelection({ onSelectMode }) {
           onMouseLeave={(e) => e.target.style.background = 'white'}
         >
           <div className="flex items-center justify-center ml-4 mr-3">
-            <svg className="w-5 h-5 text-primary group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-primary group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-primary group-hover:text-white text-[14px] font-bold font-inter mb-1 text-left">AI Skin Scan</h3>
-            <p className="text-primary group-hover:text-white text-[11px] font-light font-inter text-left">Upload a photo to identify your skin type and concerns.</p>
+            <h3 className="text-primary group-hover:text-white transition-colors duration-300 text-[14px] font-bold font-inter mb-1 text-left">AI Skin Scan</h3>
+            <p className="text-primary group-hover:text-white transition-colors duration-300 text-[11px] font-light font-inter text-left">Upload a photo to identify your skin type and concerns.</p>
           </div>
         </button>
       </div>
 
       {/* Footer Note */}
-      <div className="mt-12 text-center px-4">
+      <div className="mt-19 text-center px-4">
         <p className="text-gray-600 text-[12px] font-semibold font-inter mb-1">
           <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours.
         </p>
