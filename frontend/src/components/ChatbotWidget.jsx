@@ -152,7 +152,7 @@ function ChatbotWidget() {
                  borderBottomRightRadius: '50% 20px'
                }}>
             <div className="flex items-start flex-col pl-6 pt-6 w-full relative z-10">
-              <h1 className="text-[#ffefc8] text-[16px] font-bold font-inter mb-1">Meet your GlowFairy✨</h1>
+              <h1 className="text-[#ffefc8] text-[16px] font-bold font-inter mb-1">Meet your GlowFairy</h1>
               <h2 className="text-[#ffefc8] text-[10px] font-bold font-inter mb-3">Your personal AI skincare expert</h2>
             
             </div>
@@ -267,11 +267,9 @@ function ModeSelection({ onSelectMode }) {
       {/* Footer Note */}
       <div className="mt-16 text-center px-4">
         <p className="text-gray-600 text-[12px] italic font-inter mb-1">
-          <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours.
+          <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours.Product recommendations are personalised based on your skin type and concerns.
         </p>
-        <p className="text-gray-600 text-[12px] italic font-inter">
-          Product recommendations are personalised based on your skin type and concerns.
-        </p>
+      
       </div>
     </div>
   );
