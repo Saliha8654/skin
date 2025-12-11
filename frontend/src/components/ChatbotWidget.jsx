@@ -147,7 +147,7 @@ function ChatbotWidget() {
           <div className="bg-primary text-white flex items-center justify-between relative overflow-hidden"
                style={{
                  height: '165px',
-                 background: 'linear-gradient(to bottom, #0C2E4D, #4979A6)',
+                 background: 'linear-gradient(to bottom, #0C2E4D 65%, #4979A6)',
                  borderBottomLeftRadius: '50% 20px',
                  borderBottomRightRadius: '50% 20px'
                }}>
@@ -207,11 +207,7 @@ function ModeSelection({ onSelectMode }) {
   return (
     <div className="h-full flex flex-col items-center bg-white w-full">
       <h2 className="text-primary mb-2 text-[24px] font-normal font-jomolhari">Welcome!✨</h2>
-       <div className="text-[#0c2e4d] text-[9px] font-semibold items-center font-inter leading-relaxed">
-                <p>Hi, I'm GlowFairy!</p>
-                <p>I'm here to sprinkle a little magic on your skincare journey</p>
-                <p>and help you find the right products for your skin's unique needs.</p>
-              </div>
+      
       <p className="text-gray-600 mb-12 text-[14px] font-normal font-inter">Ready to Discover Your Skin's True Needs?</p>
  
       <div className="space-y-6 w-full max-w-md">
@@ -267,7 +263,7 @@ function ModeSelection({ onSelectMode }) {
       {/* Footer Note */}
       <div className="mt-16 text-center px-4">
         <p className="text-gray-600 text-[12px] italic font-inter mb-1">
-          <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours.Product recommendations are personalised based on your skin type and concerns.
+          <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
         </p>
       
       </div>
