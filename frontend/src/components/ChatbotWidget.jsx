@@ -137,7 +137,7 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-[384px] h-[700px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
+          className="fixed bottom-32 right-6 w-[384px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
