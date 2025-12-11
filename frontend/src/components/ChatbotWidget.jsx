@@ -195,6 +195,13 @@ function ChatbotWidget() {
               <SkinScanMode />
             )}
           </div>
+          
+          {/* Footer Note at the very bottom */}
+          <div className="text-center px-4 pb-4">
+            <p className="text-gray-600 text-[12px] italic font-inter">
+              <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
+            </p>
+          </div>
         </div>
       )}
       
@@ -261,12 +268,7 @@ function ModeSelection({ onSelectMode }) {
       </div>
 
       {/* Footer Note */}
-      <div className="mt-16 text-center px-4">
-        <p className="text-gray-600 text-[12px] italic font-inter mb-1">
-          <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
-        </p>
-      
-      </div>
+      {/* Note: Moved to the very bottom of the chatbot panel container */}
     </div>
   );
 }
