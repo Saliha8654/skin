@@ -74,6 +74,11 @@ function EmailCollector({ preferences = {} }) {
           type="submit"
           disabled={isSubmitting}
           className="w-full bg-primary text-white py-2 rounded-lg text-sm font-medium hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            borderColor: '#0c2e4d',
+            borderWidth: '3px',
+            borderStyle: 'solid'
+          }}
         >
           {isSubmitting ? 'Subscribing...' : 'Subscribe'}
         </button>

@@ -82,6 +82,11 @@ function ProductCard({ product }) {
                     ? 'bg-green-500 text-white'
                     : 'bg-primary text-white hover:bg-opacity-90'
                 } disabled:opacity-50`}
+                style={{
+                  borderColor: '#0c2e4d',
+                  borderWidth: '3px',
+                  borderStyle: 'solid'
+                }}
               >
                 {added ? '✓ Added' : isAdding ? 'Adding...' : 'Add to Cart'}
               </button>
