@@ -9,6 +9,10 @@ export default {
         primary: '#0C2E4D',
         secondary: '#ffefc8',
         white: '#ffffff'
+      },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+        jomolhari: ['Jomolhari', 'serif']
       }
     }
   },

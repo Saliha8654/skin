@@ -137,7 +137,7 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-[384px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
+          className="fixed bottom-32 right-6 w-[370px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
@@ -147,13 +147,13 @@ function ChatbotWidget() {
           <div className="bg-primary text-white flex items-center justify-between relative overflow-hidden"
                style={{
                  height: '165px',
-                 background: 'linear-gradient(to bottom, #0C2E4D 65%, #4979A6)',
+                 background: 'linear-gradient(to bottom, #0C2E4D , rgba(73, 121, 166, 1.00))',
                  borderBottomLeftRadius: '50% 20px',
                  borderBottomRightRadius: '50% 20px'
                }}>
             <div className="flex items-start flex-col pl-6 pt-6 w-full relative z-10">
-              <h1 className="text-[#ffefc8] text-[16px] font-bold font-inter mb-1">Meet your GlowFairy</h1>
-              <h2 className="text-[#ffefc8] text-[10px] font-bold font-inter mb-3">Your personal AI skincare expert</h2>
+              <h1 className="text-[#ffefc8] text-[16px] font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>Meet your GlowFairy</h1>
+              <h2 className="text-[#ffefc8] text-[10px] font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>Your personal AI skincare expert</h2>
             
             </div>
             <div className="absolute right-4 top-4 z-20">
@@ -198,7 +198,7 @@ function ChatbotWidget() {
           
           {/* Footer Note at the very bottom */}
           <div className="text-center px-4 pb-4">
-            <p className="text-gray-600 text-[12px] italic font-inter">
+            <p className="text-gray-600 text-[12px] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
               <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
             </p>
           </div>
@@ -213,9 +213,9 @@ function ChatbotWidget() {
 function ModeSelection({ onSelectMode }) {
   return (
     <div className="h-full flex flex-col items-center bg-white w-full">
-      <h2 className="text-primary mb-2 text-[24px] font-normal font-jomolhari">Welcome!✨</h2>
+      <h2 className="text-primary mb-2 text-[24px] font-normal" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
       
-      <p className="text-gray-600 mb-12 text-[14px] font-normal font-inter">Ready to Discover Your Skin's True Needs?</p>
+      <p className="text-gray-750 mb-12 text-[14px] font-normal" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
  
       <div className="space-y-6 w-full max-w-md">
         {/* Chat with GlowFairy Button */}
@@ -237,8 +237,8 @@ function ModeSelection({ onSelectMode }) {
             </svg>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-primary text-[14px] font-bold font-inter mb-1 text-left">Chat with GlowFairy</h3>
-            <p className="text-primary text-[11px] font-light font-inter text-left">Get personalized advice for your skin.</p>
+            <h3 className="text-primary text-[16px] font-bold mb-1 text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Chat with GlowFairy</h3>
+            <p className="text-primary text-[11px] font-semibold text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Get personalized advice for your skin.</p>
           </div>
         </button>
 
@@ -261,8 +261,8 @@ function ModeSelection({ onSelectMode }) {
             </svg>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-primary text-[14px] font-bold font-inter mb-1 text-left">AI Skin Scan</h3>
-            <p className="text-primary text-[11px] font-light font-inter text-left">Upload a photo to identify your skin type and concerns.</p>
+            <h3 className="text-primary text-[16px] font-bold mb-1 text-left" style={{ fontFamily: "'Inter', sans-serif" }}>AI Skin Scan</h3>
+            <p className="text-primary text-[11px] font-semibold text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Upload a photo to identify your skin type and concerns.</p>
           </div>
         </button>
       </div>
