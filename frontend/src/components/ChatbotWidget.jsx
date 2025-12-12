@@ -144,11 +144,11 @@ function ChatbotWidget() {
           }}
         >
           {/* Header */}
-          <div className=" text-white flex items-center justify-between relative overflow-hidden">
+          <div className=" text-white  mb-4 flex items-center justify-between relative overflow-hidden">
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
-                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Component_3.png?v=1765552502"
+                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Component_4.png?v=1765556099"
                 alt="Header"
                 className="w-full h-auto object-contain"
               />
@@ -156,9 +156,9 @@ function ChatbotWidget() {
             <div className="absolute right-4 top-4 z-20">
               <div className="fairy-image-wrapper relative animate-float">
                 <img 
-                  src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Group_12_734dc1e6-5e79-451a-a61e-0fa5cd0bbbbe.png?v=1765367355" 
+                  src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Group_14_1.png?v=1765556088" 
                   alt="GlowFairy" 
-                  className="w-40 h-auto transition-all duration-300 hover:scale-105"
+                  className="w-55 h-auto transition-all duration-300 hover:scale-105"
                 />
                 {/* Fairy dust effect on hover */}
                 <div className="fairy-dust absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 hover:opacity-100">
@@ -194,8 +194,8 @@ function ChatbotWidget() {
           </div>
           
           {/* Footer Note at the very bottom */}
-          <div className="text-center px-4 pb-4">
-            <p className="text-gray-600 text-[12px] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
+          <div className="text-center px-6 pb-6">
+            <p className="text-gray-600 text-[10px] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
               <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
             </p>
           </div>
@@ -212,7 +212,7 @@ function ModeSelection({ onSelectMode }) {
     <div className="h-full flex flex-col items-center bg-white w-full">
       <h2 className="text-primary mb-2 text-[24px] font-normal" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
       
-      <p className="text-gray-750 mb-12 text-[14px] font-normal" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
+      <p className="text-gray-740 mb-12 text-[12px] font-light" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
  
       <div className="space-y-6 w-full max-w-md">
         {/* Chat with GlowFairy Button */}
@@ -227,15 +227,15 @@ function ModeSelection({ onSelectMode }) {
             borderStyle: 'solid'
           }}
         >
-          <div className="flex items-center justify-center ml-4 mr-3">
-            <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center justify-center ml-2 mr-3">
+            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01" />
             </svg>
           </div>
           <div className="flex flex-col">
             <h3 className="text-primary text-[16px] font-bold mb-1 text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Chat with GlowFairy</h3>
-            <p className="text-primary text-[11px] font-semibold text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Get personalized advice for your skin.</p>
+            <p className="text-primary text-[11px] font-normal text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Get personalized advice for your skin.</p>
           </div>
         </button>
 
@@ -251,15 +251,15 @@ function ModeSelection({ onSelectMode }) {
             borderStyle: 'solid'
           }}
         >
-          <div className="flex items-center justify-center ml-4 mr-3">
-            <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center justify-center ml-2 mr-3">
+            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
           </div>
           <div className="flex flex-col">
             <h3 className="text-primary text-[16px] font-bold mb-1 text-left" style={{ fontFamily: "'Inter', sans-serif" }}>AI Skin Scan</h3>
-            <p className="text-primary text-[11px] font-semibold text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Upload a photo to identify your skin type and concerns.</p>
+            <p className="text-primary text-[11px] font-normal text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Upload a photo to identify your skin type and concerns.</p>
           </div>
         </button>
       </div>
