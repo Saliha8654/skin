@@ -144,17 +144,14 @@ function ChatbotWidget() {
           }}
         >
           {/* Header */}
-          <div className="bg-primary text-white flex items-center justify-between relative overflow-hidden"
-               style={{
-                 height: '165px',
-                 background: 'linear-gradient(to bottom, #0C2E4D 65%, rgba(12, 46, 77, 0.7))',
-                 borderBottomLeftRadius: '50% 20px',
-                 borderBottomRightRadius: '50% 20px'
-               }}>
-            <div className="flex items-start flex-col pl-6 pt-6 w-full relative z-10">
-              <h1 className="text-[#ffefc8] text-[16px] font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>Meet your GlowFairy</h1>
-              <h2 className="text-[#ffefc8] text-[10px] font-bold" style={{ fontFamily: "'Inter', sans-serif" }}>Your personal AI skincare expert</h2>
-            
+          <div className=" text-white flex items-center justify-between relative overflow-hidden">
+            {/* Replaced text content with Shopify image while keeping fairy image */}
+            <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Component_3.png?v=1765552502"
+                alt="Header"
+                className="w-full h-auto object-contain"
+              />
             </div>
             <div className="absolute right-4 top-4 z-20">
               <div className="fairy-image-wrapper relative animate-float">
