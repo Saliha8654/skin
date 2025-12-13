@@ -32,7 +32,11 @@
    /* Reduce space between welcome text and buttons */
   .welcome-text {
  
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
+  }
+   .ready-text {
+ font-size: 11px !important;
+    margin-bottom: 12px !important;
   }
   
   .mode-selection-container {
