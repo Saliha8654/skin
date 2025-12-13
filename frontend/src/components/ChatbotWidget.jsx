@@ -154,7 +154,7 @@ function ChatbotWidget() {
                 className="w-full h-auto object-contain"
               />
             </div>
-            <div className="absolute right-4 top-4 z-20">
+            <div className="absolute right-1 top-1 z-20">
               <div className="fairy-image-wrapper relative animate-float">
                 <img 
                   src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Group_14_1.png?v=1765556088" 
@@ -210,11 +210,11 @@ function ChatbotWidget() {
 
 function ModeSelection({ onSelectMode }) {
   return (
-    <div className="h-full flex flex-col items-center bg-white w-full">
-      <h2 className="text-primary mb-2 text-[24px] font-normal" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
+    <div className="h-full flex flex-col items-center bg-white w-full mode-selection-container">
+      <h2 className="text-primary mb-2 text-[24px] font-normal welcome-text" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
       
-      <p className="text-gray-740 mb-12 text-[12px] font-light" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
- 
+      <p className="text-gray-740 mb-12 text-[12px] font-light welcome-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
+
       <div className="space-y-6 w-full max-w-md">
         {/* Chat with GlowFairy Button */}
         <button

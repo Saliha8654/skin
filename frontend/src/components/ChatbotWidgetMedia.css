@@ -4,8 +4,8 @@
 /* For tablets and smaller laptops */
 @media screen and (max-width: 1024px) {
   .chatbot-panel {
-    width: 320px !important;
-    height: 600px !important;
+    width: 330px !important;
+    height: 650px !important;
   }
   
   .chatbot-header {
@@ -16,38 +16,48 @@
 /* For mobile devices in portrait mode */
 @media screen and (max-width: 768px) {
   .chatbot-panel {
-    width: 450px !important;
-    height: 750px !important;
-    bottom: 110px !important;
+    width: 360px !important;
+    height: 620px !important;
+    bottom: 90px !important;
     right: 15px !important;
-  }
-  
-  .chatbot-header {
-    min-height: 120px !important;
-  }
-  
-  .chatbot-content {
-    padding: 12px !important;
-  }
-  
-
-}
-
-/* For small mobile devices */
-@media screen and (max-width: 480px) {
-  .chatbot-panel {
-    width: 290px !important;
-    height: 530px !important;
-    bottom: 96px !important;
-    right: 8px !important;
   }
   
   .chatbot-header {
     min-height: 100px !important;
   }
   
+  .chatbot-content {
+    padding: 12px !important;
+  }
+   /* Reduce space between welcome text and buttons */
+  .welcome-text {
+ 
+    margin-bottom: 10px !important;
+  }
+  
+  .mode-selection-container {
+    padding-top: 8px !important;
+  }
+
+}
+
+/* For small mobile devices */
+@media screen and (max-width: 480px) {
+  .chatbot-panel {
+    width: 280px !important;
+    height: 540px !important;
+    bottom: 96px !important;
+    right: 8px !important;
+  }
+  
+  .chatbot-header {
+    min-height: 100px !important;
+    margin-bottom: 0px !important;
+  }
+  
   .chatbot-button {
     padding: 16px !important;
+   
   }
   
   .chatbot-button-text {
@@ -56,6 +66,16 @@
   
   .chatbot-button-subtext {
     font-size: 10px !important;
+  }
+  
+  /* Reduce space between welcome text and buttons */
+  .welcome-text {
+ 
+    margin-bottom: 8px !important;
+  }
+  
+  .mode-selection-container {
+    padding-top: 8px !important;
   }
 }
 
