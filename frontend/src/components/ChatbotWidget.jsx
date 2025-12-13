@@ -137,17 +137,14 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-fffcf5 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in
-                    md:w-[320px] md:h-[600px]
-                    sm:bottom-0 sm:right-0 sm:left-0 sm:top-0 sm:w-full sm:h-full sm:rounded-none sm:shadow-none"
+          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-fffcf5 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
           }}
         >
           {/* Header */}
-          <div className=" text-ffefc8  mb-4 flex items-center justify-between relative overflow-hidden
-                      sm:h-32">
+          <div className=" text-ffefc8  mb-4 flex items-center justify-between relative overflow-hidden">
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
@@ -161,8 +158,7 @@ function ChatbotWidget() {
                 <img 
                   src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Group_14_1.png?v=1765556088" 
                   alt="GlowFairy" 
-                  className="w-55 h-auto transition-all duration-300 hover:scale-105
-                          sm:w-40"
+                  className="w-55 h-auto transition-all duration-300 hover:scale-105"
                 />
                 {/* Fairy dust effect on hover */}
                 <div className="fairy-dust absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 hover:opacity-100">
@@ -185,8 +181,7 @@ function ChatbotWidget() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6
-                      sm:pt-2 sm:px-4">
+          <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6">
             {!mode && (
               <ModeSelection onSelectMode={selectMode} />
             )}
@@ -199,8 +194,7 @@ function ChatbotWidget() {
           </div>
           
           {/* Footer Note at the very bottom */}
-          <div className="text-center px-6 pb-10
-                      sm:px-4 sm:pb-6">
+          <div className="text-center px-6 pb-10">
             <p className="text-gray-600 text-[10px] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
               <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
             </p>
@@ -224,8 +218,7 @@ function ModeSelection({ onSelectMode }) {
         {/* Chat with GlowFairy Button */}
         <button
           onClick={() => onSelectMode('chat')}
-          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1
-                    sm:p-5"
+          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1"
           style={{
             boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
             background: 'white',
@@ -249,8 +242,7 @@ function ModeSelection({ onSelectMode }) {
         {/* AI Skin Scan Button */}
         <button
           onClick={() => onSelectMode('scan')}
-          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1
-                    sm:p-4"
+          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1"
           style={{
             boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
             background: 'white',
