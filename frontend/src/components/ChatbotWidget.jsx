@@ -215,7 +215,7 @@ function ModeSelection({ onSelectMode }) {
       
       <p className="text-gray-740 mb-12 text-[12px] font-light ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
 
-      <div className="space-y-6 w-full max-w-md">
+      <div className="space-y-6 w-full max-w-md buttons">
         {/* Chat with GlowFairy Button */}
         <button
           onClick={() => onSelectMode('chat')}

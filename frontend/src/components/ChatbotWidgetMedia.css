@@ -35,7 +35,7 @@
     margin-bottom: 8px !important;
   }
    .ready-text {
- font-size: 11px !important;
+    font-size: 11px !important;
     margin-bottom: 12px !important;
   }
   
@@ -77,14 +77,16 @@
   .welcome-text {
     margin-bottom: 0px !important;
   }
-    .ready-text {
- font-size: 9px !important;
+  
+  .ready-text {
+    font-size: 9px !important;
     margin-bottom: 12px !important;
   }
- .buttons{
+  
+  .buttons {
     margin-bottom: 8px !important;
     margin-left: 0px;
- }
+  }
 }
 
 /* For extra small devices */
