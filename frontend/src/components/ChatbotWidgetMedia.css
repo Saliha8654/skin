@@ -16,10 +16,10 @@
 /* For mobile devices in portrait mode */
 @media screen and (max-width: 768px) {
   .chatbot-panel {
-    width: 280px !important;
-    height: 500px !important;
-    bottom: 20px !important;
-    right: 10px !important;
+    width: 450px !important;
+    height: 800px !important;
+    bottom: 110px !important;
+    right: 15px !important;
   }
   
   .chatbot-header {
@@ -30,17 +30,15 @@
     padding: 12px !important;
   }
   
-  .chatbot-footer {
-    padding: 12px !important;
-  }
+
 }
 
 /* For small mobile devices */
 @media screen and (max-width: 480px) {
   .chatbot-panel {
-    width: 260px !important;
-    height: 450px !important;
-    bottom: 15px !important;
+    width: 290px !important;
+    height: 570px !important;
+    bottom: 96px !important;
     right: 8px !important;
   }
   
@@ -64,8 +62,8 @@
 /* For extra small devices */
 @media screen and (max-width: 360px) {
   .chatbot-panel {
-    width: 240px !important;
-    height: 420px !important;
+    width: 280px !important;
+    height: 580px !important;
   }
   
   .chatbot-header {
