@@ -213,7 +213,7 @@ function ModeSelection({ onSelectMode }) {
     <div className="h-full flex flex-col items-center bg-white w-full mode-selection-container">
       <h2 className="text-primary mb-2 text-[24px] font-normal welcome-text" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
       
-      <p className="text-gray-740 mb-12 text-[12px] font-light welcome-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
+      <p className="text-gray-740 mb-12 text-[12px] font-light ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
 
       <div className="space-y-6 w-full max-w-md">
         {/* Chat with GlowFairy Button */}

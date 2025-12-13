@@ -70,13 +70,15 @@
   
   /* Reduce space between welcome text and buttons */
   .welcome-text {
+    margin-bottom: 0px !important;
+  }
+    .ready-text {
  
+    margin-bottom: 12px !important;
+  }
+ .buttons{
     margin-bottom: 8px !important;
-  }
-  
-  .mode-selection-container {
-    padding-top: 8px !important;
-  }
+ }
 }
 
 /* For extra small devices */
