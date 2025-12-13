@@ -137,14 +137,14 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-fffcf5 rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
+          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
           }}
         >
           {/* Header */}
-          <div className=" text-ffefc8  mb-4 flex items-center justify-between relative overflow-hidden">
+          <div className=" text-white  mb-4 flex items-center justify-between relative overflow-hidden">
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
