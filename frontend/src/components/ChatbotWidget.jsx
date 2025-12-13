@@ -3,6 +3,7 @@ import ChatMode from './ChatMode';
 import SkinScanMode from './SkinScanMode';
 import fairyImage from '../assets/fairy-icon3.png';
 import './ChatbotWidget.css';
+import './ChatbotWidgetMedia.css';
 
 // FairyIcon Component - replaces BeautifulFairyIcon
 const FairyIcon = ({ className }) => {
@@ -137,14 +138,14 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in"
+          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
           }}
         >
           {/* Header */}
-          <div className=" text-white bg-white  mb-4 flex items-center justify-between relative overflow-hidden">
+          <div className=" text-white bg-white  mb-4 flex items-center justify-between relative overflow-hidden chatbot-header">
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
@@ -181,7 +182,7 @@ function ChatbotWidget() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6">
+          <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6 chatbot-content">
             {!mode && (
               <ModeSelection onSelectMode={selectMode} />
             )}
@@ -194,7 +195,7 @@ function ChatbotWidget() {
           </div>
           
           {/* Footer Note at the very bottom */}
-          <div className="text-center px-6 pb-10">
+          <div className="text-center px-6 pb-10 chatbot-footer">
             <p className="text-gray-600 text-[10px] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
               <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
             </p>
@@ -218,7 +219,7 @@ function ModeSelection({ onSelectMode }) {
         {/* Chat with GlowFairy Button */}
         <button
           onClick={() => onSelectMode('chat')}
-          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1"
+          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
           style={{
             boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
             background: 'white',
@@ -234,15 +235,15 @@ function ModeSelection({ onSelectMode }) {
             </svg>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-primary text-[16px] font-bold mb-1 text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Chat with GlowFairy</h3>
-            <p className="text-primary text-[11px] font-normal text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Get personalized advice for your skin.</p>
+            <h3 className="text-primary text-[16px] font-bold mb-1 text-left chatbot-button-text" style={{ fontFamily: "'Inter', sans-serif" }}>Chat with GlowFairy</h3>
+            <p className="text-primary text-[11px] font-normal text-left chatbot-button-subtext" style={{ fontFamily: "'Inter', sans-serif" }}>Get personalized advice for your skin.</p>
           </div>
         </button>
 
         {/* AI Skin Scan Button */}
         <button
           onClick={() => onSelectMode('scan')}
-          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1"
+          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
           style={{
             boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
             background: 'white',
@@ -258,8 +259,8 @@ function ModeSelection({ onSelectMode }) {
             </svg>
           </div>
           <div className="flex flex-col">
-            <h3 className="text-primary text-[16px] font-bold mb-1 text-left" style={{ fontFamily: "'Inter', sans-serif" }}>AI Skin Scan</h3>
-            <p className="text-primary text-[11px] font-normal text-left" style={{ fontFamily: "'Inter', sans-serif" }}>Upload a photo to identify your skin type and concerns.</p>
+            <h3 className="text-primary text-[16px] font-bold mb-1 text-left chatbot-button-text" style={{ fontFamily: "'Inter', sans-serif" }}>AI Skin Scan</h3>
+            <p className="text-primary text-[11px] font-normal text-left chatbot-button-subtext" style={{ fontFamily: "'Inter', sans-serif" }}>Upload a photo to identify your skin type and concerns.</p>
           </div>
         </button>
       </div>

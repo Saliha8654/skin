@@ -1,0 +1,74 @@
+/* Media Queries for Chatbot Widget - Mobile Responsiveness */
+/* These styles will only apply to smaller screens and won't affect desktop design */
+
+/* For tablets and smaller laptops */
+@media screen and (max-width: 1024px) {
+  .chatbot-panel {
+    width: 320px !important;
+    height: 600px !important;
+  }
+  
+  .chatbot-header {
+    min-height: 140px !important;
+  }
+}
+
+/* For mobile devices in portrait mode */
+@media screen and (max-width: 768px) {
+  .chatbot-panel {
+    width: 280px !important;
+    height: 500px !important;
+    bottom: 20px !important;
+    right: 10px !important;
+  }
+  
+  .chatbot-header {
+    min-height: 120px !important;
+  }
+  
+  .chatbot-content {
+    padding: 12px !important;
+  }
+  
+  .chatbot-footer {
+    padding: 12px !important;
+  }
+}
+
+/* For small mobile devices */
+@media screen and (max-width: 480px) {
+  .chatbot-panel {
+    width: 260px !important;
+    height: 450px !important;
+    bottom: 15px !important;
+    right: 8px !important;
+  }
+  
+  .chatbot-header {
+    min-height: 100px !important;
+  }
+  
+  .chatbot-button {
+    padding: 16px !important;
+  }
+  
+  .chatbot-button-text {
+    font-size: 14px !important;
+  }
+  
+  .chatbot-button-subtext {
+    font-size: 10px !important;
+  }
+}
+
+/* For extra small devices */
+@media screen and (max-width: 360px) {
+  .chatbot-panel {
+    width: 240px !important;
+    height: 420px !important;
+  }
+  
+  .chatbot-header {
+    min-height: 90px !important;
+  }
+}
