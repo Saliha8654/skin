@@ -37,7 +37,7 @@
 @media screen and (max-width: 480px) {
   .chatbot-panel {
     width: 290px !important;
-    height: 570px !important;
+    height: 500px !important;
     bottom: 96px !important;
     right: 8px !important;
   }
