@@ -144,7 +144,7 @@ function ChatbotWidget() {
           }}
         >
           {/* Header */}
-          <div className=" text-white  mb-4 flex items-center justify-between relative overflow-hidden">
+          <div className=" text-white bg-white  mb-4 flex items-center justify-between relative overflow-hidden">
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
