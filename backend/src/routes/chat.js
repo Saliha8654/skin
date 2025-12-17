@@ -75,7 +75,7 @@ router.post('/message', async (req, res) => {
 router.post('/start', async (req, res) => {
   try {
     console.log('=== CHAT START REQUEST ===');
-    const welcomeMessage = "Hi, I'm GlowFairy!\nI'm here to sprinkle a little magic on your skincare journey and help you find the right products for your skin's unique needs. Ready?\n\nFirst, what's your main skin concern right now?";
+    const welcomeMessage = "Hi, I'm GlowFairy!🧚🏻‍♀️\nI'm here to sprinkle a little magic on your skincare journey and help you find the right products for your skin's unique needs. Ready?\nFirst, what's your main skin concern right now?";
     
     // Generate a more robust session ID
     const sessionId = Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
