@@ -70,7 +70,7 @@ function ProductCard({ product }) {
 
           <div className="flex items-center justify-between">
             <span className="font-semibold text-primary">
-              {product.currency} ${parseFloat(product.price).toFixed(2)}
+              £{parseFloat(product.price).toFixed(2)}
             </span>
 
             {product.availableForSale ? (
