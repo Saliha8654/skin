@@ -3,6 +3,15 @@ const router = express.Router();
 const { getChatResponse, extractSkincareNeeds } = require('../services/openai');
 const { recommendProducts } = require('../services/shopify');
 
+// Validate that required environment variables are present
+if (!process.env.HUGGINGFACE_API_KEY) {
+  console.warn('Warning: HUGGINGFACE_API_KEY is not set - chat responses will use fallback mode');
+}
+
+if (!process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || !process.env.SHOPIFY_STORE_DOMAIN) {
+  console.warn('Warning: Shopify credentials are not fully configured - product recommendations may fail');
+}
+
 // POST /api/chat/message
 router.post('/message', async (req, res) => {
   try {
@@ -11,9 +20,15 @@ router.post('/message', async (req, res) => {
     console.log('=== CHAT MESSAGE REQUEST ===');
     console.log('Received chat message request:', { messages, context });
 
-    if (!messages || !Array.isArray(messages)) {
-      console.log('Invalid messages format - messages is required and must be an array');
-      return res.status(400).json({ error: 'Messages array is required' });
+    // Validate request body
+    if (!messages) {
+      console.log('Missing messages in request body');
+      return res.status(400).json({ error: 'Messages are required' });
+    }
+
+    if (!Array.isArray(messages)) {
+      console.log('Invalid messages format - messages must be an array');
+      return res.status(400).json({ error: 'Messages must be an array' });
     }
 
     console.log('Messages array length:', messages.length);
@@ -47,9 +62,11 @@ router.post('/message', async (req, res) => {
     console.error('=== CHAT ERROR ===');
     console.error('Chat error:', error);
     console.error('Error stack:', error.stack);
+    
+    // Send a more informative error response
     res.status(500).json({ 
       error: 'Failed to process chat message',
-      message: error.message 
+      message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
   }
 });
@@ -58,11 +75,14 @@ router.post('/message', async (req, res) => {
 router.post('/start', async (req, res) => {
   try {
     console.log('=== CHAT START REQUEST ===');
-    const welcomeMessage = "Hi! I'm your K-beauty skin advisor 💖 Let's find out what your skin needs. Ready?\n\nFirst, what's your main skin concern right now?";
+    const welcomeMessage = "Hi, I'm GlowFairy!\nI'm here to sprinkle a little magic on your skincare journey and help you find the right products for your skin's unique needs. Ready?\n\nFirst, what's your main skin concern right now?";
+    
+    // Generate a more robust session ID
+    const sessionId = Date.now().toString() + '-' + Math.random().toString(36).substr(2, 9);
     
     const result = {
       message: welcomeMessage,
-      sessionId: Date.now().toString()
+      sessionId: sessionId
     };
     
     console.log('Sending chat start response:', result);
@@ -70,7 +90,11 @@ router.post('/start', async (req, res) => {
   } catch (error) {
     console.error('=== CHAT START ERROR ===');
     console.error('Chat start error:', error);
-    res.status(500).json({ error: 'Failed to start chat' });
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ 
+      error: 'Failed to start chat',
+      message: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
   }
 });
 

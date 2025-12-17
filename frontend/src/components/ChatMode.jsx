@@ -7,6 +7,7 @@ function ChatMode() {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true); // New state for backend initialization
   const [products, setProducts] = useState([]);
   const [showEmailCollector, setShowEmailCollector] = useState(false);
   const [userPreferences, setUserPreferences] = useState({});
@@ -27,11 +28,14 @@ function ChatMode() {
 
   const startChat = async () => {
     try {
+      setIsInitializing(true); // Set initializing state
       const response = await chatAPI.start();
       setMessages([{ role: 'assistant', content: response.message }]);
     } catch (error) {
       console.error('Failed to start chat:', error);
       setMessages([{ role: 'assistant', content: 'Hi! I\'m here to help with your skincare needs. What\'s your main skin concern?' }]);
+    } finally {
+      setIsInitializing(false); // Always set initializing to false when done
     }
   };
 
@@ -79,7 +83,19 @@ function ChatMode() {
     <div className="h-full flex flex-col">
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-        {messages.map((msg, index) => (
+        {/* Backend initialization loading indicator */}
+        {isInitializing && (
+          <div className="flex flex-col items-center justify-center py-8">
+            <div className="flex gap-1 mb-4">
+              <div className="w-3 h-3 bg-primary rounded-full animate-bounce"></div>
+              <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+              <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+            </div>
+            <p className="text-primary text-center font-medium">Please wait for some seconds, Our System is warming up...</p>
+          </div>
+        )}
+
+        {!isInitializing && messages.map((msg, index) => (
           <div
             key={index}
             className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -137,11 +153,11 @@ function ChatMode() {
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Type your message..."
             className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-primary"
-            disabled={isLoading}
+            disabled={isLoading || isInitializing}
           />
           <button
             type="submit"
-            disabled={isLoading || !inputValue.trim()}
+            disabled={isLoading || isInitializing || !inputValue.trim()}
             className="bg-primary text-white p-2 rounded-full hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               borderColor: '#0c2e4d',
