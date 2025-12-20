@@ -167,7 +167,7 @@ function SkinScanMode() {
           {!previewUrl ? (
             <div className="space-y-4">
               <div className="text-center mb-6">
-                <h3 className="text-lg font-semibold text-primary mb-2">Scan Your Skin</h3>
+                <h3 className="text-lg font-semibold text-primary mb-2" style={{ fontFamily: "'Inter', sans-serif" }}>Scan Your Skin</h3>
                 <p className="text-sm text-gray-600">Upload or take a photo for AI analysis</p>
               </div>
 

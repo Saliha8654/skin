@@ -149,7 +149,7 @@ function ChatbotWidget() {
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
-                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Component_4.png?v=1765556099"
+                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Frame_32.png?v=1766243251"
                 alt="Header"
                 className="w-full h-auto object-contain"
               />
@@ -213,7 +213,8 @@ function ModeSelection({ onSelectMode }) {
     <div className="h-full flex flex-col items-center bg-white w-full mode-selection-container">
       <h2 className="text-primary mb-2 text-[24px] font-normal welcome-text" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
       
-      <p className="text-gray-740 mb-12 text-[12px] font-light ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
+      <p className="text-primary text-[11px] font-normal ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
+        
 
       <div className="space-y-6 w-full max-w-md buttons">
         {/* Chat with GlowFairy Button */}
