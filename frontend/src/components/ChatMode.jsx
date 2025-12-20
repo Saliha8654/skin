@@ -33,7 +33,7 @@ function ChatMode() {
       setMessages([{ role: 'assistant', content: response.message }]);
     } catch (error) {
       console.error('Failed to start chat:', error);
-      setMessages([{ role: 'assistant', content: 'Hi! I\'m here to help with your skincare needs. What\'s your main skin concern?' }]);
+      setMessages([{ role: 'assistant', content: 'Hi, I\'m GlowFairy!🧚🏻‍♀️\n I\'m here to sprinkle a little magic on your skincare journey and help you find the right products for your skin\'s unique needs. Ready?\n First, what\'s your main skin concern right now?' }]);
     } finally {
       setIsInitializing(false); // Always set initializing to false when done
     }
@@ -91,7 +91,7 @@ function ChatMode() {
               <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
               <div className="w-3 h-3 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
             </div>
-            <p className="text-primary text-center font-medium">Please wait for some seconds, Our System is warming up...</p>
+            <p className="text-primary text-center font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>Please wait for some seconds, Our System is warming up...</p>
           </div>
         )}
 
@@ -107,7 +107,7 @@ function ChatMode() {
                   : 'bg-secondary text-primary'
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+              <p className="text-sm whitespace-pre-wrap font-medium" style={{ fontFamily: 'Inter, sans-serif' }}>{msg.content}</p>
             </div>
           </div>
         ))}
