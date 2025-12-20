@@ -211,9 +211,9 @@ function ChatbotWidget() {
 function ModeSelection({ onSelectMode }) {
   return (
     <div className="h-full flex flex-col items-center bg-white w-full mode-selection-container">
-      <h2 className="text-primary mb-2 text-[24px] font-normal welcome-text" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
+      <h2 className="text-primary mb-1 text-[24px] font-normal welcome-text" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
       
-      <p className="text-primary text-[11px] font-normal ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
+      <p className="text-primary text-[11px] mb-2 font-normal ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
         
 
       <div className="space-y-6 w-full max-w-md buttons">
