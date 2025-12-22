@@ -33,7 +33,7 @@ function ChatMode() {
       setMessages([{ role: 'assistant', content: response.message }]);
     } catch (error) {
       console.error('Failed to start chat:', error);
-      setMessages([{ role: 'assistant', content: 'Hi, I\'m GlowFairy!🧚🏻‍♀️\n I\'m here to sprinkle a little magic on your skincare journey and help you find the right products for your skin\'s unique needs. Ready?\n First, what\'s your main skin concern right now?' }]);
+      setMessages([{ role: 'assistant', content: 'Hi, I\'m GlowFairy!🧚🏻‍♀️\nI\'m here to sprinkle a little magic on your skincare journey and help you find the right products for your skin\'s unique needs. Ready?\nFirst, what\'s your main skin concern right now?' }]);
     } finally {
       setIsInitializing(false); // Always set initializing to false when done
     }

@@ -11,6 +11,13 @@
   .chatbot-header {
     min-height: 140px !important;
   }
+    .ready-text {
+    font-size: 11px !important;
+    margin-bottom: 12px !important;
+  }  .ready-text {
+
+    margin-bottom: 12px !important;
+  }
 }
 
 /* For mobile devices in portrait mode */

@@ -2,8 +2,8 @@
   Skincare AI Chatbot Widget
   
   Instructions:
-  1. Replace YOUR_FRONTEND_URL with your deployed frontend URL
-  2. Replace YOUR_BACKEND_URL with your deployed backend API URL
+  1. Replace YOUR_FRONTEND_URL with your deployed frontend URL (e.g., https://your-app.vercel.app)
+  2. Backend URL is already configured: https://skincare-backend-phcu.onrender.com/api
   3. Add this snippet to your theme.liquid file before </body>
   
   For Minimog theme:
@@ -11,6 +11,8 @@
   - Open Layout/theme.liquid
   - Paste this code just before </body>
   - Save
+  
+  IMPORTANT: Make sure to include /api at the end of the backend URL!
 {% endcomment %}
 
 <!-- Skincare AI Chatbot Widget - Start -->
@@ -19,7 +21,7 @@
 <script>
   // Configuration
   window.CHATBOT_CONFIG = {
-    apiUrl: 'YOUR_BACKEND_URL/api',
+    apiUrl: 'https://skincare-backend-phcu.onrender.com/api',  // IMPORTANT: Include /api at the end
     shopifyDomain: '{{ shop.permanent_domain }}',
     cartUrl: '{{ routes.cart_url }}',
     theme: {

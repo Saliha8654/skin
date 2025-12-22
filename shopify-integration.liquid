@@ -4,9 +4,16 @@
 {% comment %}
 Replace YOUR_VERCEL_DEPLOYMENT_URL with your actual Vercel deployment URL
 For example: https://your-app.vercel.app
+Replace YOUR_RENDER_BACKEND_URL with your actual Render backend URL
+For example: https://skincare-backend-phcu.onrender.com
 {% endcomment %}
 
 <script>
+  // Configure the chatbot API URL
+  window.CHATBOT_CONFIG = {
+    apiUrl: 'https://skincare-backend-phcu.onrender.com/api'  // IMPORTANT: Include /api at the end
+  };
+  
   // Wait for DOM to be ready
   document.addEventListener('DOMContentLoaded', function() {
     // Create a container for the chatbot
