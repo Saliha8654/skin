@@ -51,6 +51,27 @@ export const shopifyAPI = {
       body: JSON.stringify({ skinType, concerns })
     });
     return response.json();
+  },
+
+  getCollections: async (limit = 10) => {
+    const params = new URLSearchParams({ limit });
+    const response = await fetch(`${API_URL}/shopify/collections?${params}`);
+    return response.json();
+  },
+
+  getProductsByCollection: async (collectionHandle, limit = 10) => {
+    const params = new URLSearchParams({ limit });
+    const response = await fetch(`${API_URL}/shopify/collections/${collectionHandle}/products?${params}`);
+    return response.json();
+  },
+
+  recommendByCollection: async (collectionHandle, skinType, concerns = []) => {
+    const response = await fetch(`${API_URL}/shopify/recommend-by-collection`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ collectionHandle, skinType, concerns })
+    });
+    return response.json();
   }
 };
 

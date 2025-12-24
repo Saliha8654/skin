@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getChatResponse, extractSkincareNeeds } = require('../services/openai');
-const { recommendProducts } = require('../services/shopify');
+const { recommendProducts, recommendProductsByCollection } = require('../services/shopify');
 
 // Validate that required environment variables are present
 if (!process.env.HUGGINGFACE_API_KEY) {
@@ -45,7 +45,22 @@ router.post('/message', async (req, res) => {
       console.log('Getting product recommendations');
       const needs = extractSkincareNeeds(messages);
       console.log('Extracted needs for recommendations:', needs);
-      products = await recommendProducts(needs);
+      
+      // Check if we should recommend products by collection
+      if (needs.collection) {
+        console.log('Recommendation by collection:', needs.collection);
+        try {
+          const collectionResult = await recommendProductsByCollection(needs.collection, needs);
+          products = collectionResult.products;
+          console.log('Collection-based product recommendations count:', products.length);
+        } catch (error) {
+          console.error('Collection-based recommendation failed, falling back to general recommendations:', error.message);
+          products = await recommendProducts(needs);
+        }
+      } else {
+        products = await recommendProducts(needs);
+      }
+      
       console.log('Product recommendations count:', products.length);
       console.log('Product recommendations:', JSON.stringify(products.map(p => ({title: p.title, id: p.id})), null, 2));
     }

@@ -186,6 +186,46 @@ function getFallbackResponse(messages) {
   
   console.log('Generating fallback response for', userMessages.length, 'user messages');
   
+  // Check if user is asking about specific collections/products
+  const hasCollectionQuery = lastMessage.includes('cleanser') || 
+                            lastMessage.includes('cleansing') || 
+                            lastMessage.includes('face wash') || 
+                            lastMessage.includes('toner') || 
+                            lastMessage.includes('serum') || 
+                            lastMessage.includes('essence') || 
+                            lastMessage.includes('moisturizer') || 
+                            lastMessage.includes('moisturiser') || 
+                            lastMessage.includes('cream') || 
+                            lastMessage.includes('sunscreen') || 
+                            lastMessage.includes('spf') || 
+                            lastMessage.includes('mask') || 
+                            lastMessage.includes('masks') || 
+                            lastMessage.includes('eye cream') || 
+                            lastMessage.includes('lip balm') || 
+                            lastMessage.includes('lip care') || 
+                            lastMessage.includes('aha') || 
+                            lastMessage.includes('bha') || 
+                            lastMessage.includes('retinol') || 
+                            lastMessage.includes('rice') || 
+                            lastMessage.includes('vitamin c') || 
+                            lastMessage.includes('vit c') || 
+                            lastMessage.includes('acne') || 
+                            lastMessage.includes('redness') || 
+                            lastMessage.includes('brighten') || 
+                            lastMessage.includes('brightening') || 
+                            lastMessage.includes('anti-age') || 
+                            lastMessage.includes('ageing') || 
+                            lastMessage.includes('aging') || 
+                            lastMessage.includes('overnight mask') || 
+                            lastMessage.includes('sleeping mask') || 
+                            lastMessage.includes('facial oil') || 
+                            lastMessage.includes('face oil') || 
+                            lastMessage.includes('travel kit') || 
+                            lastMessage.includes('mini') || 
+                            lastMessage.includes('sheet mask') || 
+                            lastMessage.includes('product') || 
+                            lastMessage.includes('recommend');
+  
   // Question 1: Initial greeting
   if (userMessages.length === 0) {
     return "Hi! I'm your K-beauty skin advisor 💖 Let's find out what your skin needs. Ready?\n\nFirst, what's your main skin concern right now? (For example: acne, dark circles, dry lips, dullness, aging, etc.)";
@@ -207,6 +247,9 @@ function getFallbackResponse(messages) {
       return "Let's bring back that glow! ✨ What's your skin type? Is it oily, dry, combination, or sensitive?";
     } else if (lastMessage.includes('aging') || lastMessage.includes('wrinkle') || lastMessage.includes('fine line')) {
       return "Anti-aging is important! ⏰ What's your skin type? Is it oily, dry, combination, or sensitive?";
+    } else if (hasCollectionQuery) {
+      // If user is asking about specific product types, go straight to recommendations
+      return "Perfect! I can recommend some amazing products for you! ✨ Let me know your skin type (oily, dry, combination, sensitive) and any specific concerns you have, and I'll find the perfect items from our collection for you!";
     } else {
       return "Thanks for sharing! 😊 What's your skin type? Is it oily, dry, combination, or sensitive?";
     }
@@ -214,7 +257,12 @@ function getFallbackResponse(messages) {
   
   // Question 3: After second answer  
   if (userMessages.length === 2) {
-    return "Perfect! One last question - do you have any other specific concerns or ingredient preferences? For example: dark spots, pores, texture, fragrance-free, natural ingredients, etc. 🌿";
+    if (hasCollectionQuery) {
+      // If user asked about specific products, recommend now
+      return "Amazing! Based on what you're looking for, I have some perfect K-beauty recommendations for you! ✨ Let me show you the best products that match your needs. Check them out below! 💖";
+    } else {
+      return "Perfect! One last question - do you have any other specific concerns or ingredient preferences? For example: dark spots, pores, texture, fragrance-free, natural ingredients, etc. 🌿";
+    }
   }
   
   // After 3+ questions: Recommend products
@@ -229,8 +277,57 @@ function getFallbackResponse(messages) {
 function shouldRecommendProducts(messages) {
   // Check if user has answered at least 3 questions
   const userMessages = messages.filter(m => m.role === 'user');
-  const result = userMessages.length >= 3;
-  console.log('Should recommend products:', result, '(user messages:', userMessages.length, ')');
+  
+  // Check if last message contains collection-related queries
+  const lastMessage = userMessages[userMessages.length - 1]?.content.toLowerCase() || '';
+  const hasCollectionQuery = lastMessage.includes('cleanser') || 
+                            lastMessage.includes('cleansing') || 
+                            lastMessage.includes('face wash') || 
+                            lastMessage.includes('toner') || 
+                            lastMessage.includes('serum') || 
+                            lastMessage.includes('essence') || 
+                            lastMessage.includes('moisturizer') || 
+                            lastMessage.includes('moisturiser') || 
+                            lastMessage.includes('cream') || 
+                            lastMessage.includes('sunscreen') || 
+                            lastMessage.includes('spf') || 
+                            lastMessage.includes('mask') || 
+                            lastMessage.includes('masks') || 
+                            lastMessage.includes('eye cream') || 
+                            lastMessage.includes('lip balm') || 
+                            lastMessage.includes('lip care') || 
+                            lastMessage.includes('aha') || 
+                            lastMessage.includes('bha') || 
+                            lastMessage.includes('retinol') || 
+                            lastMessage.includes('rice') || 
+                            lastMessage.includes('vitamin c') || 
+                            lastMessage.includes('vit c') || 
+                            lastMessage.includes('acne') || 
+                            lastMessage.includes('redness') || 
+                            lastMessage.includes('brighten') || 
+                            lastMessage.includes('brightening') || 
+                            lastMessage.includes('anti-age') || 
+                            lastMessage.includes('ageing') || 
+                            lastMessage.includes('aging') || 
+                            lastMessage.includes('overnight mask') || 
+                            lastMessage.includes('sleeping mask') || 
+                            lastMessage.includes('facial oil') || 
+                            lastMessage.includes('face oil') || 
+                            lastMessage.includes('travel kit') || 
+                            lastMessage.includes('mini') || 
+                            lastMessage.includes('sheet mask') || 
+                            lastMessage.includes('product') || 
+                            lastMessage.includes('recommend');
+  
+  // If user asked about specific collections/products, recommend earlier
+  let result = false;
+  if (hasCollectionQuery && userMessages.length >= 1) {
+    result = true; // If user asks about specific products, recommend after first message
+  } else {
+    result = userMessages.length >= 3; // Otherwise, wait for 3 messages
+  }
+  
+  console.log('Should recommend products:', result, '(user messages:', userMessages.length, ', hasCollectionQuery:', hasCollectionQuery, ')');
   return result;
 }
 
@@ -241,7 +338,8 @@ function extractSkincareNeeds(messages) {
   const needs = {
     skinType: null,
     concerns: [],
-    preferences: []
+    preferences: [],
+    collection: null // Added collection field
   };
 
   // Detect skin type
@@ -250,6 +348,58 @@ function extractSkincareNeeds(messages) {
   else if (conversation.includes('combination')) needs.skinType = 'combination';
   else if (conversation.includes('sensitive')) needs.skinType = 'sensitive';
   else needs.skinType = 'normal';
+
+  // Detect collection mentions based on product types
+  if (conversation.includes('cleanser') || conversation.includes('cleansing') || conversation.includes('face wash') || conversation.includes('washing')) {
+    needs.collection = 'cleansers';
+  } else if (conversation.includes('toner') || conversation.includes('treatments')) {
+    needs.collection = 'toners';
+  } else if (conversation.includes('serum') || conversation.includes('essence')) {
+    needs.collection = 'serums';
+  } else if (conversation.includes('moisturizer') || conversation.includes('moisturiser') || conversation.includes('cream')) {
+    needs.collection = 'moisturizers';
+  } else if (conversation.includes('sunscreen') || conversation.includes('sun block') || conversation.includes('spf')) {
+    needs.collection = 'sunscreen';
+  } else if (conversation.includes('masks') || conversation.includes('mask')) {
+    needs.collection = 'masks';
+  } else if (conversation.includes('eye care') || conversation.includes('eye cream')  || conversation.includes('dark circles') || conversation.includes('under eye')) {
+    needs.collection = 'eye-care';
+  } else if (conversation.includes('lip care') || conversation.includes('dry lips')  || conversation.includes('cracked lips')  || conversation.includes('chapped lips')|| conversation.includes('lip balm') || conversation.includes('lip')) {
+    needs.collection = 'lip-care';
+  }
+  
+  // Detect active ingredient collections
+  else if (conversation.includes('aha') || conversation.includes('bha') || conversation.includes('exfoliat')) {
+    needs.collection = 'aha-bha';
+  } else if (conversation.includes('retinol') || conversation.includes('retinoids')) {
+    needs.collection = 'retinol';
+  } else if (conversation.includes('rice') || conversation.includes('rice water') || conversation.includes('sake')) {
+    needs.collection = 'rice';
+  } else if (conversation.includes('vitamin c') || conversation.includes('vit c') || conversation.includes('ascorbic')) {
+    needs.collection = 'vitamin-c';
+  }
+  
+  // Detect skin concern collections
+  else if (conversation.includes('acne') || conversation.includes('pimple') || conversation.includes('breakout')) {
+    needs.collection = 'acne';
+  } else if (conversation.includes('redness') || conversation.includes('inflammation') || conversation.includes('irritat')) {
+    needs.collection = 'redness';
+  } else if (conversation.includes('brighten') || conversation.includes('brightening') || conversation.includes('glow')) {
+    needs.collection = 'brightening';
+  } else if (conversation.includes('anti-age') || conversation.includes('ageing') || conversation.includes('aging') || conversation.includes('wrinkle')) {
+    needs.collection = 'anti-ageing';
+  }
+  
+  // Detect skincare trend collections
+  else if (conversation.includes('overnight mask') || conversation.includes('sleeping mask')) {
+    needs.collection = 'overnight-masks';
+  } else if (conversation.includes('facial oil') || conversation.includes('face oil') || conversation.includes('face serum oil')) {
+    needs.collection = 'facial-oils';
+  } else if (conversation.includes('travel kit') || conversation.includes('mini') || conversation.includes('travel size')) {
+    needs.collection = 'travel-kits';
+  } else if (conversation.includes('sheet mask') || conversation.includes('mask sheet')) {
+    needs.collection = 'sheet-masks';
+  }
 
   // Detect concerns - Enhanced with more specific matching
   // Acne and blemishes
