@@ -393,9 +393,169 @@ async function recommendProductsByCollection(collectionHandle, needs) {
   }
 }
 
+// Recommend products by skin type and concerns using collections
+async function recommendProductsByCollections(needs) {
+  try {
+    // Get all collections
+    const allCollections = await getCollections(20);
+    
+    // Determine which collections to prioritize based on needs
+    let relevantCollectionHandles = [];
+    
+    // Map skin types and concerns to relevant collections
+    if (needs.skinType) {
+      switch(needs.skinType.toLowerCase()) {
+        case 'oily':
+          relevantCollectionHandles = ['oily-skin', 'acne', 'mattifying', 'cleansers', 'toners'];
+          break;
+        case 'dry':
+          relevantCollectionHandles = ['dry-skin', 'hydrating', 'moisturizers', 'oils', 'creams'];
+          break;
+        case 'combination':
+          relevantCollectionHandles = ['combination-skin', 'balancing', 'cleansers', 'toners', 'light-moisturizers'];
+          break;
+        case 'sensitive':
+          relevantCollectionHandles = ['sensitive-skin', 'gentle', 'soothing', 'fragrance-free'];
+          break;
+        default:
+          relevantCollectionHandles = ['skin-care', 'bestsellers', 'new-arrival'];
+      }
+    }
+    
+    // Add concern-specific collections
+    if (needs.concerns && needs.concerns.length > 0) {
+      needs.concerns.forEach(concern => {
+        switch(concern.toLowerCase()) {
+          case 'acne':
+            relevantCollectionHandles.push('acne', 'blemish-control', 'clarifying', 'spot-treatment');
+            break;
+          case 'dullness':
+            relevantCollectionHandles.push('brightening', 'exfoliators', 'vitamin-c', 'peels');
+            break;
+          case 'hydration':
+            relevantCollectionHandles.push('hydrating', 'moisturizers', 'serums', 'essences', 'sheet-masks');
+            break;
+          case 'anti-aging':
+            relevantCollectionHandles.push('anti-ageing', 'retinol', 'peptides', 'firming');
+            break;
+          case 'dark-spots':
+            relevantCollectionHandles.push('brightening', 'vitamin-c', 'niacinamide', 'acne-scars');
+            break;
+          case 'redness':
+            relevantCollectionHandles.push('soothing', 'redness', 'centella', 'calming');
+            break;
+          case 'pores':
+            relevantCollectionHandles.push('pore-minimizing', 'exfoliators', 'clay-masks', 'toners');
+            break;
+          case 'texture':
+            relevantCollectionHandles.push('exfoliators', 'peels', 'smoothing', 'ahabha');
+            break;
+        }
+      });
+    }
+    
+    // Remove duplicates
+    relevantCollectionHandles = [...new Set(relevantCollectionHandles)];
+    
+    // Get products from relevant collections
+    let allRelevantProducts = [];
+    
+    for (const handle of relevantCollectionHandles) {
+      try {
+        // Check if the collection exists in the store
+        const matchingCollection = allCollections.find(coll => 
+          coll.handle.toLowerCase() === handle.toLowerCase()
+        );
+        
+        if (matchingCollection) {
+          const collectionProducts = await getProductsByCollection(handle, 10);
+          allRelevantProducts = allRelevantProducts.concat(collectionProducts.products);
+        }
+      } catch (err) {
+        // Skip collections that don't exist
+        console.log(`Collection ${handle} not found, skipping...`);
+      }
+    }
+    
+    // If no products found from specific collections, get from general collections
+    if (allRelevantProducts.length === 0) {
+      console.log('No products found in specific collections, trying general collections');
+      
+      const generalCollections = ['skin-care', 'bestsellers', 'new-arrival'];
+      for (const handle of generalCollections) {
+        try {
+          const collectionProducts = await getProductsByCollection(handle, 10);
+          allRelevantProducts = allRelevantProducts.concat(collectionProducts.products);
+          if (allRelevantProducts.length >= 10) break; // Stop if we have enough products
+        } catch (err) {
+          console.log(`General collection ${handle} not found, skipping...`);
+        }
+      }
+    }
+    
+    // Filter products by needs if provided
+    if (needs.skinType || (needs.concerns && needs.concerns.length > 0)) {
+      allRelevantProducts = allRelevantProducts.filter(product => {
+        const productTags = product.tags ? product.tags.map(tag => tag.toLowerCase()) : [];
+        
+        // Check skin type match
+        let skinTypeMatch = true; // Default to true if no skin type specified
+        if (needs.skinType) {
+          // Check if product tags include the skin type
+          skinTypeMatch = productTags.includes(needs.skinType.toLowerCase());
+          
+          // If no direct skin type match, check if product description mentions skin type
+          if (!skinTypeMatch && product.description) {
+            const desc = product.description.toLowerCase();
+            skinTypeMatch = desc.includes(needs.skinType.toLowerCase());
+          }
+        }
+        
+        // Check concerns match
+        let concernMatch = true; // Default to true if no concerns specified
+        if (needs.concerns && needs.concerns.length > 0) {
+          concernMatch = needs.concerns.some(concern => {
+            // Check if product tags include the concern
+            let tagMatch = productTags.includes(concern.toLowerCase());
+            
+            // If no direct tag match, check if product description mentions concern
+            if (!tagMatch && product.description) {
+              const desc = product.description.toLowerCase();
+              tagMatch = desc.includes(concern.toLowerCase());
+            }
+            
+            return tagMatch;
+          });
+        }
+        
+        // Both skin type and concern must match (if specified)
+        return skinTypeMatch && concernMatch;
+      });
+    }
+    
+    // Remove duplicates based on product ID
+    const uniqueProducts = [];
+    const seenIds = new Set();
+    
+    for (const product of allRelevantProducts) {
+      if (!seenIds.has(product.id)) {
+        seenIds.add(product.id);
+        uniqueProducts.push(product);
+      }
+    }
+    
+    // Limit to top 5 recommendations
+    return uniqueProducts.slice(0, 5);
+  } catch (error) {
+    console.error('Collection-based product recommendation error:', error);
+    throw error;
+  }
+}
+
 module.exports = {
   getProducts,
   recommendProducts,
+  recommendProductsByCollections,
   getCollections,
   getProductsByCollection,
   recommendProductsByCollection

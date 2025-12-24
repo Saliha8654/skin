@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getChatResponse, extractSkincareNeeds } = require('../services/openai');
-const { recommendProducts, recommendProductsByCollection } = require('../services/shopify');
+const { recommendProducts, recommendProductsByCollection, recommendProductsByCollections } = require('../services/shopify');
 
 // Validate that required environment variables are present
 if (!process.env.HUGGINGFACE_API_KEY) {
@@ -58,7 +58,13 @@ router.post('/message', async (req, res) => {
           products = await recommendProducts(needs);
         }
       } else {
-        products = await recommendProducts(needs);
+        // Use the new collection-based recommendation function that maps needs to collections
+        try {
+          products = await recommendProductsByCollections(needs);
+        } catch (error) {
+          console.error('Collection-based recommendation failed, falling back to general recommendations:', error.message);
+          products = await recommendProducts(needs);
+        }
       }
       
       console.log('Product recommendations count:', products.length);
