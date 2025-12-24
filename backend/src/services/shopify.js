@@ -48,21 +48,38 @@ async function getProducts(filters = {}) {
     let queryString = '';
     
     // Build Shopify search query based on filters
-    if (filters.skinType || filters.concerns) {
+    // Using AND logic for better precision
+    if (filters.skinType || (filters.concerns && filters.concerns.length > 0)) {
       const searchTerms = [];
       
+      // Add skin type filter
       if (filters.skinType) {
         searchTerms.push(`tag:${filters.skinType}`);
       }
       
+      // Add concern filters - each concern as a separate tag
       if (filters.concerns && filters.concerns.length > 0) {
         filters.concerns.forEach(concern => {
+          // For multiple concerns, try to find products that match at least one concern
           searchTerms.push(`tag:${concern}`);
         });
       }
       
-      queryString = searchTerms.join(' OR ');
+      // Use AND logic for skin type + concerns for more accurate results
+      // If multiple concerns, use OR between concerns but AND with skin type
+      if (filters.skinType && filters.concerns && filters.concerns.length > 0) {
+        const concernTags = filters.concerns.map(c => `tag:${c}`).join(' OR ');
+        queryString = `(tag:${filters.skinType}) AND (${concernTags})`;
+      } else if (filters.concerns && filters.concerns.length > 0) {
+        // Just concerns, use OR between them
+        queryString = filters.concerns.map(c => `tag:${c}`).join(' OR ');
+      } else if (filters.skinType) {
+        // Just skin type
+        queryString = `tag:${filters.skinType}`;
+      }
     }
+
+    console.log('Shopify Query String:', queryString);
 
     const response = await axios.post(
       SHOPIFY_STOREFRONT_URL,
@@ -96,6 +113,7 @@ async function getProducts(filters = {}) {
       url: `https://${process.env.SHOPIFY_STORE_DOMAIN}/products/${edge.node.handle}`
     }));
 
+    console.log(`Found ${products.length} products for filters:`, filters);
     return products;
   } catch (error) {
     console.error('Shopify API Error:', error.response?.data || error.message);

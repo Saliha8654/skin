@@ -188,17 +188,25 @@ function getFallbackResponse(messages) {
   
   // Question 1: Initial greeting
   if (userMessages.length === 0) {
-    return "Hi! I'm your K-beauty skin advisor 💖 Let's find out what your skin needs. Ready?\n\nFirst, what's your main skin concern right now?";
+    return "Hi! I'm your K-beauty skin advisor 💖 Let's find out what your skin needs. Ready?\n\nFirst, what's your main skin concern right now? (For example: acne, dark circles, dry lips, dullness, aging, etc.)";
   }
   
   // Question 2: After first answer
   if (userMessages.length === 1) {
-    if (lastMessage.includes('acne') || lastMessage.includes('pimple')) {
+    if (lastMessage.includes('acne') || lastMessage.includes('pimple') || lastMessage.includes('breakout')) {
       return "I understand, acne can be frustrating! 😊 What's your skin type? Is it oily, dry, combination, or sensitive?";
+    } else if (lastMessage.includes('dark circle') || lastMessage.includes('under eye') || lastMessage.includes('eye bag')) {
+      return "Dark circles can be tough! 👀 What's your skin type? Is it oily, dry, combination, or sensitive?";
+    } else if (lastMessage.includes('dry lip') || lastMessage.includes('chapped lip') || lastMessage.includes('lip')) {
+      return "Dry lips need special care! 💋 Do you also have any other skin concerns, or just focusing on lip care?";
     } else if (lastMessage.includes('dry') || lastMessage.includes('dryness')) {
       return "Dry skin needs extra love! 💧 Do you prefer lightweight or rich, creamy products?";
     } else if (lastMessage.includes('oil') || lastMessage.includes('oily')) {
       return "Got it! Oily skin needs balance. ✨ What type of products do you usually prefer - gel-based or cream-based?";
+    } else if (lastMessage.includes('dull') || lastMessage.includes('brightness')) {
+      return "Let's bring back that glow! ✨ What's your skin type? Is it oily, dry, combination, or sensitive?";
+    } else if (lastMessage.includes('aging') || lastMessage.includes('wrinkle') || lastMessage.includes('fine line')) {
+      return "Anti-aging is important! ⏰ What's your skin type? Is it oily, dry, combination, or sensitive?";
     } else {
       return "Thanks for sharing! 😊 What's your skin type? Is it oily, dry, combination, or sensitive?";
     }
@@ -206,7 +214,7 @@ function getFallbackResponse(messages) {
   
   // Question 3: After second answer  
   if (userMessages.length === 2) {
-    return "Perfect! One last question - do you have any specific ingredient preferences? For example, fragrance-free, natural, or specific actives like niacinamide or vitamin C? 🌿";
+    return "Perfect! One last question - do you have any other specific concerns or ingredient preferences? For example: dark spots, pores, texture, fragrance-free, natural ingredients, etc. 🌿";
   }
   
   // After 3+ questions: Recommend products
@@ -243,12 +251,66 @@ function extractSkincareNeeds(messages) {
   else if (conversation.includes('sensitive')) needs.skinType = 'sensitive';
   else needs.skinType = 'normal';
 
-  // Detect concerns
-  if (conversation.includes('acne') || conversation.includes('pimple')) needs.concerns.push('acne');
-  if (conversation.includes('dull') || conversation.includes('brightness')) needs.concerns.push('dullness');
-  if (conversation.includes('dry') || conversation.includes('hydrat')) needs.concerns.push('hydration');
-  if (conversation.includes('aging') || conversation.includes('wrinkle')) needs.concerns.push('anti-aging');
-  if (conversation.includes('dark spot') || conversation.includes('hyperpigmentation')) needs.concerns.push('dark-spots');
+  // Detect concerns - Enhanced with more specific matching
+  // Acne and blemishes
+  if (conversation.includes('acne') || conversation.includes('pimple') || conversation.includes('breakout') || conversation.includes('blemish')) {
+    needs.concerns.push('acne');
+  }
+  
+  // Dullness and brightness
+  if (conversation.includes('dull') || conversation.includes('brightness') || conversation.includes('radiance') || conversation.includes('glow')) {
+    needs.concerns.push('dullness');
+  }
+  
+  // Dryness and hydration
+  if (conversation.includes('dry') || conversation.includes('hydrat') || conversation.includes('moisture') || conversation.includes('dehydrat')) {
+    needs.concerns.push('hydration');
+  }
+  
+  // Aging and wrinkles
+  if (conversation.includes('aging') || conversation.includes('wrinkle') || conversation.includes('fine line') || conversation.includes('anti-aging')) {
+    needs.concerns.push('anti-aging');
+  }
+  
+  // Dark spots and hyperpigmentation
+  if (conversation.includes('dark spot') || conversation.includes('hyperpigmentation') || conversation.includes('pigmentation') || conversation.includes('uneven tone')) {
+    needs.concerns.push('dark-spots');
+  }
+  
+  // Dark circles - NEW
+  if (conversation.includes('dark circle') || conversation.includes('under eye') || conversation.includes('eye bag') || conversation.includes('puffy eye')) {
+    needs.concerns.push('dark-circles');
+  }
+  
+  // Dry lips - NEW
+  if (conversation.includes('dry lip') || conversation.includes('chapped lip') || conversation.includes('cracked lip') || conversation.includes('lip care')) {
+    needs.concerns.push('dry-lips');
+  }
+  
+  // Redness and sensitivity
+  if (conversation.includes('redness') || conversation.includes('irritation') || conversation.includes('inflammation') || conversation.includes('red face')) {
+    needs.concerns.push('redness');
+  }
+  
+  // Pores
+  if (conversation.includes('large pore') || conversation.includes('pore') || conversation.includes('blackhead') || conversation.includes('whitehead')) {
+    needs.concerns.push('pores');
+  }
+  
+  // Sun damage
+  if (conversation.includes('sun damage') || conversation.includes('sun spot') || conversation.includes('photo aging') || conversation.includes('uv damage')) {
+    needs.concerns.push('sun-damage');
+  }
+  
+  // Texture and roughness
+  if (conversation.includes('rough') || conversation.includes('texture') || conversation.includes('bumpy') || conversation.includes('uneven skin')) {
+    needs.concerns.push('texture');
+  }
+  
+  // Scarring
+  if (conversation.includes('scar') || conversation.includes('acne mark') || conversation.includes('post-inflammatory')) {
+    needs.concerns.push('scarring');
+  }
 
   console.log('Extracted skincare needs:', needs);
   return needs;
