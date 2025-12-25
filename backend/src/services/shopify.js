@@ -473,7 +473,7 @@ async function recommendProductsByCollections(needs) {
         }
       } catch (err) {
         // Skip collections that don't exist
-        console.log(`Collection ${handle} not found, skipping...`);
+        console.log(`Collection ${handle} not found, skipping...`, err.message);
       }
     }
     
@@ -488,7 +488,7 @@ async function recommendProductsByCollections(needs) {
           allRelevantProducts = allRelevantProducts.concat(collectionProducts.products);
           if (allRelevantProducts.length >= 10) break; // Stop if we have enough products
         } catch (err) {
-          console.log(`General collection ${handle} not found, skipping...`);
+          console.log(`General collection ${handle} not found, skipping...`, err.message);
         }
       }
     }
