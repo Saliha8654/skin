@@ -49,8 +49,36 @@ router.post('/message', async (req, res) => {
       // Check if we should recommend products by collection
       if (needs.collection) {
         console.log('Recommendation by collection:', needs.collection);
+        
+        // Map the detected collection names to actual Shopify collection handles
+        const collectionHandleMap = {
+          'OIL CLEANSER': 'step-1',
+          'WATER-BASED CLEANSER': 'step-2-water-based-cleanser',
+          'ALL KOREAN SKIN CARE': 'skin-care',
+          'MOISTURIZER': 'skin-care',
+          'TONER': 'skin-care',
+          'SERUM/AMPOULE': 'skin-care',
+          'SUN SCREEN': 'skin-care',
+          'MASK': 'skin-care',
+          'EYE CARE': 'skin-care',
+          'LIP CARE': 'skin-care',
+          'AHA/BHA': 'step-3-exfoliator',
+          'RETINOL': 'skin-care',
+          'VITAMIN C': 'skin-care',
+          'RICE': 'skin-care',
+          'ACNE': 'skin-care',
+          'REDNESS/INFLAMMATION': 'skin-care',
+          'BRIGHTENING': 'skin-care',
+          'ANTI-AGEING': 'skin-care',
+          'OVERNIGHT MASKS': 'skin-care',
+          'FACIAL OIL': 'skin-care',
+          'TRAVEL KIT/MINI': 'skin-care'
+        };
+        
+        const collectionHandle = collectionHandleMap[needs.collection] || 'skin-care';
+        
         try {
-          const collectionResult = await recommendProductsByCollection(needs.collection, needs);
+          const collectionResult = await recommendProductsByCollection(collectionHandle, needs);
           products = collectionResult.products;
           console.log('Collection-based product recommendations count:', products.length);
         } catch (error) {
@@ -58,7 +86,13 @@ router.post('/message', async (req, res) => {
           products = await recommendProducts(needs);
         }
       } else {
-        products = await recommendProducts(needs);
+        // Use the new collection-based recommendation function that maps needs to collections
+        try {
+          products = await recommendProductsByCollections(needs);
+        } catch (error) {
+          console.error('Collection-based recommendation failed, falling back to general recommendations:', error.message);
+          products = await recommendProducts(needs);
+        }
       }
       
       console.log('Product recommendations count:', products.length);
