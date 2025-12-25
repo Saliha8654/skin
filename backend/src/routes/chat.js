@@ -63,13 +63,13 @@ router.post('/message', async (req, res) => {
           'EYE CARE': 'step-8-eye-care',
           'LIP CARE': 'lip-care',
           'EXFOLIATOR': 'step-3-exfoliator',
-          'AHA/BHA': 'aha-bha',
+          'AHA/BHA': 'step-3-exfoliator',
           'ESSENCE': 'step-5-essence',
           'RETINOL': 'retinol',
           'VITAMIN C': 'vitamin-c',
           'RICE': 'rice',
           'ACNE': 'acne',
-          'REDNESS/INFLAMMATION': 'redness-inflamation',
+          'REDNESS/INFLAMMATION': 'skin-care',
           'BRIGHTENING': 'brightening',
           'ANTI-AGEING': 'anti-ageing',
           'OVERNIGHT MASKS': 'overnight-masks',
@@ -79,7 +79,7 @@ router.post('/message', async (req, res) => {
           'OILY SKIN': 'oily-skin',
           'DRY SKIN': 'dry-skin',
           'NORMAL SKIN': 'normal-skin',
-          'SENSITIVE SKIN': 'redness-inflamation'
+          'SENSITIVE SKIN': 'skin-care'
         };
         
         const collectionHandle = collectionHandleMap[needs.collection] || 'skin-care';

@@ -557,5 +557,6 @@ module.exports = {
   recommendProducts,
   getCollections,
   getProductsByCollection,
-  recommendProductsByCollection
+  recommendProductsByCollection,
+  recommendProductsByCollections
 };
