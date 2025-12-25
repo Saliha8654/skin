@@ -59,7 +59,7 @@ router.post('/message', async (req, res) => {
           'TONER': 'skin-care',
           'SERUM/AMPOULE': 'skin-care',
           'SUN SCREEN': 'skin-care',
-          'MASK': 'skin-care',
+          'MASK': 'step-7-mask',
           'EYE CARE': 'skin-care',
           'LIP CARE': 'skin-care',
           'AHA/BHA': 'step-3-exfoliator',
@@ -70,7 +70,7 @@ router.post('/message', async (req, res) => {
           'REDNESS/INFLAMMATION': 'skin-care',
           'BRIGHTENING': 'skin-care',
           'ANTI-AGEING': 'skin-care',
-          'OVERNIGHT MASKS': 'skin-care',
+          'OVERNIGHT MASKS': 'step-7-mask',
           'FACIAL OIL': 'skin-care',
           'TRAVEL KIT/MINI': 'skin-care'
         };
