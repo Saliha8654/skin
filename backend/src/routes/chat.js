@@ -74,12 +74,12 @@ router.post('/message', async (req, res) => {
           'ANTI-AGEING': 'anti-ageing',
           'OVERNIGHT MASKS': 'overnight-masks',
           'FACIAL OIL': 'facial-oil',
-          'TRAVEL KIT/MINI': 'travel-kit'
+          'TRAVEL KIT/MINI': 'skin-care',
           'COMBINATION SKIN': 'combination-skin',
-            'OILY SKIN': 'oily-skin',
-              'DRY SKIN': 'dry-skin',
-                'Balanced SKIN': 'normal-skin',
-                  'SENSITIVE SKIN': 'redness-inflamation',
+          'OILY SKIN': 'oily-skin',
+          'DRY SKIN': 'dry-skin',
+          'NORMAL SKIN': 'normal-skin',
+                  'SENSITIVE SKIN': 'redness-inflamation'
         };
         
         const collectionHandle = collectionHandleMap[needs.collection] || 'skin-care';
