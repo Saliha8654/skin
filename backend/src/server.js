@@ -7,13 +7,28 @@ dotenv.config();
 const app = express();
 
 // Configure CORS to allow requests from multiple origins including theglowshop.co.uk
+// Safely construct Shopify domain URL
+const shopifyDomain = process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_STORE_DOMAIN !== 'undefined' 
+  ? `https://${process.env.SHOPIFY_STORE_DOMAIN}` 
+  : 'https://your-shopify-store.myshopify.com';
+
+// Safely get environment variables with defaults
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
+
+// Safely construct Shopify domain URL
+const shopifyDomain = SHOPIFY_STORE_DOMAIN && SHOPIFY_STORE_DOMAIN !== 'undefined' && SHOPIFY_STORE_DOMAIN !== ''
+  ? `https://${SHOPIFY_STORE_DOMAIN}` 
+  : 'https://your-shopify-store.myshopify.com';
+
 const corsOptions = {
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
+    FRONTEND_URL,
     'https://your-vercel-app.vercel.app',
-    `https://${process.env.SHOPIFY_STORE_DOMAIN}` || 'https://your-shopify-store.myshopify.com',
-    'https://theglowshop.co.uk'
-  ],
+    shopifyDomain,
+    'https://theglowshop.co.uk',
+    'https://www.theglowshop.co.uk'
+  ].filter(origin => origin && origin !== 'https://undefined' && origin !== 'https://'), // Filter out any undefined values
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -148,7 +163,14 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+try {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`📍 Frontend URL: ${process.env.FRONTEND_URL || 'not set'}`);
+    console.log(`📍 Shopify Domain: ${process.env.SHOPIFY_STORE_DOMAIN || 'not set'}`);
+  });
+} catch (error) {
+  console.error('❌ Failed to start server:', error.message);
+  process.exit(1);
+}
