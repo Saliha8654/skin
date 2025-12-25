@@ -14,12 +14,6 @@ const shopifyDomain = process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_ST
 
 // Safely get environment variables with defaults
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
-const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
-
-// Safely construct Shopify domain URL
-const shopifyDomain = SHOPIFY_STORE_DOMAIN && SHOPIFY_STORE_DOMAIN !== 'undefined' && SHOPIFY_STORE_DOMAIN !== ''
-  ? `https://${SHOPIFY_STORE_DOMAIN}` 
-  : 'https://your-shopify-store.myshopify.com';
 
 const corsOptions = {
   origin: [
