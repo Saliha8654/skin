@@ -58,13 +58,7 @@ router.post('/message', async (req, res) => {
           products = await recommendProducts(needs);
         }
       } else {
-        // Use the new collection-based recommendation function that maps needs to collections
-        try {
-          products = await recommendProductsByCollections(needs);
-        } catch (error) {
-          console.error('Collection-based recommendation failed, falling back to general recommendations:', error.message);
-          products = await recommendProducts(needs);
-        }
+        products = await recommendProducts(needs);
       }
       
       console.log('Product recommendations count:', products.length);

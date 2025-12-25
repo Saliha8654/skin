@@ -555,7 +555,6 @@ async function recommendProductsByCollections(needs) {
 module.exports = {
   getProducts,
   recommendProducts,
-  recommendProductsByCollections,
   getCollections,
   getProductsByCollection,
   recommendProductsByCollection

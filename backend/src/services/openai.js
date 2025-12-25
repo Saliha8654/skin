@@ -343,38 +343,20 @@ function extractSkincareNeeds(messages) {
   };
 
   // Detect skin type
-  if (conversation.includes('oily')) needs.collection = 'OILY SKIN';
-  else if (conversation.includes('dry')) needs.collection = 'DRY SKIN';
-  else if (conversation.includes('combination')) needs.collection = 'COMBINATION SKIN';
-  else if (conversation.includes('sensitive')) needs.collection = 'SENSITIVE SKIN';
-  else needs.collection = 'BALANCED SKIN';
+  if (conversation.includes('oily')) needs.skinType = 'oily';
+  else if (conversation.includes('dry')) needs.skinType = 'dry';
+  else if (conversation.includes('combination')) needs.skinType = 'combination';
+  else if (conversation.includes('sensitive')) needs.skinType = 'sensitive';
+  else needs.skinType = 'normal';
 
-  // Detect collection mentions based on product types
-  if (conversation.includes('water cleanser') || conversation.includes('cleansing') || conversation.includes('face wash') || conversation.includes('washing')) {
-    needs.collection = 'WATER-BASED CLEANSER';
-  } 
-  else if(conversation.includes('oil cleanser') || conversation.includes('cleansing') || conversation.includes('face wash') || conversation.includes('washing')) {
-    needs.collection = 'OIL CLEANSER';
-  } else if (conversation.includes('toner') || conversation.includes('treatments')) {
-    needs.collection = 'TONER';
-  } else if (conversation.includes('serum') || conversation.includes('essence')) {
-    needs.collection = 'SERUM/AMPOULE';
-  } else if (conversation.includes('moisturizer') || conversation.includes('moisturiser') || conversation.includes('cream')) {
-    needs.collection = 'MOISTURIZER';
-  } else if (conversation.includes('sunscreen') || conversation.includes('sun block') || conversation.includes('spf')) {
-    needs.collection = 'SUN SCREEN';
-  } else if (conversation.includes('masks') || conversation.includes('mask sheet') || conversation.includes('face mask')) {
-    needs.collection = 'MASK';
-  } else if (conversation.includes('eye care') || conversation.includes('eye cream')  || conversation.includes('dark circles') || conversation.includes('under eye')) {
-    needs.collection = 'EYE CARE';
-  } else if (conversation.includes('lip care') || conversation.includes('dry lips')  || conversation.includes('cracked lips')  || conversation.includes('chapped lips')|| conversation.includes('lip balm') || conversation.includes('lip')) {
-    needs.collection = 'LIP CARE';
+  // Detect skincare trend collections (most specific first)
+  if (conversation.includes('overnight mask') || conversation.includes('sleeping mask')) {
+    needs.collection = 'OVERNIGHT MASKS';
   }
-  
   // Detect active ingredient collections
   else if (conversation.includes('aha') || conversation.includes('bha') || conversation.includes('exfoliat')) {
     needs.collection = 'AHA/BHA';
-  } else if (conversation.includes('retinol') || conversation.includes('retinoids')) {
+  } else if (conversation.includes('retinol') || conversation.includes('retinoids') || conversation.includes('retin-a')) {
     needs.collection = 'RETINOL';
   } else if (conversation.includes('rice') || conversation.includes('rice water') || conversation.includes('sake')) {
     needs.collection = 'RICE';
@@ -393,15 +375,30 @@ function extractSkincareNeeds(messages) {
     needs.collection = 'ANTI-AGEING';
   }
   
-  // Detect skincare trend collections
-  else if (conversation.includes('overnight mask') || conversation.includes('sleeping mask')) {
-    needs.collection = 'OVERNIGHT MASKS';
+  // Detect collection mentions based on product types (more specific before general)
+  else if (conversation.includes('water cleanser') || conversation.includes('water-based cleanser') || conversation.includes('cleansing') || conversation.includes('face wash') || conversation.includes('washing')) {
+    needs.collection = 'WATER-BASED CLEANSER';
+  } 
+  else if(conversation.includes('oil cleanser') || conversation.includes('oil-based cleanser') || conversation.includes('cleansing oil') || conversation.includes('cleansing balm')) {
+    needs.collection = 'OIL CLEANSER';
+  } else if (conversation.includes('toner') || conversation.includes('treatments')) {
+    needs.collection = 'TONER';
+  } else if (conversation.includes('serum') || conversation.includes('essence') || conversation.includes('ampoule')) {
+    needs.collection = 'SERUM/AMPOULE';
+  } else if (conversation.includes('eye care') || conversation.includes('eye cream')  || conversation.includes('dark circles') || conversation.includes('under eye') || conversation.includes('eye serum')) {
+    needs.collection = 'EYE CARE';
+  } else if (conversation.includes('lip care') || conversation.includes('dry lips')  || conversation.includes('cracked lips')  || conversation.includes('chapped lips')|| conversation.includes('lip balm') || conversation.includes('lip')) {
+    needs.collection = 'LIP CARE';
+  } else if (conversation.includes('moisturizer') || conversation.includes('moisturiser') || conversation.includes('cream') || conversation.includes('lotion') || conversation.includes('gel')) {
+    needs.collection = 'MOISTURIZER';
+  } else if (conversation.includes('sunscreen') || conversation.includes('sun block') || conversation.includes('spf') || conversation.includes('sun protection')) {
+    needs.collection = 'SUN SCREEN';
   } else if (conversation.includes('facial oil') || conversation.includes('face oil') || conversation.includes('face serum oil')) {
     needs.collection = 'FACIAL OIL';
   } else if (conversation.includes('travel kit') || conversation.includes('mini') || conversation.includes('travel size')) {
     needs.collection = 'TRAVEL KIT/MINI';
-  } else if (conversation.includes('overnight mask') || conversation.includes('mask sheet') || conversation.includes('night mask') || conversation.includes('face masks')) {
-    needs.collection = 'OVERNIGHT MASKS';
+  } else if (conversation.includes('sheet mask') || conversation.includes('mask sheet') || conversation.includes('masks') || conversation.includes('face mask') || conversation.includes('peel off') || conversation.includes('clay mask')) {
+    needs.collection = 'MASK';
   }
 
   // Detect concerns - Enhanced with more specific matching
