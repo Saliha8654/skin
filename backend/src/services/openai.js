@@ -367,7 +367,7 @@ function extractSkincareNeeds(messages) {
   }
 
   // Detect skincare trend collections (most specific first)
-  if (conversation.includes('overnight mask') || conversation.includes('sleeping mask')) {
+  if (conversation.includes('overnight mask') || conversation.includes('sleeping mask') || conversation.includes('face mask') || conversation.includes('sheet mask')) {
     needs.collection = 'OVERNIGHT MASKS';
   }
   // Detect active ingredient collections
@@ -415,7 +415,7 @@ function extractSkincareNeeds(messages) {
   } else if (conversation.includes('travel kit') || conversation.includes('mini') || conversation.includes('travel size')) {
     needs.collection = 'TRAVEL KIT/MINI';
   } else if (conversation.includes('sheet mask') || conversation.includes('mask sheet') || conversation.includes('masks') || conversation.includes('face mask') || conversation.includes('peel off') || conversation.includes('clay mask')) {
-    needs.collection = 'MASK';
+    needs.collection = 'OVERNIGHT MASK';
   }
 
   // Detect concerns - Enhanced with more specific matching
