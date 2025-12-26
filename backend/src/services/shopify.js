@@ -337,22 +337,30 @@ async function recommendProductsByCollection(collectionHandle, needs) {
     if (needs && (needs.skinType || (needs.concerns && needs.concerns.length > 0))) {
       console.log('Attempting tag-based search with needs:', needs);
       
-      const tagFilters = {
-        skinType: needs.skinType,
-        concerns: needs.concerns
-      };
-      
-      // Try to get products based on tags
-      let tagBasedProducts = await getProducts(tagFilters);
-      
-      if (tagBasedProducts && tagBasedProducts.length > 0) {
-        console.log(`Found ${tagBasedProducts.length} products via tag-based search`);
-        return {
-          collection: { id: null, title: collectionHandle },
-          products: tagBasedProducts.slice(0, 5)
-        };
+      // For specific collections like masks, prioritize collection context
+      // Only do tag-based search if it makes sense for the collection
+      if (collectionHandle === 'step-7-mask' || collectionHandle === 'step-8-eye-care' || collectionHandle === 'lip-care') {
+        // For mask, eye care, and lip care collections, first get products from the collection
+        // and then filter them based on needs if needed
+        console.log('Skipping tag-based search for specific collection, using collection-based approach');
       } else {
-        console.log('No products found via tag-based search, falling back to collection-based');
+        const tagFilters = {
+          skinType: needs.skinType,
+          concerns: needs.concerns
+        };
+        
+        // Try to get products based on tags
+        let tagBasedProducts = await getProducts(tagFilters);
+        
+        if (tagBasedProducts && tagBasedProducts.length > 0) {
+          console.log(`Found ${tagBasedProducts.length} products via tag-based search`);
+          return {
+            collection: { id: null, title: collectionHandle },
+            products: tagBasedProducts.slice(0, 5)
+          };
+        } else {
+          console.log('No products found via tag-based search, falling back to collection-based');
+        }
       }
     }
     

@@ -1,58 +1,89 @@
-// Load environment variables first
 require('dotenv').config({ path: './backend/.env' });
-
 const { extractSkincareNeeds } = require('./backend/src/services/openai');
-const { recommendProductsByCollection, getCollections } = require('./backend/src/services/shopify');
+const { recommendProductsByCollection, recommendProductsByCollections } = require('./backend/src/services/shopify');
 
 async function testMaskRecommendations() {
-  console.log('Testing mask product recommendations...');
+  console.log('Testing Face Mask Recommendations');
+  console.log('=================================');
   
-  // First, let's see all available collections
+  // Test case 1: Test the full pipeline for face mask
+  console.log('\n1. Testing full pipeline for "face mask":');
   try {
-    console.log('\n1. Fetching all collections...');
-    const collections = await getCollections(20);
-    console.log(`Found ${collections.length} collections:`);
-    collections.forEach((collection, index) => {
-      console.log(`${index + 1}. ${collection.title} (${collection.handle}) - ${collection.products.length} products`);
-    });
-    
-    // Test mask detection
-    console.log('\n2. Testing "face mask" detection...');
-    const messages = [{ role: 'user', content: "face mask" }];
+    const messages = [
+      { role: "user", content: "I want to try a face mask" }
+    ];
     const needs = extractSkincareNeeds(messages);
-    console.log(`Detected collection: ${needs.collection}`);
+    console.log('   Extracted needs:', JSON.stringify(needs, null, 2));
     
-    // Test recommendations from the general skin-care collection
-    console.log('\n3. Testing recommendations from skin-care collection (current mapping for masks)...');
-    const skinCareProducts = await recommendProductsByCollection('skin-care', needs);
-    console.log(`Found ${skinCareProducts.products.length} products in skin-care collection for mask query:`);
-    skinCareProducts.products.forEach((product, index) => {
-      console.log(`  ${index + 1}. ${product.title} - £${product.price}`);
-    });
-    
-    // Test recommendations from other collections that might have masks
-    console.log('\n4. Testing recommendations from step-3-exfoliator collection (might have masks)...');
-    const exfoliatorProducts = await recommendProductsByCollection('step-3-exfoliator', needs);
-    console.log(`Found ${exfoliatorProducts.products.length} products in step-3-exfoliator collection for mask query:`);
-    exfoliatorProducts.products.forEach((product, index) => {
-      console.log(`  ${index + 1}. ${product.title} - £${product.price}`);
-    });
-    
-    // Test recommendations from new-arrival collection
-    console.log('\n5. Testing recommendations from new-arrival collection...');
-    const newArrivalProducts = await recommendProductsByCollection('new-arrival', needs);
-    console.log(`Found ${newArrivalProducts.products.length} products in new-arrival collection for mask query:`);
-    newArrivalProducts.products.forEach((product, index) => {
-      console.log(`  ${index + 1}. ${product.title} - £${product.price}`);
-    });
-    
+    // Test collection-based recommendation
+    if (needs.collection === 'MASK') {
+      const products = await recommendProductsByCollection('step-7-mask', needs);
+      console.log(`   Found ${products.products.length} products for MASK collection`);
+      products.products.forEach((product, index) => {
+        console.log(`   ${index + 1}. ${product.title} - $${product.price} ${product.currency}`);
+      });
+    }
   } catch (error) {
-    console.error('Error testing mask recommendations:', error.message);
-    console.error('Stack:', error.stack);
+    console.error('   Error:', error.message);
+  }
+  
+  // Test case 2: Test the general recommendation function
+  console.log('\n2. Testing general recommendation for mask needs:');
+  try {
+    const needs = {
+      skinType: 'normal',
+      concerns: [],
+      collection: 'MASK'
+    };
+    
+    const products = await recommendProductsByCollections(needs);
+    console.log(`   Found ${products.length} products via general recommendation`);
+    products.forEach((product, index) => {
+      console.log(`   ${index + 1}. ${product.title} - $${product.price} ${product.currency}`);
+    });
+  } catch (error) {
+    console.error('   Error:', error.message);
+  }
+  
+  // Test case 3: Test with specific concerns
+  console.log('\n3. Testing "hydrating face mask":');
+  try {
+    const messages = [
+      { role: "user", content: "I want a hydrating face mask" }
+    ];
+    const needs = extractSkincareNeeds(messages);
+    console.log('   Extracted needs:', JSON.stringify(needs, null, 2));
+    
+    // Test collection-based recommendation with concerns
+    if (needs.collection === 'MASK') {
+      const products = await recommendProductsByCollection('step-7-mask', needs);
+      console.log(`   Found ${products.products.length} hydrating mask products`);
+      products.products.forEach((product, index) => {
+        console.log(`   ${index + 1}. ${product.title} - $${product.price} ${product.currency}`);
+      });
+    }
+  } catch (error) {
+    console.error('   Error:', error.message);
+  }
+  
+  // Test case 4: Test tag-based search for masks
+  console.log('\n4. Testing tag-based search for masks:');
+  try {
+    const needs = {
+      skinType: 'normal',
+      concerns: ['mask']
+    };
+    
+    const products = await recommendProductsByCollections(needs);
+    console.log(`   Found ${products.length} products via tag-based search for masks`);
+    products.forEach((product, index) => {
+      console.log(`   ${index + 1}. ${product.title} - $${product.price} ${product.currency}`);
+    });
+  } catch (error) {
+    console.error('   Error:', error.message);
   }
   
   console.log('\n✅ Mask recommendation test completed!');
 }
 
-// Run the test
 testMaskRecommendations();
