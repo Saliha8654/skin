@@ -331,6 +331,31 @@ async function getProductsByCollection(collectionHandle, limit = 10) {
 // Recommend products based on collection and skincare needs
 async function recommendProductsByCollection(collectionHandle, needs) {
   try {
+    console.log('Getting products for collection handle:', collectionHandle);
+    
+    // First, try to get products using tag-based search if needs are provided
+    if (needs && (needs.skinType || (needs.concerns && needs.concerns.length > 0))) {
+      console.log('Attempting tag-based search with needs:', needs);
+      
+      const tagFilters = {
+        skinType: needs.skinType,
+        concerns: needs.concerns
+      };
+      
+      // Try to get products based on tags
+      let tagBasedProducts = await getProducts(tagFilters);
+      
+      if (tagBasedProducts && tagBasedProducts.length > 0) {
+        console.log(`Found ${tagBasedProducts.length} products via tag-based search`);
+        return {
+          collection: { id: null, title: collectionHandle },
+          products: tagBasedProducts.slice(0, 5)
+        };
+      } else {
+        console.log('No products found via tag-based search, falling back to collection-based');
+      }
+    }
+    
     // First get products from the specified collection
     const collectionData = await getProductsByCollection(collectionHandle);
     
@@ -393,9 +418,34 @@ async function recommendProductsByCollection(collectionHandle, needs) {
   }
 }
 
-// Recommend products by skin type and concerns using collections
+// Recommend products by skin type and concerns using tags (primary) and collections (fallback)
 async function recommendProductsByCollections(needs) {
   try {
+    console.log('Starting tag-based recommendations with needs:', needs);
+    
+    // First, try tag-based recommendations which is more precise
+    if (needs.concerns && needs.concerns.length > 0) {
+      // Create filters for tag-based search
+      const tagFilters = {
+        skinType: needs.skinType,
+        concerns: needs.concerns
+      };
+      
+      console.log('Attempting tag-based search with filters:', tagFilters);
+      
+      // Try to get products based on tags
+      let tagBasedProducts = await getProducts(tagFilters);
+      
+      if (tagBasedProducts && tagBasedProducts.length > 0) {
+        console.log(`Found ${tagBasedProducts.length} products via tag-based search`);
+        // Limit to top 5 recommendations
+        return tagBasedProducts.slice(0, 5);
+      } else {
+        console.log('No products found via tag-based search, falling back to collection-based');
+      }
+    }
+    
+    // If tag-based search fails or no concerns are specified, fall back to collection-based approach
     // Get all collections
     const allCollections = await getCollections(20);
     
@@ -440,6 +490,12 @@ async function recommendProductsByCollections(needs) {
             break;
           case 'dark-spots':
             relevantCollectionHandles.push('brightening', 'vitamin-c', 'niacinamide', 'acne-scars');
+            break;
+          case 'dark-circles':
+            relevantCollectionHandles.push('eye-care', 'under-eye', 'dark-circles', 'eye-serum');
+            break;
+          case 'dry-lips':
+            relevantCollectionHandles.push('lip-care', 'dry-lips', 'lip-balm', 'lip-treatment');
             break;
           case 'redness':
             relevantCollectionHandles.push('soothing', 'redness', 'centella', 'calming');
