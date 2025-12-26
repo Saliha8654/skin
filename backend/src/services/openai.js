@@ -342,12 +342,29 @@ function extractSkincareNeeds(messages) {
     collection: null // Added collection field
   };
 
-  // Detect skin type
-  if (conversation.includes('oily')) needs.skinType = 'oily';
-  else if (conversation.includes('dry')) needs.skinType = 'dry';
-  else if (conversation.includes('combination')) needs.skinType = 'combination';
-  else if (conversation.includes('sensitive')) needs.skinType = 'sensitive';
-  else needs.skinType = 'normal';
+  // Detect skin type (check for complete words to avoid partial matches)
+  const lowerConversation = conversation.toLowerCase();
+  
+  if (lowerConversation.includes('oily skin') || lowerConversation.includes('oily face') || lowerConversation.includes('oily') && !lowerConversation.includes('combination')) {
+    needs.skinType = 'oily';
+    needs.collection = 'OILY SKIN';
+  }
+  else if (lowerConversation.includes('dry skin') || lowerConversation.includes('dry face') || lowerConversation.includes('dry') && !lowerConversation.includes('combination')) {
+    needs.skinType = 'dry';
+    needs.collection = 'DRY SKIN';
+  }
+  else if (lowerConversation.includes('combination skin') || lowerConversation.includes('combination face') || lowerConversation.includes('combination')) {
+    needs.skinType = 'combination';
+    needs.collection = 'COMBINATION SKIN';
+  }
+  else if (lowerConversation.includes('sensitive skin') || lowerConversation.includes('sensitive face') || lowerConversation.includes('sensitive')) {
+    needs.skinType = 'sensitive';
+    needs.collection = 'SENSITIVE SKIN';
+  }
+  else {
+    needs.skinType = 'normal';
+    needs.collection = 'NORMAL SKIN';
+  }
 
   // Detect skincare trend collections (most specific first)
   if (conversation.includes('overnight mask') || conversation.includes('sleeping mask')) {
