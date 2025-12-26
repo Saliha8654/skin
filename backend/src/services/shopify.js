@@ -557,7 +557,8 @@ async function recommendProductsByCollections(needs) {
       }
     }
     
-    // Filter products by needs if provided
+    // For multiple concerns, we want to return products that address any of the concerns
+    // rather than requiring all concerns to match
     if (needs.skinType || (needs.concerns && needs.concerns.length > 0)) {
       allRelevantProducts = allRelevantProducts.filter(product => {
         const productTags = product.tags ? product.tags.map(tag => tag.toLowerCase()) : [];
@@ -575,9 +576,11 @@ async function recommendProductsByCollections(needs) {
           }
         }
         
-        // Check concerns match
+        // For multiple concerns, we want products that match ANY of the concerns
+        // rather than ALL of them
         let concernMatch = true; // Default to true if no concerns specified
         if (needs.concerns && needs.concerns.length > 0) {
+          // Find products that match at least one of the concerns
           concernMatch = needs.concerns.some(concern => {
             // Check if product tags include the concern
             let tagMatch = productTags.includes(concern.toLowerCase());
@@ -592,7 +595,7 @@ async function recommendProductsByCollections(needs) {
           });
         }
         
-        // Both skin type and concern must match (if specified)
+        // Both skin type and at least one concern must match (if specified)
         return skinTypeMatch && concernMatch;
       });
     }
