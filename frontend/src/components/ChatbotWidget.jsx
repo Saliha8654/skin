@@ -196,6 +196,7 @@ function ChatbotWidget() {
           
           {/* Footer Note at the very bottom */}
           <div className="text-center px-6 pb-10 chatbot-footer">
+            <p><b>WORK IN PROGRESS</b></p>
             <p className="text-gray-600 text-[10px] italic" style={{ fontFamily: "'Inter', sans-serif" }}>
               <b>Note:</b> Your photo is never stored, and all scans are deleted within 24 hours. Product recommendations are personalised based on your skin type and concerns.
             </p>
