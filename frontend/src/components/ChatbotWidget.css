@@ -353,19 +353,14 @@
 @keyframes sparkleFloat {
   0% {
     opacity: 0;
-    transform: translateY(0) scale(0.3);
+    transform: translateY(0) translateX(0) scale(0.5);
   }
-  20% {
+  50% {
     opacity: 1;
-    transform: translateY(-10px) scale(1.2);
-  }
-  80% {
-    opacity: 1;
-    transform: translateY(-20px) scale(1.2);
   }
   100% {
     opacity: 0;
-    transform: translateY(-30px) scale(0.3);
+    transform: translateY(-30px) translateX(10px) scale(1.2);
   }
 }
 
@@ -417,11 +412,6 @@
 
 .fade-in {
   animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Sparkle float animation for fairy dust */
@@ -493,32 +483,5 @@
   100% {
     opacity: 0;
     transform: translate(30px, -30px) scale(1.2);
-  }
-}
-@keyframes sparkleFloatAlt {
-  0% {
-    opacity: 0;
-    transform: translateY(0) translateX(0) scale(0.3);
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-25px) translateX(-15px) scale(1);
-  }
-}
-
-@keyframes sparkleFloatThird {
-  0% {
-    opacity: 0;
-    transform: translateY(0) translateX(0) scale(0.4);
-  }
-  50% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-35px) translateX(20px) scale(1.3);
   }
 }
