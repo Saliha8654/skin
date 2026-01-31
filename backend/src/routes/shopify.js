@@ -142,23 +142,43 @@ router.post('/add-subscriber', async (req, res) => {
       customer: {
         email: email,
         accepts_marketing: true,
-        tags: "glow-shop-family,chatbot-subscriber"
+        tags: "glow-shop-family,chatbot-subscriber",
+        first_name: "Chatbot",
+        last_name: "Subscriber"
       }
     };
     
     console.log('Sending customer data:', JSON.stringify(customerData, null, 2));
     
-    const response = await axios.post(
-      shopifyUrl,
-      customerData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Admin-Api-AccessToken': SHOPIFY_ADMIN_ACCESS_TOKEN,
-          'Accept': 'application/json'
+    // Try with the newer header first, fall back to older if needed
+    let response;
+    try {
+      response = await axios.post(
+        shopifyUrl,
+        customerData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Admin-Api-AccessToken': SHOPIFY_ADMIN_ACCESS_TOKEN,
+            'Accept': 'application/json'
+          }
         }
-      }
-    );
+      );
+    } catch (firstAttemptError) {
+      console.log('First attempt failed, trying with legacy header:', firstAttemptError.message);
+      // Fallback to the legacy header
+      response = await axios.post(
+        shopifyUrl,
+        customerData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': SHOPIFY_ADMIN_ACCESS_TOKEN,
+            'Accept': 'application/json'
+          }
+        }
+      );
+    }
     
     console.log('Shopify API Response Status:', response.status);
     console.log('Shopify API Response Data:', JSON.stringify(response.data, null, 2));
