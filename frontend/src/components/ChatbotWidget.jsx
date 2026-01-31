@@ -68,7 +68,7 @@ const EmailPopup = ({ show, onClose, onSubmit, email, setEmail }) => {
             Enter your email to be a part of glow shop family
           </p>
           
-            <form onSubmit={onSubmit} className="email-popup-form">
+          <form onSubmit={onSubmit} className="email-popup-form">
             <input
               type="email"
               value={email}
