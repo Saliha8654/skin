@@ -123,11 +123,19 @@ router.post('/add-subscriber', async (req, res) => {
     const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
     const SHOPIFY_ADMIN_ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
     
+    console.log('Shopify Config:', {
+      domain: SHOPIFY_STORE_DOMAIN,
+      tokenExists: !!SHOPIFY_ADMIN_ACCESS_TOKEN,
+      tokenLength: SHOPIFY_ADMIN_ACCESS_TOKEN?.length
+    });
+    
     if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_ADMIN_ACCESS_TOKEN) {
       return res.status(500).json({ error: 'Shopify configuration missing' });
     }
     
     const shopifyUrl = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/2024-01/customers.json`;
+    
+    console.log('Making request to:', shopifyUrl);
     
     // Create customer object
     const customerData = {
@@ -137,6 +145,8 @@ router.post('/add-subscriber', async (req, res) => {
         tags: "glow-shop-family,chatbot-subscriber"
       }
     };
+    
+    console.log('Sending customer data:', JSON.stringify(customerData, null, 2));
     
     const response = await axios.post(
       shopifyUrl,
@@ -149,6 +159,9 @@ router.post('/add-subscriber', async (req, res) => {
         }
       }
     );
+    
+    console.log('Shopify API Response Status:', response.status);
+    console.log('Shopify API Response Data:', JSON.stringify(response.data, null, 2));
     
     console.log('New subscriber added to Shopify:', response.data.customer.email);
     
