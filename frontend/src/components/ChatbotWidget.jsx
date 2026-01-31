@@ -166,6 +166,15 @@ function ChatbotWidget() {
     <div>
       {/* Fairy Popup Message */}
       {showPopup && !isOpen && <FairyPopup show={showPopup} />}
+      
+      {/* Email Subscription Popup */}
+      <EmailPopup 
+        show={showEmailPopup} 
+        onClose={closeEmailPopup}
+        onSubmit={handleEmailSubmit}
+        email={email}
+        setEmail={setEmail}
+      />
 
       {/* Floating Widget Button with Fairy */}
       <button
