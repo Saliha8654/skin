@@ -112,8 +112,10 @@ function ChatbotWidget() {
   };
 
   const selectMode = (selectedMode) => {
+    console.log('selectMode called with:', selectedMode);
     setPendingMode(selectedMode);
     setShowEmailPopup(true);
+    console.log('showEmailPopup set to true');
   };
 
   const handleEmailSubmit = async (e) => {
@@ -324,7 +326,10 @@ function ModeSelection({ onSelectMode }) {
       <div className="space-y-6 w-full max-w-md buttons">
         {/* Chat with GlowFairy Button */}
         <button
-          onClick={() => onSelectMode('chat')}
+          onClick={() => {
+            console.log('Chat button clicked');
+            onSelectMode('chat');
+          }}
           className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
           style={{
             boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
@@ -348,7 +353,10 @@ function ModeSelection({ onSelectMode }) {
 
         {/* AI Skin Scan Button */}
         <button
-          onClick={() => onSelectMode('scan')}
+          onClick={() => {
+            console.log('Scan button clicked');
+            onSelectMode('scan');
+          }}
           className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
           style={{
             boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
