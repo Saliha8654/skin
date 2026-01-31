@@ -45,10 +45,59 @@ const FairyPopup = ({ show }) => {
   );
 };
 
+// Email Subscription Popup Component
+const EmailPopup = ({ show, onClose, onSubmit, email, setEmail }) => {
+  if (!show) return null;
+  
+  return (
+    <div className="email-popup-overlay">
+      <div className="email-popup-container">
+        <div className="email-popup-header">
+          <h3 className="email-popup-title">Join the Glow Shop Family</h3>
+          <button 
+            className="email-popup-close" 
+            onClick={onClose}
+            aria-label="Close popup"
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="email-popup-content">
+          <p className="email-popup-note">
+            Enter your email to be a part of glow shop family
+          </p>
+          
+          <form onSubmit={onSubmit} className="email-popup-form">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
+              className="email-input"
+              required
+            />
+            <button 
+              type="submit" 
+              className="subscribe-button"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState(null); // null, 'chat', 'scan'
   const [showPopup, setShowPopup] = useState(false);
+  const [showEmailPopup, setShowEmailPopup] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [pendingMode, setPendingMode] = useState(null);
 
   const toggleWidget = () => {
     setIsOpen(!isOpen);
@@ -63,11 +112,52 @@ function ChatbotWidget() {
   };
 
   const selectMode = (selectedMode) => {
-    setMode(selectedMode);
+    setPendingMode(selectedMode);
+    setShowEmailPopup(true);
+  };
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!email) return;
+    
+    try {
+      // Add subscriber to Shopify
+      const response = await fetch('/api/shopify/add-subscriber', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      if (response.ok) {
+        setIsSubscribed(true);
+        setShowEmailPopup(false);
+        setMode(pendingMode);
+        setEmail('');
+        setPendingMode(null);
+      }
+    } catch (error) {
+      console.error('Error adding subscriber:', error);
+      // Proceed anyway if Shopify fails
+      setIsSubscribed(true);
+      setShowEmailPopup(false);
+      setMode(pendingMode);
+      setEmail('');
+      setPendingMode(null);
+    }
+  };
+
+  const closeEmailPopup = () => {
+    setShowEmailPopup(false);
+    setPendingMode(null);
+    setEmail('');
   };
 
   const goBack = () => {
     setMode(null);
+    setIsSubscribed(false);
   };
 
   // Popup scheduling logic
@@ -121,6 +211,15 @@ function ChatbotWidget() {
     <div>
       {/* Fairy Popup Message */}
       {showPopup && !isOpen && <FairyPopup show={showPopup} />}
+      
+      {/* Email Subscription Popup */}
+      <EmailPopup 
+        show={showEmailPopup} 
+        onClose={closeEmailPopup}
+        onSubmit={handleEmailSubmit}
+        email={email}
+        setEmail={setEmail}
+      />
 
       {/* Floating Widget Button with Fairy */}
       <button
