@@ -45,6 +45,51 @@ const FairyPopup = ({ show }) => {
   );
 };
 
+// Email Subscription Popup Component
+const EmailPopup = ({ show, onClose, onSubmit, email, setEmail }) => {
+  if (!show) return null;
+  
+  return (
+    <div className="email-popup-overlay">
+      <div className="email-popup-container">
+        <div className="email-popup-header">
+          <h3 className="email-popup-title">Join the Glow Shop Family</h3>
+          <button 
+            className="email-popup-close" 
+            onClick={onClose}
+            aria-label="Close popup"
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="email-popup-content">
+          <p className="email-popup-note">
+            Enter your email to be a part of glow shop family
+          </p>
+          
+          <form onSubmit={onSubmit} className="email-popup-form">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
+              className="email-input"
+              required
+            />
+            <button 
+              type="submit" 
+              className="subscribe-button"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState(null); // null, 'chat', 'scan'
