@@ -68,7 +68,7 @@ const EmailPopup = ({ show, onClose, onSubmit, email, setEmail }) => {
             Enter your email to be a part of glow shop family
           </p>
           
-          <form onSubmit={onSubmit} className="email-popup-form">
+            <form onSubmit={onSubmit} className="email-popup-form">
             <input
               type="email"
               value={email}
@@ -133,6 +133,12 @@ function ChatbotWidget() {
       
       if (response.ok) {
         setIsSubscribed(true);
+        setShowEmailPopup(false);
+        setMode(pendingMode);
+        setEmail('');
+        setPendingMode(null);
+      } else {
+        // Even if response is not ok, still proceed to the mode
         setShowEmailPopup(false);
         setMode(pendingMode);
         setEmail('');
