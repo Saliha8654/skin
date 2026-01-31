@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getProducts, recommendProducts, getCollections, getProductsByCollection, recommendProductsByCollection } = require('../services/shopify');
+const axios = require('axios');
 
 // GET /api/shopify/products
 router.get('/products', async (req, res) => {
@@ -100,6 +101,76 @@ router.post('/recommend-by-collection', async (req, res) => {
       error: 'Failed to get recommendations by collection',
       message: error.message 
     });
+  }
+});
+
+// POST /api/shopify/add-subscriber - Add subscriber to Shopify
+router.post('/add-subscriber', async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+    
+    // Shopify Admin API endpoint
+    const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
+    const SHOPIFY_ADMIN_ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
+    
+    if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_ADMIN_ACCESS_TOKEN) {
+      return res.status(500).json({ error: 'Shopify configuration missing' });
+    }
+    
+    const shopifyUrl = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/2024-01/customers.json`;
+    
+    // Create customer object
+    const customerData = {
+      customer: {
+        email: email,
+        accepts_marketing: true,
+        tags: "glow-shop-family,chatbot-subscriber"
+      }
+    };
+    
+    const response = await axios.post(
+      shopifyUrl,
+      customerData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': SHOPIFY_ADMIN_ACCESS_TOKEN,
+          'Accept': 'application/json'
+        }
+      }
+    );
+    
+    console.log('New subscriber added to Shopify:', response.data.customer.email);
+    
+    res.json({ 
+      success: true, 
+      message: 'Email subscribed successfully',
+      customer: response.data.customer
+    });
+    
+  } catch (error) {
+    console.error('Error adding subscriber:', error.response?.data || error.message);
+    
+    // If it's a duplicate customer error, treat as success
+    if (error.response?.data?.errors?.email?.includes('has already been taken')) {
+      return res.json({ 
+        success: true, 
+        message: 'Email already subscribed',
+        existing: true
+      });
+    }
+    
+    res.status(500).json({ error: 'Failed to add subscriber to Shopify' });
   }
 });
 
