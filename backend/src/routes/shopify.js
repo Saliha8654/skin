@@ -1,104 +1,105 @@
 const express = require('express');
 const router = express.Router();
+const { getProducts, recommendProducts, getCollections, getProductsByCollection, recommendProductsByCollection } = require('../services/shopify');
 
-// Shopify API configuration
-const SHOPIFY_STORE_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
-const SHOPIFY_ADMIN_ACCESS_TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
-
-// Add subscriber to Shopify
-router.post('/add-subscriber', async (req, res) => {
+// GET /api/shopify/products
+router.get('/products', async (req, res) => {
   try {
-    const { email } = req.body;
+    const { skinType, concerns } = req.query;
     
-    if (!email) {
-      return res.status(400).json({ error: 'Email is required' });
-    }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({ error: 'Invalid email format' });
-    }
-    
-    // Shopify GraphQL API endpoint
-    const shopifyUrl = `https://${SHOPIFY_STORE_DOMAIN}/admin/api/2024-01/graphql.json`;
-    
-    // GraphQL mutation to create customer
-    const query = `
-      mutation customerCreate($input: CustomerInput!) {
-        customerCreate(input: $input) {
-          customer {
-            id
-            email
-            firstName
-            lastName
-            acceptsMarketing
-          }
-          userErrors {
-            field
-            message
-          }
-        }
-      }
-    `;
-    
-    const variables = {
-      input: {
-        email: email,
-        acceptsMarketing: true,
-        tags: ["glow-shop-family", "chatbot-subscriber"]
-      }
-    };
-    
-    const response = await fetch(shopifyUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': SHOPIFY_ADMIN_ACCESS_TOKEN
-      },
-      body: JSON.stringify({
-        query,
-        variables
-      })
-    });
-    
-    const result = await response.json();
-    
-    if (result.errors) {
-      console.error('Shopify API Error:', result.errors);
-      return res.status(500).json({ error: 'Failed to add subscriber to Shopify' });
-    }
-    
-    const { customerCreate } = result.data;
-    
-    if (customerCreate.userErrors && customerCreate.userErrors.length > 0) {
-      // If customer already exists, we can still consider it a success
-      if (customerCreate.userErrors[0].message.includes('already been taken')) {
-        console.log('Customer already exists, but treating as success');
-        return res.json({ 
-          success: true, 
-          message: 'Email subscribed successfully',
-          existing: true
-        });
-      }
-      
-      return res.status(400).json({ 
-        error: 'Failed to create subscriber',
-        details: customerCreate.userErrors
-      });
-    }
-    
-    console.log('New subscriber added to Shopify:', customerCreate.customer.email);
-    
-    res.json({ 
-      success: true, 
-      message: 'Email subscribed successfully',
-      customer: customerCreate.customer
-    });
-    
+    const filters = {};
+    if (skinType) filters.skinType = skinType;
+    if (concerns) filters.concerns = concerns.split(',');
+
+    const products = await getProducts(filters);
+
+    res.json({ products });
   } catch (error) {
-    console.error('Error adding subscriber:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Shopify products error:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch products',
+      message: error.message 
+    });
+  }
+});
+
+// POST /api/shopify/recommend
+router.post('/recommend', async (req, res) => {
+  try {
+    const { skinType, concerns } = req.body;
+
+    if (!skinType) {
+      return res.status(400).json({ error: 'Skin type is required' });
+    }
+
+    const products = await recommendProducts({
+      skinType,
+      concerns: concerns || []
+    });
+
+    res.json({ products });
+  } catch (error) {
+    console.error('Product recommendation error:', error);
+    res.status(500).json({ 
+      error: 'Failed to get recommendations',
+      message: error.message 
+    });
+  }
+});
+
+// GET /api/shopify/collections
+router.get('/collections', async (req, res) => {
+  try {
+    const { limit } = req.query;
+    const collections = await getCollections(limit ? parseInt(limit) : 10);
+    res.json({ collections });
+  } catch (error) {
+    console.error('Shopify collections error:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch collections',
+      message: error.message 
+    });
+  }
+});
+
+// GET /api/shopify/collections/:handle/products
+router.get('/collections/:handle/products', async (req, res) => {
+  try {
+    const { handle } = req.params;
+    const { limit } = req.query;
+    
+    const collectionData = await getProductsByCollection(handle, limit ? parseInt(limit) : 10);
+    res.json(collectionData);
+  } catch (error) {
+    console.error('Shopify products by collection error:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch products from collection',
+      message: error.message 
+    });
+  }
+});
+
+// POST /api/shopify/recommend-by-collection
+router.post('/recommend-by-collection', async (req, res) => {
+  try {
+    const { collectionHandle, skinType, concerns } = req.body;
+
+    if (!collectionHandle) {
+      return res.status(400).json({ error: 'Collection handle is required' });
+    }
+
+    const result = await recommendProductsByCollection(collectionHandle, {
+      skinType,
+      concerns: concerns || []
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error('Collection-based product recommendation error:', error);
+    res.status(500).json({ 
+      error: 'Failed to get recommendations by collection',
+      message: error.message 
+    });
   }
 });
 
