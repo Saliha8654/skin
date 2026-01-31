@@ -154,7 +154,7 @@ router.post('/add-subscriber', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': SHOPIFY_ADMIN_ACCESS_TOKEN,
+          'X-Shopify-Admin-Api-AccessToken': SHOPIFY_ADMIN_ACCESS_TOKEN,
           'Accept': 'application/json'
         }
       }
@@ -172,10 +172,16 @@ router.post('/add-subscriber', async (req, res) => {
     });
     
   } catch (error) {
-    console.error('Error adding subscriber:', error.response?.data || error.message);
+    console.error('Error adding subscriber:', {
+      message: error.message,
+      responseStatus: error.response?.status,
+      responseData: error.response?.data,
+      responseHeaders: error.response?.headers
+    });
     
     // If it's a duplicate customer error, treat as success
     if (error.response?.data?.errors?.email?.includes('has already been taken')) {
+      console.log('Email already exists in Shopify, treating as success');
       return res.json({ 
         success: true, 
         message: 'Email already subscribed',
@@ -183,7 +189,19 @@ router.post('/add-subscriber', async (req, res) => {
       });
     }
     
-    res.status(500).json({ error: 'Failed to add subscriber to Shopify' });
+    // Handle unauthorized errors specifically
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      console.error('Authentication error - check your Shopify Admin Access Token');
+      return res.status(401).json({ 
+        error: 'Authentication failed - please check your Shopify Admin Access Token',
+        details: 'Token may be expired, invalid, or lack customer write permissions'
+      });
+    }
+    
+    res.status(500).json({ 
+      error: 'Failed to add subscriber to Shopify',
+      details: error.response?.data || error.message
+    });
   }
 });
 
