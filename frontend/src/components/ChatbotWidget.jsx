@@ -102,6 +102,7 @@ function ChatbotWidget() {
   const toggleWidget = () => {
     console.log('toggleWidget called, current isOpen:', isOpen);
     setIsOpen(!isOpen);
+    console.log('Setting isOpen to:', !isOpen);
     if (!isOpen) {
       // Hide popup when opening chatbot
       setShowPopup(false);
@@ -238,11 +239,13 @@ function ChatbotWidget() {
 
       {/* Chatbot Panel */}
       {isOpen && (
+        console.log('Rendering chatbot panel, isOpen is true'),
         <div 
-          className={`fixed bottom-32 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel relative ${showEmailPopup ? 'email-popup-visible' : ''}`}
+          className={`fixed bottom-24 right-6 w-[365px] h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden fade-in chatbot-panel relative ${showEmailPopup ? 'email-popup-visible' : ''}`}
           style={{ 
-            zIndex: 9998,
-            boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
+            zIndex: 10000,
+            boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)',
+            border: '3px solid red'  // Debug border to see if panel appears
           }}
         >
           {/* Email Subscription Popup - Positioned inside chatbot */}
