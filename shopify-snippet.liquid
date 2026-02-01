@@ -1,59 +1,43 @@
+<!-- Skincare Chatbot Widget Snippet -->
+<!-- Usage: {% render 'skincare-chatbot' %} -->
+<!-- Make sure to update the URLs below with your deployed assets -->
+
 {% comment %}
-  Skincare AI Chatbot Widget
-  
-  Instructions:
-  1. Replace YOUR_FRONTEND_URL with your deployed frontend URL (e.g., https://your-app.vercel.app)
-  2. Backend URL is already configured: https://skincare-backend-phcu.onrender.com/api
-  3. Add this snippet to your theme.liquid file before </body>
-  
-  For Minimog theme:
-  - Go to Online Store > Themes > Actions > Edit Code
-  - Open Layout/theme.liquid
-  - Paste this code just before </body>
-  - Save
-  
-  IMPORTANT: Make sure to include /api at the end of the backend URL!
+Configuration:
+- Update CHATBOT_API_URL with your backend API endpoint
+- Update ASSET_BASE_URL with your deployed frontend URL
 {% endcomment %}
 
-<!-- Skincare AI Chatbot Widget - Start -->
-<div id="skincare-chatbot-root"></div>
-
 <script>
-  // Configuration
+  // Configure the chatbot API URL
   window.CHATBOT_CONFIG = {
-    apiUrl: 'https://skincare-backend-phcu.onrender.com/api',  // IMPORTANT: Include /api at the end
-    shopifyDomain: '{{ shop.permanent_domain }}',
-    cartUrl: '{{ routes.cart_url }}',
-    theme: {
-      primary: '#0C2E4D',
-      secondary: '#ffefc8',
-      white: '#ffffff'
-    }
+    apiUrl: {{ 'chatbot-config.json' | asset_url | replace: 'chatbot-config.json', 'https://skincare-backend-phcu.onrender.com/api' }}
   };
-</script>
-
-<!-- Load chatbot widget -->
-<link rel="stylesheet" href="YOUR_FRONTEND_URL/assets/index.css">
-<script type="module" src="YOUR_FRONTEND_URL/assets/index.js" defer></script>
-
-<!-- Fallback for older browsers -->
-<noscript>
-  <p>Please enable JavaScript to use the skincare chatbot.</p>
-</noscript>
-
-<style>
-  /* Ensure widget stays on top */
-  #skincare-chatbot-root {
-    position: relative;
-    z-index: 9999;
-  }
   
-  /* Hide on very small screens if needed */
-  @media (max-width: 360px) {
-    #skincare-chatbot-root {
-      display: none;
+  // Initialize the chatbot widget
+  (function() {
+    // Create container if it doesn't exist
+    let container = document.getElementById('skincare-chatbot-root');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'skincare-chatbot-root';
+      document.body.appendChild(container);
     }
-  }
-</style>
-
-<!-- Skincare AI Chatbot Widget - End -->
+    
+    // Load CSS and JS assets (these URLs need to be updated with your deployed URLs)
+    const baseUrl = 'YOUR_DEPLOYMENT_URL'; // Replace with your actual deployment URL
+    
+    // Load CSS
+    const cssLink = document.createElement('link');
+    cssLink.rel = 'stylesheet';
+    cssLink.href = baseUrl + '/chatbot-widget.css';
+    document.head.appendChild(cssLink);
+    
+    // Load JavaScript
+    const script = document.createElement('script');
+    script.src = baseUrl + '/chatbot-widget.js';
+    script.type = 'module';
+    script.async = true;
+    document.head.appendChild(script);
+  })();
+</script>

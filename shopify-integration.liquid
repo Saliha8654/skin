@@ -8,28 +8,35 @@ Replace YOUR_RENDER_BACKEND_URL with your actual Render backend URL
 For example: https://skincare-backend-phcu.onrender.com
 {% endcomment %}
 
+<!-- Skincare Chatbot Widget -->
+<!-- Add this code to your theme.liquid file just before the closing </body> tag -->
+
 <script>
-  // Configure the chatbot API URL
+  // Configure the chatbot API URL (update with your actual backend URL)
   window.CHATBOT_CONFIG = {
     apiUrl: 'https://skincare-backend-phcu.onrender.com/api'  // IMPORTANT: Include /api at the end
   };
   
-  // Wait for DOM to be ready
-  document.addEventListener('DOMContentLoaded', function() {
-    // Create a container for the chatbot
-    const chatbotContainer = document.createElement('div');
-    chatbotContainer.id = 'skincare-chatbot-root';
-    document.body.appendChild(chatbotContainer);
+  // Function to initialize the chatbot widget
+  function initChatbotWidget() {
+    // Create a container for the chatbot if it doesn't exist
+    let chatbotContainer = document.getElementById('skincare-chatbot-root');
+    if (!chatbotContainer) {
+      chatbotContainer = document.createElement('div');
+      chatbotContainer.id = 'skincare-chatbot-root';
+      document.body.appendChild(chatbotContainer);
+    }
     
-    // Load CSS
+    // Load CSS (replace YOUR_DEPLOYMENT_URL with your actual deployed URL)
     const cssLink = document.createElement('link');
     cssLink.rel = 'stylesheet';
-    cssLink.href = 'YOUR_VERCEL_DEPLOYMENT_URL/chatbot-widget.css';
+    cssLink.href = 'YOUR_DEPLOYMENT_URL/chatbot-widget.css'; // UPDATE THIS URL
     document.head.appendChild(cssLink);
     
-    // Load JavaScript
+    // Load JavaScript (replace YOUR_DEPLOYMENT_URL with your actual deployed URL)
     const script = document.createElement('script');
-    script.src = 'YOUR_VERCEL_DEPLOYMENT_URL/chatbot-widget.js';
+    script.src = 'YOUR_DEPLOYMENT_URL/chatbot-widget.js'; // UPDATE THIS URL
+    script.type = 'module';
     script.async = true;
     script.onload = function() {
       console.log('Skincare Chatbot Widget loaded successfully');
@@ -37,6 +44,14 @@ For example: https://skincare-backend-phcu.onrender.com
     script.onerror = function() {
       console.error('Failed to load Skincare Chatbot Widget');
     };
-    document.body.appendChild(script);
-  });
+    document.head.appendChild(script);
+  }
+
+  // Check if DOM is already loaded or wait for it
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initChatbotWidget);
+  } else {
+    // DOM is already ready, initialize immediately
+    initChatbotWidget();
+  }
 </script>

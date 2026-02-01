@@ -1,11 +1,107 @@
-<!-- Skincare Chatbot Widget -->
-<link rel="stylesheet" href="YOUR_VERCEL_DEPLOYMENT_URL/chatbot-widget.css">
-<div id="skincare-chatbot-root"></div>
-<script src="YOUR_VERCEL_DEPLOYMENT_URL/chatbot-widget.js"></script>
+<!-- SKINCARE CHATBOT WIDGET FOR SHOPIFY -->
+<!-- CSP-COMPLIANT IMPLEMENTATION -->
+<!-- Add this code to your theme.liquid file just before the closing </body> tag -->
 
-<!-- Alternative method using direct script import -->
-<!--
-<script type="module">
-  import 'YOUR_VERCEL_DEPLOYMENT_URL/chatbot-widget.js';
+{% comment %}
+INSTRUCTIONS:
+1. Deploy your frontend to a hosting service (e.g., Vercel, Netlify)
+2. Replace ALL instances of "YOUR_DEPLOYMENT_URL" with your actual deployed URL
+   Example: https://your-app.vercel.app
+3. The backend API URL is preconfigured
+4. Add this code before </body> in your theme.liquid file
+{% endcomment %}
+
+<script>
+  // Configuration - update as needed
+  window.CHATBOT_CONFIG = {
+    apiUrl: 'https://skincare-backend-phcu.onrender.com/api'  // Backend API URL
+  };
+
+  // CSP-compliant initialization function
+  function initializeSkincareChatbot() {
+    // Ensure DOM is ready
+    if (typeof document === 'undefined') {
+      console.warn('Document not available, skipping chatbot initialization');
+      return;
+    }
+
+    // Create or find the chatbot container
+    let container = document.getElementById('skincare-chatbot-root');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'skincare-chatbot-root';
+      container.setAttribute('aria-label', 'Skincare Chatbot');
+      container.setAttribute('role', 'region');
+      document.body.appendChild(container);
+    }
+
+    // Prevent duplicate loading
+    if (window.skincareChatbotLoaded) {
+      console.info('Skincare Chatbot already loaded');
+      return;
+    }
+    
+    window.skincareChatbotLoaded = true;
+
+    // Load CSS assets
+    const loadCSS = (url) => {
+      return new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = url;
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.appendChild(link);
+      });
+    };
+
+    // Load JavaScript assets
+    const loadScript = (url) => {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = url;
+        script.type = 'module';
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    };
+
+    // Attempt to load assets
+    const cssUrl = 'YOUR_DEPLOYMENT_URL/chatbot-widget.css'; // REPLACE WITH YOUR DEPLOYED URL
+    const jsUrl = 'YOUR_DEPLOYMENT_URL/chatbot-widget.js';   // REPLACE WITH YOUR DEPLOYED URL
+
+    // Load assets with error handling
+    loadCSS(cssUrl)
+      .then(() => {
+        console.log('Chatbot CSS loaded successfully');
+        return loadScript(jsUrl);
+      })
+      .then(() => {
+        console.log('Skincare Chatbot Widget loaded successfully');
+      })
+      .catch(error => {
+        console.error('Error loading Skincare Chatbot Widget:', error);
+      });
+  }
+
+  // Initialize the chatbot either immediately or when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeSkincareChatbot);
+  } else {
+    // DOM is already ready, initialize immediately
+    initializeSkincareChatbot();
+  }
+  
+  // Export function for potential manual initialization
+  window.initializeSkincareChatbot = initializeSkincareChatbot;
 </script>
--->
+
+<style>
+  /* Additional styles to ensure proper z-index and positioning */
+  #skincare-chatbot-root {
+    position: relative;
+    z-index: 10000;
+  }
+</style>

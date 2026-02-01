@@ -6,17 +6,23 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     rollupOptions: {
+      input: {
+        widget: './src/widget.jsx', // Entry point for the widget
+      },
       output: {
         entryFileNames: 'chatbot-widget.js',
         assetFileNames: 'chatbot-widget.[ext]',
+        chunkFileNames: 'chatbot-widget-[name].js',
         manualChunks: undefined,
         inlineDynamicImports: true
       }
     },
+    target: 'es2020', // Use a more compatible target
+    cssCodeSplit: false, // Bundle all CSS in one file
     chunkSizeWarningLimit: 1000
   },
   server: {
     port: 5173
   },
-  base: '/'
+  base: './', // Relative base path for embedding
 });
