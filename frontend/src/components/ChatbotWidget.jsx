@@ -123,11 +123,28 @@ function ChatbotWidget() {
     }
   }, [isOpen]);
 
+  // Debug effect to track email popup state changes
+  useEffect(() => {
+    console.log('showEmailPopup state changed to:', showEmailPopup);
+    console.log('pendingMode state changed to:', pendingMode);
+    if (showEmailPopup) {
+      console.log('Email popup should be VISIBLE now');
+    } else {
+      console.log('Email popup should be HIDDEN now');
+    }
+  }, [showEmailPopup, pendingMode]);
+
   const selectMode = (selectedMode) => {
+    console.log('=== SELECT MODE FUNCTION STARTED ===');
     console.log('selectMode called with:', selectedMode);
+    console.log('Current states - pendingMode:', pendingMode, 'showEmailPopup:', showEmailPopup);
+    
     setPendingMode(selectedMode);
+    console.log('Set pendingMode to:', selectedMode);
+    
     setShowEmailPopup(true);
-    console.log('showEmailPopup set to true');
+    console.log('Set showEmailPopup to: true');
+    console.log('=== SELECT MODE FUNCTION ENDED ===');
   };
 
   const handleEmailSubmit = async (e) => {
@@ -343,8 +360,11 @@ function ModeSelection({ onSelectMode }) {
         {/* Chat with GlowFairy Button */}
         <button
           onClick={() => {
-            console.log('Chat button clicked');
+            console.log('=== CHAT BUTTON CLICKED ===');
+            console.log('Button handler executing...');
+            console.log('Calling onSelectMode with: chat');
             onSelectMode('chat');
+            console.log('=== CHAT BUTTON HANDLER FINISHED ===');
           }}
           className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
           style={{
@@ -370,8 +390,11 @@ function ModeSelection({ onSelectMode }) {
         {/* AI Skin Scan Button */}
         <button
           onClick={() => {
-            console.log('Scan button clicked');
+            console.log('=== SCAN BUTTON CLICKED ===');
+            console.log('Button handler executing...');
+            console.log('Calling onSelectMode with: scan');
             onSelectMode('scan');
+            console.log('=== SCAN BUTTON HANDLER FINISHED ===');
           }}
           className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
           style={{
