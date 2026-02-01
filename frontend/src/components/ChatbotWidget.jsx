@@ -113,6 +113,16 @@ function ChatbotWidget() {
     }
   };
 
+  // Debug effect to track when panel should render
+  useEffect(() => {
+    console.log('isOpen state changed to:', isOpen);
+    if (isOpen) {
+      console.log('Chatbot panel should be VISIBLE now');
+    } else {
+      console.log('Chatbot panel should be HIDDEN now');
+    }
+  }, [isOpen]);
+
   const selectMode = (selectedMode) => {
     console.log('selectMode called with:', selectedMode);
     setPendingMode(selectedMode);
@@ -218,7 +228,10 @@ function ChatbotWidget() {
   }, [isOpen]);
 
   return (
-    <div>
+    <div style={{ border: '5px solid blue' }}> {/* Debug border for entire component */}
+      <div style={{ position: 'fixed', top: 0, left: 0, background: 'yellow', padding: '10px', zIndex: 10001 }}>
+        isOpen: {isOpen ? 'TRUE' : 'FALSE'} | Check console for logs
+      </div>
       {/* Fairy Popup Message */}
       {showPopup && !isOpen && <FairyPopup show={showPopup} />}
       
@@ -239,15 +252,18 @@ function ChatbotWidget() {
 
       {/* Chatbot Panel */}
       {isOpen && (
-        console.log('Rendering chatbot panel, isOpen is true'),
         <div 
-          className={`fixed bottom-24 right-6 w-[365px] h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden fade-in chatbot-panel relative ${showEmailPopup ? 'email-popup-visible' : ''}`}
+          className={`fixed bottom-24 right-6 w-[365px] h-[600px] bg-yellow-200 rounded-3xl shadow-2xl flex flex-col overflow-hidden fade-in chatbot-panel relative ${showEmailPopup ? 'email-popup-visible' : ''}`}
           style={{ 
             zIndex: 10000,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)',
-            border: '3px solid red'  // Debug border to see if panel appears
+            border: '5px solid red',  // Very obvious debug border
+            background: 'yellow'  // Very obvious background color
           }}
         >
+          <div style={{ background: 'green', color: 'white', padding: '10px', fontSize: '20px' }}>
+            CHATBOT PANEL IS VISIBLE!
+          </div>
           {/* Email Subscription Popup - Positioned inside chatbot */}
           {showEmailPopup && (
             <EmailPopup 
