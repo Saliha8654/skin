@@ -168,44 +168,45 @@ function ChatbotWidget() {
     
     if (!email) return;
     
+    // Instant transition - proceed immediately
+    console.log('Instant transition to mode:', pendingMode);
+    setShowEmailPopup(false);
+    setMode(pendingMode);
+    setEmail('');
+    setPendingMode(null);
+    
+    // Handle subscription in background (fire and forget)
     try {
-      // Add subscriber to Shopify
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/shopify/add-subscriber`, {
+      console.log('Processing subscription in background for email:', email);
+      // Don't await this - let it run in background
+      fetch(`${import.meta.env.VITE_API_URL}/shopify/add-subscriber`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
+      }).then(response => {
+        if (response.ok) {
+          console.log('Subscription successful for:', email);
+          setIsSubscribed(true);
+        } else {
+          console.log('Subscription failed, but user experience unaffected');
+        }
+      }).catch(error => {
+        console.log('Background subscription error (不影响用户体验):', error);
       });
-      
-      if (response.ok) {
-        setIsSubscribed(true);
-        setShowEmailPopup(false);
-        setMode(pendingMode);
-        setEmail('');
-        setPendingMode(null);
-      } else {
-        // Even if response is not ok, still proceed to the mode
-        setShowEmailPopup(false);
-        setMode(pendingMode);
-        setEmail('');
-        setPendingMode(null);
-      }
     } catch (error) {
-      console.error('Error adding subscriber:', error);
-      // Proceed anyway if Shopify fails
-      setIsSubscribed(true);
-      setShowEmailPopup(false);
-      setMode(pendingMode);
-      setEmail('');
-      setPendingMode(null);
+      console.log('Background subscription setup failed (不影响用户体验):', error);
     }
   };
 
   const closeEmailPopup = () => {
+    console.log('Closing email popup instantly');
     setShowEmailPopup(false);
     setPendingMode(null);
     setEmail('');
+    // Instantly return to mode selection
+    setMode(null);
   };
 
   const goBack = () => {
@@ -283,7 +284,7 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-24 right-6 w-[365px] h-[600px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
+          className="fixed bottom-24 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
           style={{ 
             zIndex: 10000,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
