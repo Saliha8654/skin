@@ -293,6 +293,17 @@ function ChatbotWidget() {
             </div>
           </div>
 
+          {/* Email Subscription Popup - Positioned inside chatbot */}
+          {showEmailPopup && (
+            <EmailPopup 
+              show={showEmailPopup} 
+              onClose={closeEmailPopup}
+              onSubmit={handleEmailSubmit}
+              email={email}
+              setEmail={setEmail}
+            />
+          )}
+          
           {/* Content */}
           <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6 chatbot-content">
             {!mode && (
@@ -341,8 +352,7 @@ function ModeSelection({ onSelectMode }) {
             background: 'white',
             borderColor: '#0c2e4d',
             borderWidth: '2px',
-            borderStyle: 'solid',
-            border: '2px solid red' // Debug border to ensure button is visible
+            borderStyle: 'solid'
           }}
         >
           <div className="flex items-center justify-center ml-2 mr-3">
@@ -369,8 +379,7 @@ function ModeSelection({ onSelectMode }) {
             background: 'white',
             borderColor: '#0c2e4d',
             borderWidth: '2px',
-            borderStyle: 'solid',
-            border: '2px solid red' // Debug border to ensure button is visible
+            borderStyle: 'solid'
           }}
         >
           <div className="flex items-center justify-center ml-2 mr-3">
