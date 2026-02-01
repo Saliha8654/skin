@@ -11,17 +11,17 @@ const FairyIcon = ({ className }) => {
   const FAIRY_IMAGE_URL = "https://cdn.shopify.com/s/files/1/0908/9967/7517/files/fairy-icon1_f2fb5e71-b636-41ce-b6e8-83aea37a2072.png?v=1764341519";
   
   return (
-    <div className={`fairy-image-container ${className}`}>
+    <div className={`fairy-image-container ${className} pointer-events-none`}>
       {/* Magic sparkles */}
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="magic-sparkle" />
+        <div key={i} className="magic-sparkle pointer-events-none" />
       ))}
       
       {/* Fairy image */}
       <img 
         src={FAIRY_IMAGE_URL} 
         alt="Fairy Assistant" 
-        className="fairy-image"
+        className="fairy-image pointer-events-none"
         onError={(e) => {
           // Fallback if the image fails to load
           console.log('Fairy image failed to load, trying fallback');
@@ -230,7 +230,9 @@ function ChatbotWidget() {
           boxShadow: '0 8px 25px rgba(12, 46, 77, 0.4)',
         }}
       >
-        <FairyIcon className="w-16 h-16 filter drop-shadow-lg" />
+        <div className="w-16 h-16 filter drop-shadow-lg pointer-events-none">
+          <FairyIcon className="w-full h-full" />
+        </div>
       </button>
 
       {/* Chatbot Panel */}
