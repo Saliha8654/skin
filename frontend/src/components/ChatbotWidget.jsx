@@ -100,6 +100,7 @@ function ChatbotWidget() {
   const [pendingMode, setPendingMode] = useState(null);
 
   const toggleWidget = () => {
+    console.log('toggleWidget called, current isOpen:', isOpen);
     setIsOpen(!isOpen);
     if (!isOpen) {
       // Hide popup when opening chatbot
@@ -223,14 +224,14 @@ function ChatbotWidget() {
       {/* Floating Widget Button with Fairy */}
       <button
         onClick={toggleWidget}
-        className="fairy-chat-button fixed bottom-6 right-6 w-18 h-18 bg-primary rounded-full shadow-2xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center z-50 pulse  hover:scale-110 transform-gpu"
+        className="fairy-chat-button fixed bottom-6 right-6 w-16 h-16 md:w-18 md:h-18 bg-primary rounded-full shadow-2xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center z-50 pulse hover:scale-110 transform-gpu"
         aria-label="Open Skincare Chatbot"
         style={{ 
           zIndex: 9999,
           boxShadow: '0 8px 25px rgba(12, 46, 77, 0.4)',
         }}
       >
-        <div className="w-16 h-16 filter drop-shadow-lg pointer-events-none">
+        <div className="w-12 h-12 md:w-16 md:h-16 filter drop-shadow-lg pointer-events-none">
           <FairyIcon className="w-full h-full" />
         </div>
       </button>

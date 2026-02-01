@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Widget Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            height: 200vh; /* Make page taller to see positioning */
+        }
+        .instructions {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h1>Chatbot Widget Test Page</h1>
+        <p>Test the fairy icon functionality. Look for the floating fairy icon in the bottom right corner.</p>
+        <p>Check the browser console (F12) for any JavaScript errors.</p>
+    </div>
+
+    <!-- Create the chatbot root element -->
+    <div id="skincare-chatbot-root"></div>
+
+    <!-- Load React and ReactDOM from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- Load Babel for JSX processing -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Define our configuration -->
+    <script>
+        window.CHATBOT_CONFIG = {
+            apiUrl: 'http://localhost:5000/api'
+        };
+    </script>
+
+    <!-- Load and render the component -->
+    <script type="text/babel">
+        // Since we can't directly import the component, we'll simulate the functionality
+        // This is just for testing purposes
+        
+        // Define the toggle function to test
+        function testToggle() {
+            console.log("Fairy icon clicked! Toggle function executed.");
+            alert("Fairy icon is working! The toggle function is executing.");
+        }
+        
+        // Add a test button to see if click events work
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, testing if event listeners work");
+            
+            // Create a temporary test button to see if click events work in general
+            const testBtn = document.createElement('button');
+            testBtn.textContent = 'Test Click Events Work';
+            testBtn.style.position = 'fixed';
+            testBtn.style.top = '10px';
+            testBtn.style.left = '10px';
+            testBtn.style.zIndex = '99999';
+            testBtn.style.padding = '10px';
+            testBtn.style.backgroundColor = 'red';
+            testBtn.style.color = 'white';
+            testBtn.onclick = () => console.log('Test button works!');
+            document.body.appendChild(testBtn);
+        });
+    </script>
+</body>
+</html>
