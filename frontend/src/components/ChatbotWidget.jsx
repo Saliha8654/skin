@@ -220,15 +220,6 @@ function ChatbotWidget() {
       {/* Fairy Popup Message */}
       {showPopup && !isOpen && <FairyPopup show={showPopup} />}
       
-      {/* Email Subscription Popup */}
-      <EmailPopup 
-        show={showEmailPopup} 
-        onClose={closeEmailPopup}
-        onSubmit={handleEmailSubmit}
-        email={email}
-        setEmail={setEmail}
-      />
-
       {/* Floating Widget Button with Fairy */}
       <button
         onClick={toggleWidget}
@@ -245,12 +236,22 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && (
         <div 
-          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
+          className="fixed bottom-32 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel relative"
           style={{ 
             zIndex: 9998,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
           }}
         >
+          {/* Email Subscription Popup - Positioned inside chatbot */}
+          {showEmailPopup && (
+            <EmailPopup 
+              show={showEmailPopup} 
+              onClose={closeEmailPopup}
+              onSubmit={handleEmailSubmit}
+              email={email}
+              setEmail={setEmail}
+            />
+          )}
           {/* Header */}
           <div className=" text-white bg-white  mb-4 flex items-center justify-between relative overflow-hidden chatbot-header">
             {/* Replaced text content with Shopify image while keeping fairy image */}
