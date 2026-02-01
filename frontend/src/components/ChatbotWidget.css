@@ -226,7 +226,7 @@
 /* Popup message styles */
 .fairy-popup-message {
   position: fixed;
-  bottom: 120px;
+  bottom: 120px;  /* Increased distance from bottom to avoid overlap with button */
   right: 24px;
   background-color: rgba(255, 239, 200, 0.8);
   border: 3px solid #ffeab7;
@@ -247,6 +247,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: block !important;
+  pointer-events: none; /* Ensure popup doesn't intercept clicks */
 }
 
 .fairy-popup-message.show {
