@@ -501,6 +501,11 @@
   backdrop-filter: blur(4px);
 }
 
+/* Ensure the popup doesn't interfere when not supposed to be visible */
+.chatbot-panel:not(.email-popup-visible) .email-popup-overlay {
+  display: none;
+}
+
 .email-popup-container {
   background: white;
   border-radius: 16px;
