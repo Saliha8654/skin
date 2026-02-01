@@ -71,6 +71,8 @@ const EmailPopup = ({ show, onClose, onSubmit, email, setEmail }) => {
           <form onSubmit={onSubmit} className="email-popup-form">
             <input
               type="email"
+              id="chatbot-email-input"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
@@ -127,8 +129,18 @@ function ChatbotWidget() {
   useEffect(() => {
     console.log('showEmailPopup state changed to:', showEmailPopup);
     console.log('pendingMode state changed to:', pendingMode);
-    if (showEmailPopup) {
+    if (showEmailPopup && pendingMode) {
       console.log('Email popup should be VISIBLE now');
+      // Force a DOM update
+      setTimeout(() => {
+        const popupElement = document.querySelector('.email-popup-overlay');
+        if (popupElement) {
+          console.log('Popup element found in DOM:', popupElement);
+          popupElement.style.display = 'flex';
+        } else {
+          console.log('Popup element NOT found in DOM');
+        }
+      }, 100);
     } else {
       console.log('Email popup should be HIDDEN now');
     }
@@ -139,12 +151,16 @@ function ChatbotWidget() {
     console.log('selectMode called with:', selectedMode);
     console.log('Current states - pendingMode:', pendingMode, 'showEmailPopup:', showEmailPopup);
     
+    // Force immediate state updates
     setPendingMode(selectedMode);
     console.log('Set pendingMode to:', selectedMode);
     
-    setShowEmailPopup(true);
-    console.log('Set showEmailPopup to: true');
-    console.log('=== SELECT MODE FUNCTION ENDED ===');
+    // Use setTimeout to ensure state update completes before showing popup
+    setTimeout(() => {
+      setShowEmailPopup(true);
+      console.log('Set showEmailPopup to: true');
+      console.log('=== SELECT MODE FUNCTION ENDED ===');
+    }, 0);
   };
 
   const handleEmailSubmit = async (e) => {
@@ -311,14 +327,16 @@ function ChatbotWidget() {
           </div>
 
           {/* Email Subscription Popup - Positioned inside chatbot */}
-          {showEmailPopup && (
-            <EmailPopup 
-              show={showEmailPopup} 
-              onClose={closeEmailPopup}
-              onSubmit={handleEmailSubmit}
-              email={email}
-              setEmail={setEmail}
-            />
+          {(showEmailPopup && pendingMode) && (
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <EmailPopup 
+                show={showEmailPopup} 
+                onClose={closeEmailPopup}
+                onSubmit={handleEmailSubmit}
+                email={email}
+                setEmail={setEmail}
+              />
+            </div>
           )}
           
           {/* Content */}
