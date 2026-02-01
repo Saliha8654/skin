@@ -235,6 +235,24 @@ function ChatbotWidget() {
       {/* Fairy Popup Message */}
       {showPopup && !isOpen && <FairyPopup show={showPopup} />}
       
+      {/* DEBUG: Very obvious test element */}
+      {isOpen && (
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          background: 'magenta',
+          color: 'white',
+          padding: '50px',
+          fontSize: '30px',
+          zIndex: 99999,
+          border: '10px solid cyan'
+        }}>
+          THIS SHOULD BE VISIBLE WHEN CHATBOT IS OPEN!
+        </div>
+      )}
+      
       {/* Floating Widget Button with Fairy */}
       <button
         onClick={toggleWidget}
@@ -250,67 +268,14 @@ function ChatbotWidget() {
         </div>
       </button>
 
-      {/* Chatbot Panel */}
+      {/* Chatbot Content Area */}
       {isOpen && (
-        <div 
-          className={`fixed bottom-24 right-6 w-[365px] h-[600px] bg-yellow-200 rounded-3xl shadow-2xl flex flex-col overflow-hidden fade-in chatbot-panel relative ${showEmailPopup ? 'email-popup-visible' : ''}`}
-          style={{ 
-            zIndex: 10000,
-            boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)',
-            border: '5px solid red',  // Very obvious debug border
-            background: 'yellow'  // Very obvious background color
-          }}
-        >
-          <div style={{ background: 'green', color: 'white', padding: '10px', fontSize: '20px' }}>
-            CHATBOT PANEL IS VISIBLE!
+        <div className="fixed bottom-24 right-6 w-[365px] h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden fade-in" style={{ zIndex: 10000 }}>
+          {/* Header - Simplified for debugging */}
+          <div className="bg-primary text-white p-4 text-center">
+            <h2>CHATBOT IS OPEN!</h2>
           </div>
-          {/* Email Subscription Popup - Positioned inside chatbot */}
-          {showEmailPopup && (
-            <EmailPopup 
-              show={showEmailPopup} 
-              onClose={closeEmailPopup}
-              onSubmit={handleEmailSubmit}
-              email={email}
-              setEmail={setEmail}
-            />
-          )}
-          {/* Header */}
-          <div className=" text-white bg-white  mb-4 flex items-center justify-between relative overflow-hidden chatbot-header">
-            {/* Replaced text content with Shopify image while keeping fairy image */}
-            <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Frame_32_2.png?v=1769950879"
-                alt="Header"
-                className="w-full h-auto object-contain"
-              />
-            </div>
-            <div className="absolute right-1 top-1 z-20">
-              <div className="fairy-image-wrapper relative animate-float">
-                <img 
-                  src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Group_14_1.png?v=1765556088" 
-                  alt="GlowFairy" 
-                  className="w-55 h-auto transition-all duration-300 hover:scale-105"
-                />
-                {/* Fairy dust effect on hover */}
-                <div className="fairy-dust absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300 hover:opacity-100">
-                  {/* Enhanced CSS-based sparkle effects */}
-                  <div className="fairy-sparkle sparkle-large" style={{top: '20%', left: '30%', animationDelay: '0s'}}></div>
-                  <div className="fairy-sparkle sparkle-medium" style={{top: '60%', left: '70%', animationDelay: '0.5s'}}></div>
-                  <div className="fairy-sparkle sparkle-small" style={{top: '30%', left: '20%', animationDelay: '1s'}}></div>
-                  <div className="fairy-sparkle sparkle-large" style={{top: '70%', left: '40%', animationDelay: '1.5s'}}></div>
-                  <div className="fairy-sparkle sparkle-medium" style={{top: '40%', left: '80%', animationDelay: '2s'}}></div>
-                  <div className="fairy-sparkle sparkle-small" style={{top: '80%', left: '60%', animationDelay: '2.5s'}}></div>
-                  <div className="fairy-sparkle sparkle-large" style={{top: '10%', left: '50%', animationDelay: '0.2s'}}></div>
-                  <div className="fairy-sparkle sparkle-medium" style={{top: '50%', left: '10%', animationDelay: '0.7s'}}></div>
-                  <div className="fairy-sparkle sparkle-small" style={{top: '90%', left: '30%', animationDelay: '1.2s'}}></div>
-                  <div className="fairy-sparkle sparkle-large" style={{top: '25%', left: '90%', animationDelay: '1.7s'}}></div>
-                  <div className="fairy-sparkle sparkle-medium" style={{top: '75%', left: '20%', animationDelay: '2.2s'}}></div>
-                  <div className="fairy-sparkle sparkle-small" style={{top: '15%', left: '70%', animationDelay: '2.7s'}}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          
           {/* Content */}
           <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6 chatbot-content">
             {!mode && (
