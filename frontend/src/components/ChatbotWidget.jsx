@@ -329,14 +329,14 @@ function ChatbotWidget() {
 
           {/* Email Subscription Popup - Positioned inside chatbot */}
           {/* Email Subscription - No popup */}
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <EmailPopup 
-                show={showEmailPopup} 
-                onClose={closeEmailPopup}
-                onSubmit={handleEmailSubmit}
-                email={email}
-                setEmail={setEmail}
-              />
+          {showEmailPopup && pendingMode && (
+            <div>No popup - using full screen page</div>
+          )}
+
+
+
+
+
             </div>
           )}
           
@@ -363,83 +363,4 @@ function ChatbotWidget() {
       )}
       
 
-    </div>
-  );
-}
-
-function ModeSelection({ onSelectMode }) {
-  return (
-    <div className="h-full flex flex-col items-center bg-white w-full mode-selection-container">
-      <h2 className="text-primary mb-1 text-[24px] font-normal welcome-text" style={{ fontFamily: "'Jomolhari', serif" }}>Welcome!</h2>
-      
-      <p className="text-primary text-[11px] mb-10 font-normal ready-text" style={{ fontFamily: "'Inter', sans-serif" }}>Ready to Discover Your Skin's True Needs?</p>
-        
-
-      <div className="space-y-6 w-full max-w-md buttons">
-        {/* Chat with GlowFairy Button */}
-        <button
-          onClick={() => {
-            console.log('=== CHAT BUTTON CLICKED ===');
-            console.log('Button handler executing...');
-            console.log('Calling onSelectMode with: chat');
-            onSelectMode('chat');
-            console.log('=== CHAT BUTTON HANDLER FINISHED ===');
-          }}
-          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-7 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
-          style={{
-            boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
-            background: 'white',
-            borderColor: '#0c2e4d',
-            borderWidth: '2px',
-            borderStyle: 'solid'
-          }}
-        >
-          <div className="flex items-center justify-center ml-2 mr-3">
-            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01" />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-primary text-[16px] font-bold mb-1 text-left chatbot-button-text" style={{ fontFamily: "'Inter', sans-serif" }}>Chat with GlowFairy</h3>
-            <p className="text-primary text-[11px] font-normal text-left chatbot-button-subtext" style={{ fontFamily: "'Inter', sans-serif" }}>Get personalized advice for your skin.</p>
-          </div>
-        </button>
-
-        {/* AI Skin Scan Button */}
-        <button
-          onClick={() => {
-            console.log('=== SCAN BUTTON CLICKED ===');
-            console.log('Button handler executing...');
-            console.log('Calling onSelectMode with: scan');
-            onSelectMode('scan');
-            console.log('=== SCAN BUTTON HANDLER FINISHED ===');
-          }}
-          className="w-full bg-white border-3 border-primary border-solid rounded-[12px] p-6 transition-all duration-300 shadow-[0_4px_4px_2px_rgba(12,46,77,0.6)] hover:shadow-[0_6px_6px_3px_rgba(12,46,77,0.7)] group flex flex-row items-center justify-start transform hover:-translate-y-1 chatbot-button"
-          style={{
-            boxShadow: '0 4px 4px 2px rgba(12, 46, 77, 0.6)',
-            background: 'white',
-            borderColor: '#0c2e4d',
-            borderWidth: '2px',
-            borderStyle: 'solid'
-          }}
-        >
-          <div className="flex items-center justify-center ml-2 mr-3">
-            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-primary text-[16px] font-bold mb-1 text-left chatbot-button-text" style={{ fontFamily: "'Inter', sans-serif" }}>AI Skin Scan</h3>
-            <p className="text-primary text-[11px] font-normal text-left chatbot-button-subtext" style={{ fontFamily: "'Inter', sans-serif" }}>Upload a photo to identify your skin type and concerns.</p>
-          </div>
-        </button>
-      </div>
-
-      {/* Footer Note */}
-      {/* Note: Moved to the very bottom of the chatbot panel container */}
-    </div>
-  );
-}
 export default ChatbotWidget;
