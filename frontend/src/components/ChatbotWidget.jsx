@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import ChatMode from './ChatMode';
 import SkinScanMode from './SkinScanMode';
-import EmailPage from './EmailPage';
 import fairyImage from '../assets/fairy-icon3.png';
 import './ChatbotWidget.css';
 import './ChatbotWidgetMedia.css';
@@ -329,7 +328,7 @@ function ChatbotWidget() {
           </div>
 
           {/* Email Subscription Popup - Positioned inside chatbot */}
-          {(showEmailPopup && pendingMode) && (
+          {/* Email Subscription - No popup */}
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <EmailPopup 
                 show={showEmailPopup} 
