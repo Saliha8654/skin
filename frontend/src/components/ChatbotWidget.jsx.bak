@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import ChatMode from './ChatMode';
 import SkinScanMode from './SkinScanMode';
-import EmailPage from './EmailPage';
 import fairyImage from '../assets/fairy-icon3.png';
 import './ChatbotWidget.css';
 import './ChatbotWidgetMedia.css';
