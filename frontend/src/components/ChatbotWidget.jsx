@@ -329,10 +329,10 @@ function ChatbotWidget() {
 
           {/* Email Subscription Popup - Positioned inside chatbot */}
           {/* Email Subscription - No popup */}
+          {/* Email Subscription - No popup */}
           {showEmailPopup && pendingMode && (
             <div>No popup - using full screen page</div>
           )}
-
 
 
 
