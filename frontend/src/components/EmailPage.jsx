@@ -10,13 +10,13 @@ const EmailPage = ({ onClose, onSubmit, email, setEmail, pendingMode }) => {
       }}
     >
       {/* Header - Same as chatbot header */}
-      <div className="text-white bg-transparent mb-0 flex items-center justify-between relative overflow-hidden chatbot-header rounded-t-3xl" style={{background: 'transparent'}}>
+      <div className="text-white bg-[#0c2e4d] mb-0 flex items-center justify-between relative overflow-hidden chatbot-header rounded-t-3xl" style={{background: '#0c2e4d'}}>
         <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
           <img
             src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Frame_32_2.png?v=1769950879"
             alt="Header"
             className="w-full h-auto object-cover"
-            style={{borderRadius: '1.5rem 1.5rem 0 0'}}
+            style={{borderRadius: '1.5rem 1.5rem 0 0', marginLeft: '-1px', marginRight: '-1px', marginTop: '-1px'}}
           />
         </div>
         <div className="absolute right-1 top-1 z-20">
