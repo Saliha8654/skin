@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import ChatMode from './ChatMode';
 import SkinScanMode from './SkinScanMode';
+import EmailPage from './EmailPage';
 import fairyImage from '../assets/fairy-icon3.png';
 import './ChatbotWidget.css';
 import './ChatbotWidgetMedia.css';
@@ -45,58 +46,11 @@ const FairyPopup = ({ show }) => {
   );
 };
 
-// Email Subscription Popup Component
-const EmailPopup = ({ show, onClose, onSubmit, email, setEmail }) => {
-  if (!show) return null;
-  
-  return (
-    <div className="email-popup-overlay">
-      <div className="email-popup-container">
-        <div className="email-popup-header">
-          <h3 className="email-popup-title">Join the Glow Shop Family</h3>
-          <button 
-            className="email-popup-close" 
-            onClick={onClose}
-            aria-label="Close popup"
-          >
-            ×
-          </button>
-        </div>
-        
-        <div className="email-popup-content">
-          <p className="email-popup-note">
-            Enter your email to be a part of glow shop family
-          </p>
-          
-          <form onSubmit={onSubmit} className="email-popup-form">
-            <input
-              type="email"
-              id="chatbot-email-input"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
-              className="email-input"
-              required
-            />
-            <button 
-              type="submit" 
-              className="subscribe-button"
-            >
-              Subscribe
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [mode, setMode] = useState(null); // null, 'chat', 'scan'
   const [showPopup, setShowPopup] = useState(false);
-  const [showEmailPopup, setShowEmailPopup] = useState(false);
+  const [showEmailPage, setShowEmailPage] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [pendingMode, setPendingMode] = useState(null);
@@ -125,40 +79,30 @@ function ChatbotWidget() {
     }
   }, [isOpen]);
 
-  // Debug effect to track email popup state changes
+  // Debug effect to track email page state changes
   useEffect(() => {
-    console.log('showEmailPopup state changed to:', showEmailPopup);
+    console.log('showEmailPage state changed to:', showEmailPage);
     console.log('pendingMode state changed to:', pendingMode);
-    if (showEmailPopup && pendingMode) {
-      console.log('Email popup should be VISIBLE now');
-      // Force a DOM update
-      setTimeout(() => {
-        const popupElement = document.querySelector('.email-popup-overlay');
-        if (popupElement) {
-          console.log('Popup element found in DOM:', popupElement);
-          popupElement.style.display = 'flex';
-        } else {
-          console.log('Popup element NOT found in DOM');
-        }
-      }, 100);
+    if (showEmailPage && pendingMode) {
+      console.log('Email page should be VISIBLE now');
     } else {
-      console.log('Email popup should be HIDDEN now');
+      console.log('Email page should be HIDDEN now');
     }
-  }, [showEmailPopup, pendingMode]);
+  }, [showEmailPage, pendingMode]);
 
   const selectMode = (selectedMode) => {
     console.log('=== SELECT MODE FUNCTION STARTED ===');
     console.log('selectMode called with:', selectedMode);
-    console.log('Current states - pendingMode:', pendingMode, 'showEmailPopup:', showEmailPopup);
+    console.log('Current states - pendingMode:', pendingMode, 'showEmailPage:', showEmailPage);
     
     // Force immediate state updates
     setPendingMode(selectedMode);
     console.log('Set pendingMode to:', selectedMode);
     
-    // Use setTimeout to ensure state update completes before showing popup
+    // Use setTimeout to ensure state update completes before showing email page
     setTimeout(() => {
-      setShowEmailPopup(true);
-      console.log('Set showEmailPopup to: true');
+      setShowEmailPage(true);
+      console.log('Set showEmailPage to: true');
       console.log('=== SELECT MODE FUNCTION ENDED ===');
     }, 0);
   };
@@ -170,7 +114,7 @@ function ChatbotWidget() {
     
     // Instant transition - proceed immediately
     console.log('Instant transition to mode:', pendingMode);
-    setShowEmailPopup(false);
+    setShowEmailPage(false);
     setMode(pendingMode);
     setEmail('');
     setPendingMode(null);
@@ -200,9 +144,9 @@ function ChatbotWidget() {
     }
   };
 
-  const closeEmailPopup = () => {
-    console.log('Closing email popup instantly');
-    setShowEmailPopup(false);
+  const closeEmailPage = () => {
+    console.log('Closing email page instantly');
+    setShowEmailPage(false);
     setPendingMode(null);
     setEmail('');
     // Instantly return to mode selection
@@ -282,7 +226,7 @@ function ChatbotWidget() {
       </button>
 
       {/* Chatbot Panel */}
-      {isOpen && (
+      {isOpen && !showEmailPage && (
         <div 
           className="fixed bottom-24 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
           style={{ 
@@ -327,19 +271,6 @@ function ChatbotWidget() {
             </div>
           </div>
 
-          {/* Email Subscription Popup - Positioned inside chatbot */}
-          {(showEmailPopup && pendingMode) && (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1001, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <EmailPopup 
-                show={showEmailPopup} 
-                onClose={closeEmailPopup}
-                onSubmit={handleEmailSubmit}
-                email={email}
-                setEmail={setEmail}
-              />
-            </div>
-          )}
-          
           {/* Content */}
           <div className="flex-1 overflow-hidden bg-gradient-to-b from-white to-secondary/10 flex flex-col items-center pt-4 px-6 chatbot-content">
             {!mode && (
@@ -360,6 +291,17 @@ function ChatbotWidget() {
             </p>
           </div>
         </div>
+      )}
+
+      {/* Email Page - Same dimensions as chatbot panel */}
+      {showEmailPage && isOpen && (
+        <EmailPage 
+          onClose={closeEmailPage}
+          onSubmit={handleEmailSubmit}
+          email={email}
+          setEmail={setEmail}
+          pendingMode={pendingMode}
+        />
       )}
     </div>
   );
