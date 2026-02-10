@@ -112,36 +112,35 @@ function ChatbotWidget() {
     
     if (!email) return;
     
-    // Instant transition - proceed immediately
-    console.log('Instant transition to mode:', pendingMode);
-    setShowEmailPage(false);
-    setMode(pendingMode);
-    setEmail('');
-    setPendingMode(null);
+    // Process subscription first, then transition
+    console.log('Processing subscription for email:', email);
     
-    // Handle subscription in background (fire and forget)
+    // Wait for the subscription to complete before proceeding
     try {
-      console.log('Processing subscription in background for email:', email);
-      // Don't await this - let it run in background
-      fetch(`${import.meta.env.VITE_API_URL}/shopify/add-subscriber`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/shopify/add-subscriber`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email }),
-      }).then(response => {
-        if (response.ok) {
-          console.log('Subscription successful for:', email);
-          setIsSubscribed(true);
-        } else {
-          console.log('Subscription failed, but user experience unaffected');
-        }
-      }).catch(error => {
-        console.log('Background subscription error (不影响用户体验):', error);
       });
+      
+      if (response.ok) {
+        console.log('Subscription successful for:', email);
+        setIsSubscribed(true);
+      } else {
+        console.log('Subscription failed, but continuing with user experience');
+      }
     } catch (error) {
-      console.log('Background subscription setup failed (不影响用户体验):', error);
+      console.log('Background subscription error (不影响用户体验):', error);
     }
+    
+    // After subscription is handled, proceed with mode transition
+    console.log('Transitioning to mode:', pendingMode);
+    setShowEmailPage(false);
+    setMode(pendingMode);
+    setEmail('');
+    setPendingMode(null);
   };
 
   const closeEmailPage = () => {
