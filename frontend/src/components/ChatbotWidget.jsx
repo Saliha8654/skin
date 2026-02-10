@@ -227,14 +227,14 @@ function ChatbotWidget() {
       {/* Chatbot Panel */}
       {isOpen && !showEmailPage && (
         <div 
-          className="fixed bottom-24 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
+          className="fixed bottom-24 right-6 w-[365px] h-[649px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
           style={{ 
             zIndex: 10000,
             boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
           }}
         >
           {/* Header */}
-          <div className="text-white bg-transparent mb-0 flex items-center justify-between relative overflow-hidden chatbot-header rounded-t-3xl" style={{background: 'transparent'}}>
+          <div className="mb-0 flex items-center justify-between relative overflow-hidden chatbot-header rounded-t-3xl">
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img

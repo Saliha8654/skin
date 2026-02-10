@@ -3,7 +3,7 @@ import React from 'react';
 const EmailPage = ({ onClose, onSubmit, email, setEmail, pendingMode }) => {
   return (
     <div 
-      className="fixed bottom-24 right-6 w-[365px] h-[650px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
+      className="fixed bottom-24 right-6 w-[365px] h-[649px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden fade-in chatbot-panel"
       style={{ 
         zIndex: 10000,
         boxShadow: '0 20px 50px rgba(12, 46, 77, 0.3)'
