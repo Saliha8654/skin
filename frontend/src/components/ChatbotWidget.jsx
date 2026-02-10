@@ -238,7 +238,7 @@ function ChatbotWidget() {
             {/* Replaced text content with Shopify image while keeping fairy image */}
             <div className="flex items-start flex-col pl-0 pr-0 pt-0 w-full relative z-10">
               <img
-                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Frame_32_2.png?v=1769950879"
+                src="https://cdn.shopify.com/s/files/1/0908/9967/7517/files/Frame_32_3.png?v=1770716050"
                 alt="Header"
                 className="w-full h-auto object-contain"
               />
