@@ -86,7 +86,7 @@ const EmailPage = ({ onClose, onSubmit, email, setEmail, pendingMode }) => {
             
             <button 
               type="submit" 
-              className="w-full py-3 text-[16px] font-medium text-white transition-all duration-300 hover:shadow-lg"
+              className="w-1/2 py-3 text-[16px] font-medium text-white transition-all duration-300 hover:shadow-lg mx-auto block"
               style={{
                 backgroundColor: '#0c2e4d',
                 border: '1px solid #ffefc8',
